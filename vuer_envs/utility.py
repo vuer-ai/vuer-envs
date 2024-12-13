@@ -13,8 +13,6 @@ def minimize_xml_lxml(xml_string):
     """
     xml_string = xml_string.strip()
 
-    print(xml_string)
-
     try:
         # Parse the XML string
         parser = etree.XMLParser(remove_blank_text=True)

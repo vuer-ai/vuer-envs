@@ -2,6 +2,8 @@ from vuer_envs.utility import minimize_xml_lxml
 
 
 class Xml:
+    """This is the base class for all XML elements.
+    """
     tag = "mujoco"
     attributes: dict
     children: list
@@ -32,6 +34,7 @@ class Xml:
 
     @property
     def xml_minimized(self) -> str:
+        """Return the minimized XML representation of the model."""
         raw_xml = self.xml
         minimized = minimize_xml_lxml(raw_xml)
         return minimized

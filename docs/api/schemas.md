@@ -1,7 +1,7 @@
-# `vuer`
+# `vuer-envs.schemas`
 
 ```{eval-rst}
-.. automodule:: vuer
+.. automodule:: vuer_envs.schemas
    :members: 
    :show-inheritance: 
    :private-members:

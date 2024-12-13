@@ -2,6 +2,10 @@ from .base import Xml, XmlTemplate
 
 
 class Mjcf(XmlTemplate):
+    """
+    This is the root element of the MuJoCo XML file.
+
+    """
     tag = "mujoco"
     template = """
     <mujoco {attributes}>

@@ -4,7 +4,7 @@
 
 
 ```shell
-pip install 'vuer[all]=={VERSION}'
+pip install 'vuer_envs[all]=={VERSION}'
 ```
 
 Here is an example that loads a URDF file and displays it in the browser. For a more comprehensive list of examples, please refer to the [examples](examples/01_trimesh) page.
@@ -72,6 +72,7 @@ For a comprehensive list of data types, please refer to the [API documentation o
    :caption: Python API
    :hidden:
    
-   vuer <api/vuer.md>
+   vuer_envs.base <api/base.md>
+   vuer_envs.schemas <api/schemas.md>
   
 ```
