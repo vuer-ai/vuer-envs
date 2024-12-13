@@ -41,6 +41,37 @@ class Xml:
 
 
 class XmlTemplate(Xml):
+    """Template-based XML element.
+
+    You can use template strings to define the XML structure. This
+    way, you don't have to nest unnecessarily.
+
+    Here is an example of the base Mjcf class:
+
+    .. code:: python
+
+            class Mjcf(XmlTemplate):
+                tag = "mujoco"
+                template = \"\"\"
+                <mujoco {attributes}>
+                    <worldbody>
+                        {children}
+                    </worldbody>
+                </mujoco>
+                \"\"\"
+
+    Now, for a room scene, you can do something like
+
+    .. code:: python
+
+        from vuer_envs.schemas.rooms import Room, Fixtures, Walls
+
+        Room(name="room1", children=[
+            Fixtures(position=[0, 0, 1]),
+            Walls(size=[10, 10, 10]... ),
+        ])
+
+    """
     template = ""
 
     @property
