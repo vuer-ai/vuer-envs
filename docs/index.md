@@ -72,7 +72,7 @@ For a comprehensive list of data types, please refer to the [API documentation o
    :caption: Python API
    :hidden:
    
-   vuer_envs.base <api/base.md>
-   vuer_envs.schemas <api/schemas.md>
+   .schemas.base <api/base.md>
+   .schemas.mujoco_schema <api/mujoco_schema.md>
   
 ```
