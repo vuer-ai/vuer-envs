@@ -19,7 +19,7 @@ this should print out.
 You can print minimized xml too
 
 ```python 
-print(config.xml_minimized)
+print(config.minimized)
 ```
 should give you
 

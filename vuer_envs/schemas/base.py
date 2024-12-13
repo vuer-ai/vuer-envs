@@ -1,43 +1,45 @@
+import inspect
+
 from vuer_envs.utility import minimize_xml_lxml
 
 
 class Xml:
-    """This is the base class for all XML elements.
-    """
+    """This is the base class for all XML elements."""
+
     tag = "mujoco"
-    attributes: dict
-    children: list
+    _attributes: dict
+    _children: list
 
     def __init__(self, *_children, tag=None, children=[], **attributes):
         self.tag = tag or self.tag
-        self.attributes = attributes
-        self.children = list(_children) + children
+        self._attributes = attributes
+        self._children = list(_children) + children
 
     @property
-    def _attribute_str(self) -> str:
+    def attributes(self) -> str:
         """Return the string representation of the attributes."""
-        return " ".join([f'{key}="{value}"' for key, value in self.attributes.items()])
+        return " ".join([f'{key}="{value}"' for key, value in self._attributes.items()])
 
     @property
-    def _children_str(self) -> str:
+    def children(self) -> str:
         """Return the string representation of the children."""
-        return "\n".join([child.xml for child in self.children])
+        return "\n".join([child._xml for child in self._children])
 
     @property
-    def xml(self) -> str:
+    def _xml(self) -> str:
         """Return the XML representation of the model."""
         return f"""
-        <{self.tag} {self._attribute_str}>{
-        self._children_str
+        <{self.tag} {self.attributes}>{
+        self.children
         }</{self.tag}>
         """
 
     @property
-    def xml_minimized(self) -> str:
+    def _minimized(self) -> str:
         """Return the minimized XML representation of the model."""
-        raw_xml = self.xml
-        minimized = minimize_xml_lxml(raw_xml)
-        return minimized
+        raw_xml = self._xml
+        minimized_xml = minimize_xml_lxml(raw_xml)
+        return minimized_xml
 
 
 class XmlTemplate(Xml):
@@ -72,11 +74,19 @@ class XmlTemplate(Xml):
         ])
 
     """
+
     template = ""
 
     @property
-    def xml(self) -> str:
-        return self.template.format(
-            children=self._children_str,
-            attributes=self._attribute_str,
-        )
+    def _xml(self) -> str:
+        all_properties = {}
+
+        for name, value in inspect.getmembers(type(self), lambda x: isinstance(x, property)):
+            if not name.startswith("_"):
+                all_properties[name] = getattr(self, name)
+
+        for key, value in self.__dict__.items():
+            if not key.startswith("_"):
+                all_properties[key] = value
+
+        return self.template.format(**all_properties)
