@@ -12,7 +12,7 @@ class Xml:
 
     def __init__(self, *_children, tag=None, children=[], **attributes):
         self.tag = tag or self.tag
-        self._attributes = attributes
+        self._attributes = {k: v for k, v in attributes.items() if v is not None}
         self._children = list(_children) + children
 
     @property

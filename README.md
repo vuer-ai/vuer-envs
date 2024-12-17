@@ -4,7 +4,7 @@
 
 1. first download the assets using rclone
     ```shell
-    rclone sync -P gdrive:assets ./public/assets
+    rclone sync -P remote:lucidxr-assets ./assets
     ```
 2. install the module. 
     ```shell

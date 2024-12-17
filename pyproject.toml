@@ -58,8 +58,9 @@ dev = [
 
 [project.scripts]
 # Note, add entrypoint name to scripts/completions/install.py to include CLI percentage
-rooms-demo = "vuer_envs:scripts.rooms_demo:entrypoint"
-quincy-debug = "vuer_envs.scripts.quincy_debug:main"
+# rooms-demo = "vuer_envs:scripts.rooms_demo:entrypoint"
+robots-demo = "vuer_envs.scripts.robots_demo:spawn_panda_scene"
+# quincy-debug = "vuer_envs.scripts.quincy_debug:main"
 
 [tool.setuptools.packages.find]
 include = ["vuer_envs*"]

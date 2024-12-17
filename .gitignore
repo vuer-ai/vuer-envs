@@ -1,4 +1,7 @@
 .code
 .idea
 .DS_Store
-
+assets
+*.egg-info
+*.pyc
+.vscode
