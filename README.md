@@ -2,6 +2,15 @@
 
 ## Setting Up
 
+If you want to develop then install it in editable mode.
+```shell
+conda create -n vuer-envs python=3.11
+pip install -e '.[dev]'
+```
+
+## Old Notes, Need @quincy to clean up.
+
+
 1. first download the assets using rclone
     ```shell
     rclone sync -P remote:lucidxr-assets ./assets
@@ -14,7 +23,7 @@
    
     If you want to develop then install it in editable mode.
     ```shell
-    pip install -e .
+    pip install -e '.[all]'
     ```
    
 ## Usage

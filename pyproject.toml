@@ -19,6 +19,7 @@ dependencies = [
     "msgpack",
     "numpy>=1.21", # because we require numpy.typing.NDArray
     "websockets",
+    "lxml"
 ]
 
 [project.optional-dependencies]
@@ -50,6 +51,7 @@ dev = [
     "furo",
     "sphinx-autobuild",
     "sphinx_copybutton",
+    "sphinxcontrib-video",
     "myst_parser",
     # these are very optional, but needed for the doc site
     "trimesh",

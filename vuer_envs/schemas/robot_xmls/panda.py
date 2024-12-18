@@ -4,7 +4,7 @@ from vuer_envs.schemas import chain
 
 class PandaLink7(Link):
     """Link 7 of the Panda robot."""
-    
+
     asset = """
         <asset>
             <mesh name="panda_link7" file="panda/meshes/link7.stl"/>
@@ -26,7 +26,7 @@ class PandaLink7(Link):
             <mesh name="panda_link7_vis_7" file="panda/obj_meshes/link7_vis/link7_vis_7.obj"/>
         </asset>
         """
-        
+
     content = """
         <inertial pos="0 0 0.08" mass="0.5" diaginertia="0.05 0.05 0.05"/>
         <joint name="{name}_joint7" pos="0 0 0" axis="0 0 1" limited="true" range="-2.8973 2.8973" damping="0.01"/>
@@ -49,12 +49,13 @@ class PandaLink7(Link):
         """
 
     def __init__(self, *_children, name, children=[], **rest):
-        super().__init__(*_children, name=name, children=children, pos="0.088 0 0", quat="0.707107 0.707107 0 0", **rest)
+        super().__init__(*_children, name=name, children=children, pos="0.088 0 0", quat="0.707107 0.707107 0 0",
+                         **rest)
 
 
 class PandaLink6(Link):
     """Link 6 of the Panda robot."""
-    
+
     asset = """
         <asset>
             <mesh name="panda_link6" file="panda/meshes/link6.stl"/>
@@ -93,8 +94,8 @@ class PandaLink6(Link):
             <mesh name="panda_link6_vis_15" file="panda/obj_meshes/link6_vis/link6_vis_15.obj"/>
             <mesh name="panda_link6_vis_16" file="panda/obj_meshes/link6_vis/link6_vis_16.obj"/>
         </asset>
-        """ 
-    
+        """
+
     content = """
         <inertial pos="0.06 0 0" mass="1.5" diaginertia="0.1 0.1 0.1"/>
         <joint name="{name}_joint6" pos="0 0 0" axis="0 0 1" limited="true" range="-0.0175 3.7525" damping="0.01"/>
@@ -124,7 +125,7 @@ class PandaLink6(Link):
 
 class PandaLink5(Link):
     """Link 5 of the Panda robot."""
-    
+
     asset = """
         <asset>
             <mesh name="panda_link5" file="panda/meshes/link5.stl"/>
@@ -136,7 +137,7 @@ class PandaLink5(Link):
             <mesh name="panda_link5_vis_2" file="panda/obj_meshes/link5_vis/link5_vis_2.obj"/>
         </asset>
         """
-    
+
     content = """
         <inertial pos="0 0 -0.15" mass="2" diaginertia="0.2 0.2 0.2"/>
         <joint name="{name}_joint5" pos="0 0 0" axis="0 0 1" limited="true" range="-2.8973 2.8973" damping="0.1"/>
@@ -147,12 +148,13 @@ class PandaLink5(Link):
         """
 
     def __init__(self, *_children, name, children=[], **rest):
-        super().__init__(*_children, name=name, children=children, pos="-0.0825 0.384 0", quat="0.707107 -0.707107 0 0", **rest)
+        super().__init__(*_children, name=name, children=children, pos="-0.0825 0.384 0", quat="0.707107 -0.707107 0 0",
+                         **rest)
 
 
 class PandaLink4(Link):
     """Link 4 of the Panda robot."""
-    
+
     asset = """
         <asset>
             <mesh name="panda_link4" file="panda/meshes/link4.stl"/>
@@ -166,7 +168,7 @@ class PandaLink4(Link):
             <mesh name="panda_link4_vis_3" file="panda/obj_meshes/link4_vis/link4_vis_3.obj"/>
         </asset>
         """
-    
+
     content = """
         <inertial pos="-0.04 0.05 0" mass="2" diaginertia="0.2 0.2 0.2"/>
         <joint name="{name}_joint4" pos="0 0 0" axis="0 0 1" limited="true" range="-3.0718 -0.0698" damping="0.1"/>
@@ -178,11 +180,13 @@ class PandaLink4(Link):
         """
 
     def __init__(self, *_children, name, children=[], **rest):
-        super().__init__(*_children, name=name, children=children, pos="0.0825 0 0", quat="0.707107 0.707107 0 0", **rest)
+        super().__init__(*_children, name=name, children=children, pos="0.0825 0 0", quat="0.707107 0.707107 0 0",
+                         **rest)
+
 
 class PandaLink3(Link):
     """Link 3 of the Panda robot."""
-    
+
     asset = """
         <asset>
             <mesh name="panda_link3" file="panda/meshes/link3.stl"/>
@@ -196,7 +200,7 @@ class PandaLink3(Link):
             <mesh name="panda_link3_vis_3" file="panda/obj_meshes/link3_vis/link3_vis_3.obj"/>
         </asset>
         """
-    
+
     content = """
         <inertial pos="0.04 0 -0.05" mass="2" diaginertia="0.2 0.2 0.2"/>
         <joint name="{name}_joint3" pos="0 0 0" axis="0 0 1" limited="true" range="-2.8973 2.8973" damping="0.1"/>
@@ -208,11 +212,13 @@ class PandaLink3(Link):
         """
 
     def __init__(self, *_children, name, children=[], **rest):
-        super().__init__(*_children, name=name, children=children, pos="0 -0.316 0", quat="0.707107 0.707107 0 0", **rest)
+        super().__init__(*_children, name=name, children=children, pos="0 -0.316 0", quat="0.707107 0.707107 0 0",
+                         **rest)
+
 
 class PandaLink2(Link):
     """Link 2 of the Panda robot."""
-    
+
     asset = """
         <asset>
             <mesh name="panda_link2" file="panda/meshes/link2.stl"/>
@@ -220,7 +226,7 @@ class PandaLink2(Link):
             <mesh name="panda_link2_vis" file="panda/obj_meshes/link2_vis/link2_vis.obj"/>
         </asset>
         """
-    
+
     content = """
         <inertial pos="0 0 -0.1" mass="3" diaginertia="0.3 0.3 0.3"/>
         <joint name="{name}_joint2" pos="0 0 0" axis="0 0 1" limited="true" range="-1.7628 1.7628" damping="0.1"/>
@@ -234,7 +240,7 @@ class PandaLink2(Link):
 
 class PandaLink1(Link):
     """Link 1 of the Panda robot."""
-    
+
     asset = """
         <asset>
             <mesh name="panda_link1" file="panda/meshes/link1.stl"/>
@@ -242,7 +248,7 @@ class PandaLink1(Link):
             <mesh name="panda_link1_vis" file="panda/obj_meshes/link1_vis/link1_vis.obj"/>
         </asset>
         """
-    
+
     content = """
         <inertial pos="0 0 -0.07" mass="3" diaginertia="0.3 0.3 0.3"/>
         <joint name="{name}_joint1" pos="0 0 0" axis="0 0 1" limited="true" range="-2.8973 2.8973" damping="0.1"/>
@@ -253,9 +259,10 @@ class PandaLink1(Link):
     def __init__(self, *_children, name, children=[], **rest):
         super().__init__(*_children, name=name, children=children, pos="0 0 0.333", **rest)
 
+
 class PandaLink0(Link):
     """Link 0 of the Panda robot."""
-    
+
     asset = """
         <asset>
             <mesh name="panda_link0" file="panda/meshes/link0.stl"/>
@@ -285,7 +292,7 @@ class PandaLink0(Link):
             <mesh name="panda_link0_vis_11" file="panda/obj_meshes/link0_vis/link0_vis_11.obj"/>
         </asset>
         """
-    
+
     content = """
         <site name="{name}_right_center" pos="0 0 0" size="0.01" rgba="1 0.3 0.3 1" group="2"/>
         <inertial pos="0 0 0" mass="4" diaginertia="0.4 0.4 0.4"/>
@@ -308,7 +315,6 @@ class PandaLink0(Link):
         super().__init__(*_children, name=name, children=children, pos="0 0 0", **rest)
 
 
-
 class Panda(XmlTemplate):
     """
     This is the Panda robot.
@@ -319,9 +325,9 @@ class Panda(XmlTemplate):
     name is optional, if provided it will be used as the name of the robot and should be unique.
     If not provided, "panada<robot_id> will be used instead, where robot_id is unique.
     """
-    
-    
-    robot_id = 0
+
+    key = 0
+
     template = """
         <body {attributes}>
             <!-- robot view -->
@@ -333,44 +339,31 @@ class Panda(XmlTemplate):
 
     @property
     def preamble(self):
-        """
-        Preamble for the Panda robot. 
-        Actutator is defined for each individual robot.
-        """
-        
-        robot_base_preamble = f"""
+        name = self.name
+
+        return f"""
         <actuator>
             <!-- Physical limits of the actuator. -->
-            <motor ctrllimited="true" ctrlrange="-80.0 80.0" joint="{self.name}_link1_joint1" name="{self.name}_torq_j1"/>
-            <motor ctrllimited="true" ctrlrange="-80.0 80.0" joint="{self.name}_link2_joint2" name="{self.name}_torq_j2"/>
-            <motor ctrllimited="true" ctrlrange="-80.0 80.0" joint="{self.name}_link3_joint3" name="{self.name}_torq_j3"/>
-            <motor ctrllimited="true" ctrlrange="-80.0 80.0" joint="{self.name}_link4_joint4" name="{self.name}_torq_j4"/>
-            <motor ctrllimited="true" ctrlrange="-80.0 80.0" joint="{self.name}_link5_joint5" name="{self.name}_torq_j5"/>
-            <motor ctrllimited="true" ctrlrange="-12.0 12.0" joint="{self.name}_link6_joint6" name="{self.name}_torq_j6"/>
-            <motor ctrllimited="true" ctrlrange="-12.0 12.0" joint="{self.name}_link7_joint7" name="{self.name}_torq_j7"/>
+            <motor ctrllimited="true" ctrlrange="-80.0 80.0" joint="{name}_link1_joint1" name="{name}_torq_j1"/>
+            <motor ctrllimited="true" ctrlrange="-80.0 80.0" joint="{name}_link2_joint2" name="{name}_torq_j2"/>
+            <motor ctrllimited="true" ctrlrange="-80.0 80.0" joint="{name}_link3_joint3" name="{name}_torq_j3"/>
+            <motor ctrllimited="true" ctrlrange="-80.0 80.0" joint="{name}_link4_joint4" name="{name}_torq_j4"/>
+            <motor ctrllimited="true" ctrlrange="-80.0 80.0" joint="{name}_link5_joint5" name="{name}_torq_j5"/>
+            <motor ctrllimited="true" ctrlrange="-12.0 12.0" joint="{name}_link6_joint6" name="{name}_torq_j6"/>
+            <motor ctrllimited="true" ctrlrange="-12.0 12.0" joint="{name}_link7_joint7" name="{name}_torq_j7"/>
         </actuator>
+        {''.join([p.preamble for p in self._children])}
         """
-        if self.robot_id < 1:
-            gathered = []
-            for child in self._children:
-                try:
-                    gathered.append(child.preamble)
-                except AttributeError:
-                    continue
-            robot_base_preamble += "\n".join(gathered) 
-        return robot_base_preamble
 
-
-           
-    def __init__(self, *_children, name, children=[], efChildren=None, pos="0 0 0", quat="1 0 0 0", **rest):
+    def __init__(self, *_children, name, efChildren=None, pos="0 0 0", quat="1 0 0 0", **rest):
         if name:
             self.name = name
         else:
-            self.name = f"panda{self.robot_id}"
-        self.robot_id = Panda.robot_id
-        Panda.robot_id += 1
+            self.name = f"panda{self.key}"
+        self.key = Panda.key
+        Panda.key += 1
 
-        links = chain(
+        link = chain(
             PandaLink0(name=name + "_link0"),
             PandaLink1(name=name + "_link1"),
             PandaLink2(name=name + "_link2"),
@@ -378,9 +371,7 @@ class Panda(XmlTemplate):
             PandaLink4(name=name + "_link4"),
             PandaLink5(name=name + "_link5"),
             PandaLink6(name=name + "_link6"),
-            PandaLink7(name=name + "_link7"),
+            PandaLink7(name=name + "_link7", children=efChildren),
         )
-        if efChildren:
-            PandaLink7._children = [efChildren]
 
-        super().__init__(*_children, children=children + [links], name=self.name, pos=pos, quat=quat, **rest)
+        super().__init__(link, *_children, name=self.name, pos=pos, quat=quat, **rest)

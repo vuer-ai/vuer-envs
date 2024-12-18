@@ -24,16 +24,9 @@ class Link(XmlTemplate):
     @property
     def preamble(self):
         """Return the preamble of the link."""
-        self.asset = self.asset.format(name=self.name)
+        string = self.asset.format(name=self.name)
 
-        gathered = []
-        for child in self._children:
-            try:
-                gathered.append(child.preamble)
-            except AttributeError:
-                continue
-
-        return self.asset + "\n".join(gathered)
+        return string + "\n".join([vars(p).get('preamble', "") for p in self._children])
 
     def __init__(self, *_children, name, children=[], **rest):
         self.name = name

@@ -1,6 +1,8 @@
 import inspect
 
-from vuer_envs.utility import minimize_xml_lxml
+from typing import List
+
+from vuer_envs.utility import minimize
 
 
 class Xml:
@@ -8,7 +10,7 @@ class Xml:
 
     tag = "mujoco"
     _attributes: dict
-    _children: list
+    _children: List["Xml"]
 
     def __init__(self, *_children, tag=None, children=[], **attributes):
         self.tag = tag or self.tag
@@ -38,7 +40,7 @@ class Xml:
     def _minimized(self) -> str:
         """Return the minimized XML representation of the model."""
         raw_xml = self._xml
-        minimized_xml = minimize_xml_lxml(raw_xml)
+        minimized_xml = minimize(raw_xml)
         return minimized_xml
 
 

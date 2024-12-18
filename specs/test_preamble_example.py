@@ -1,14 +1,16 @@
-from vuer_envs.schemas import Mjcf, MobilePanda
+from vuer_envs import minimize
+from vuer_envs.schemas import Mjcf
+from vuer_envs.schemas.robot_xmls import Panda
 
 
 def test_robot_example():
-    robot = MobilePanda(
+    robot = Panda(
         name="LR_hip_roll",
         pos="0 0 0",
         climit="0 0",
         damping="0",
     )
-    robot_2 = MobilePanda(
+    robot_2 = Panda(
         name="LR_hip_roll_2",
         pos="0 0 0",
         climit="0 0",
@@ -21,4 +23,5 @@ def test_robot_example():
     
     """
 
-    assert xml._minimized == expected_result
+    # todo: add do minified for both
+    assert xml._minimized == minimize(expected_result)
