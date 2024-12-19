@@ -42,10 +42,3 @@ class BoxExample(XmlTemplate):
             <material name="matplane" reflectance="0.5" texture="texplane" texrepeat="1 1" texuniform="true"/>
         </asset>
         """
-
-
-class Link(Xml):
-    tag = "link"
-
-    def __init__(self, name, pos, climit, damping, **kwargs):
-        super().__init__(name=name, pos=pos, climit=climit, damping=damping, **kwargs)

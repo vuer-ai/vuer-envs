@@ -1,7 +1,7 @@
 from lxml import etree
 
 
-def minimize_xml_lxml(xml_string):
+def minimize(xml_string) -> str:
     """
     Minimizes an XML string using lxml by removing unnecessary whitespace.
 
@@ -24,7 +24,7 @@ def minimize_xml_lxml(xml_string):
         return minimized_xml
     except Exception as e:
         print(f"Error minimizing XML with lxml: {e}")
-        return None
+        return ""
 
 
 if __name__ == "__main__":
@@ -38,6 +38,6 @@ if __name__ == "__main__":
     </root>
     """
 
-    minimized = minimize_xml_lxml(xml)
+    minimized = minimize(xml)
     print(minimized)
     assert minimized == '<root><person><name>John Doe</name><age>30</age></person></root>'

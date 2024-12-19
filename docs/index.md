@@ -74,5 +74,7 @@ For a comprehensive list of data types, please refer to the [API documentation o
    
    .schemas.base <api/base.md>
    .schemas.mujoco_schema <api/mujoco_schema.md>
+   .schemas.robot_xmls.robot_schema <api/robot_schema.md>
+   .schemas.robot_xmls.panda <api/panda.md>
   
 ```
