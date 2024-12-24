@@ -1,0 +1,49 @@
+
+                <asset>
+                    <texture type="skybox" builtin="flat" rgb1="1 1 1" rgb2="1 1 1" width="256" height="1536"/>
+                    <texture type="2d" name="wall_room_wall" file="rooms/assets/textures/bricks/red_bricks.png"/>
+                    <material name="wall_room_wall_mat" texture="wall_room_wall" texuniform="true" texrepeat="3 3" shininess="0.01" reflectance="0.1"/>
+                </asset>
+            
+
+                <asset>
+                    <texture type="2d" name="wall_backing_room_wall" file="rooms/assets/textures/flat/light_gray.png"/>
+                    <material name="wall_backing_room_wall_mat" texture="wall_backing_room_wall" texuniform="true" texrepeat="3 3" shininess="0.01" reflectance="0.1"/>
+                </asset>
+            
+
+                <asset>
+                    <texture type="2d" name="wall_left_room_wall" file="rooms/assets/textures/bricks/red_bricks.png"/>
+                    <material name="wall_left_room_wall_mat" texture="wall_left_room_wall" texuniform="true" texrepeat="3 3" shininess="0.01" reflectance="0.1"/>
+                </asset>
+            
+
+                <asset>
+                    <texture type="2d" name="wall_left_backing_room_wall" file="rooms/assets/textures/flat/light_gray.png"/>
+                    <material name="wall_left_backing_room_wall_mat" texture="wall_left_backing_room_wall" texuniform="true" texrepeat="3 3" shininess="0.01" reflectance="0.1"/>
+                </asset>
+            
+
+                <asset>
+                    <texture type="2d" name="wall_right_room_wall" file="rooms/assets/textures/bricks/red_bricks.png"/>
+                    <material name="wall_right_room_wall_mat" texture="wall_right_room_wall" texuniform="true" texrepeat="3 3" shininess="0.01" reflectance="0.1"/>
+                </asset>
+            
+
+                <asset>
+                    <texture type="2d" name="wall_right_backing_room_wall" file="rooms/assets/textures/flat/light_gray.png"/>
+                    <material name="wall_right_backing_room_wall_mat" texture="wall_right_backing_room_wall" texuniform="true" texrepeat="3 3" shininess="0.01" reflectance="0.1"/>
+                </asset>
+            
+
+                <asset>
+                    <texture type="2d" name="floor_room_wall" file="rooms/assets/textures/tiles/concrete_tiles.png"/>
+                    <material name="floor_room_wall_mat" texture="floor_room_wall" texuniform="true" texrepeat="0.5 0.5"/>
+                </asset>
+            
+
+                <asset>
+                    <texture type="2d" name="floor_backing_room_wall" file="rooms/assets/textures/flat/light_gray.png"/>
+                    <material name="floor_backing_room_wall_mat" texture="floor_backing_room_wall" texuniform="true" texrepeat="0.5 0.5"/>
+                </asset>
+            
