@@ -111,6 +111,4 @@ class XmlTemplate(Xml):
             if not key.startswith("_"):
                 all_properties[key] = value
 
-        print(all_properties)
-
         return self.template.format(**all_properties)

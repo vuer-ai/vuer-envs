@@ -12,7 +12,8 @@ class Room(Mjcf):
             quat="-0.707107 0.707107 0 0",
             children= Raw @ """
                 <geom name="wall_room_g0" size="2.79 1.5 0.02" type="box" rgba="0.5 0 0 1"/>
-                <geom name="wall_room_g0_vis" size="2.79 1.5 0.02" type="box" contype="0" conaffinity="0" group="1" mass="0" material="wall_room_wall_mat"/>
+                <geom name="wall_room_g0_vis" size="2.79 1.5 0.02" type="box" contype="0" conaffinity="0" 
+                      group="1" mass="0" material="wall_room_wall_mat"/>
                 <site name="wall_room_default_site" pos="0 0 0" size="0.002" rgba="1 0 0 -1"/>
             """,
             preamble="""
@@ -31,7 +32,8 @@ class Room(Mjcf):
             quat="-0.707107 0.707107 0 0",
             children=Raw @ """
                 <geom name="wall_backing_room_g0" size="2.99 1.62 0.1" type="box" rgba="0.5 0 0 1"/>
-                <geom name="wall_backing_room_g0_vis" size="2.99 1.62 0.1" type="box" contype="0" conaffinity="0" group="1" mass="0" material="wall_backing_room_wall_mat"/>
+                <geom name="wall_backing_room_g0_vis" size="2.99 1.62 0.1" type="box" contype="0" conaffinity="0" 
+                      group="1" mass="0" material="wall_backing_room_wall_mat"/>
                 <site name="wall_backing_room_default_site" pos="0 0 0" size="0.002" rgba="1 0 0 -1"/>
             """,
             preamble="""
@@ -49,7 +51,8 @@ class Room(Mjcf):
             quat="0.5 0.5 -0.5 -0.5",
             children= Raw @ """
             <geom name="wall_left_room_g0" size="1.54 1.5 0.02" type="box" rgba="0.5 0 0 1"/>
-            <geom name="wall_left_room_g0_vis" size="1.54 1.5 0.02" type="box" contype="0" conaffinity="0" group="1" mass="0" material="wall_left_room_wall_mat"/>
+            <geom name="wall_left_room_g0_vis" size="1.54 1.5 0.02" type="box" contype="0" conaffinity="0" 
+                  group="1" mass="0" material="wall_left_room_wall_mat"/>
             <site name="wall_left_room_default_site" pos="0 0 0" size="0.002" rgba="1 0 0 -1"/>
             """,
             preamble="""
@@ -67,7 +70,8 @@ class Room(Mjcf):
             quat="0.5 0.5 -0.5 -0.5",
             children= Raw @ """
                 <geom name="wall_left_backing_room_g0" size="1.54 1.62 0.1" type="box" rgba="0.5 0 0 1"/>
-                <geom name="wall_left_backing_room_g0_vis" size="1.54 1.62 0.1" type="box" contype="0" conaffinity="0" group="1" mass="0" material="wall_left_backing_room_wall_mat"/>
+                <geom name="wall_left_backing_room_g0_vis" size="1.54 1.62 0.1" type="box" contype="0" conaffinity="0" 
+                      group="1" mass="0" material="wall_left_backing_room_wall_mat"/>
                 <site name="wall_left_backing_room_default_site" pos="0 0 0" size="0.002" rgba="1 0 0 -1"/>
             """,
             preamble="""
@@ -85,7 +89,8 @@ class Room(Mjcf):
             quat="0.5 -0.5 -0.5 0.5",
             children= Raw @ """
             <geom name="wall_right_room_g0" size="1.54 1.5 0.02" type="box" rgba="0.5 0 0 1"/>
-            <geom name="wall_right_room_g0_vis" size="1.54 1.5 0.02" type="box" contype="0" conaffinity="0" group="1" mass="0" material="wall_right_room_wall_mat"/>
+            <geom name="wall_right_room_g0_vis" size="1.54 1.5 0.02" type="box" contype="0" conaffinity="0" 
+                  group="1" mass="0" material="wall_right_room_wall_mat"/>
             <site name="wall_right_room_default_site" pos="0 0 0" size="0.002" rgba="1 0 0 -1"/>
             """,
             preamble="""
@@ -121,7 +126,8 @@ class Room(Mjcf):
             quat="0.707107 0 0 0.707107",
             children= Raw @ """
                 <geom name="floor_room_g0" size="1.54 2.79 0.02" type="box" rgba="0.5 0 0 1"/>
-                <geom name="floor_room_g0_vis" size="1.54 2.79 0.02" type="box" contype="0" conaffinity="0" group="1" mass="0" material="floor_room_wall_mat"/>
+                <geom name="floor_room_g0_vis" size="1.54 2.79 0.02" type="box" contype="0" conaffinity="0" 
+                      group="1" mass="0" material="floor_room_wall_mat"/>
                 <site name="floor_room_default_site" pos="0 0 0" size="0.002" rgba="1 0 0 -1"/>
             """,
             preamble="""
@@ -139,7 +145,8 @@ class Room(Mjcf):
             quat="0.707107 0 0 0.707107",
             children= Raw @ """
                 <geom name="floor_backing_room_g0" size="1.54 2.79 0.1" type="box" rgba="0.5 0 0 1"/>
-                <geom name="floor_backing_room_g0_vis" size="1.54 2.79 0.1" type="box" contype="0" conaffinity="0" group="1" mass="0" material="floor_backing_room_wall_mat"/>
+                <geom name="floor_backing_room_g0_vis" size="1.54 2.79 0.1" type="box" contype="0" conaffinity="0" 
+                      group="1" mass="0" material="floor_backing_room_wall_mat"/>
                 <site name="floor_backing_room_default_site" pos="0 0 0" size="0.002" rgba="1 0 0 -1"/>
             """,
             preamble="""
