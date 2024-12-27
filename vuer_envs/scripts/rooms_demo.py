@@ -30,7 +30,7 @@ def spawn_room():
 
     setattr(compiler, "preamble", '<compiler angle="radian" texturedir="./assets" meshdir="./assets" />')
     room = Room(model="room1", children=[compiler, hospital_bed])
-    with open("room_demo.xml", "w") as f:
+    with open("../../room_demo.xml", "w") as f:
         f.write(room._xml)
         f.close()
 

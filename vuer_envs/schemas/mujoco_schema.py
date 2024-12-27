@@ -1,7 +1,36 @@
-from .base import Xml, XmlTemplate
+from typing import Union
+
+from .base import XmlTemplate, Xml
 
 
-class Mjcf(XmlTemplate):
+class MjNode(XmlTemplate):
+    template = """
+    <{tag} {attributes}>
+    {children}
+    </{tag}>
+    """
+
+    def __init__(self, *args, preamble: Union[str, Xml] = "", **rest):
+        self._preamble = preamble
+        super().__init__(*args, **rest)
+
+    @property
+    def preamble(self):
+        if self._preamble:
+            gathered = [self._preamble]
+        else:
+            gathered = []
+
+        for child in self._children:
+            try:
+                gathered.append(child.preamble)
+            except AttributeError:
+                continue
+
+        return "\n".join(gathered)
+
+
+class Mjcf(MjNode):
     """
     This is the root element of the MuJoCo XML file.
 
@@ -17,50 +46,8 @@ class Mjcf(XmlTemplate):
     </mujoco>
     """
 
-    @property
-    def preamble(self):
-        gathered = []
 
-        for child in self._children:
-            try:
-                gathered.append(child.preamble)
-            except AttributeError:
-                continue
-
-        return "\n".join(gathered)
-
-class MjcfNode(Xml):
-
-    _attributes_str: str
-    _children_str: list[str]
-    _preamble_str: str
-
-    """
-    This is the base node element inside MuJoco XML file.
-    It should be used to define child node of a Mjcf object.
-
-    """
-
-    def __init__(self, tag=None, children=[], attributes="", preamble=""):
-        self.tag = tag or self.tag
-        self._attributes_str = attributes
-        self._children_str = children
-        self._preamble_str = preamble
-
-    @property
-    def attributes(self):
-        return self._attributes_str
-    
-    @property
-    def children(self):
-        return "\n".join(self._children_str)
-
-    @property
-    def preamble(self):
-        return self._preamble_str
-
-
-class BoxExample(XmlTemplate):
+class BoxExample(MjNode):
     name = "box-1"
     """this is a placeholder name."""
 

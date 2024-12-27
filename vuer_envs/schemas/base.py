@@ -1,21 +1,34 @@
 import inspect
-
-from typing import List
+from typing import List, Sequence
 
 from vuer_envs.utility import minimize
 
 
-class Xml:
+class XmlString(type):
+    def __matmul__(cls, other):
+        return cls(other)
+
+    def __ror__(cls, other):
+        return cls(other)
+
+class Raw(metaclass=XmlString):
+    def __init__(self, string):
+        self._xml = string
+
+class Xml(metaclass=XmlString):
     """This is the base class for all XML elements."""
 
     tag = "mujoco"
     _attributes: dict
     _children: List["Xml"]
 
-    def __init__(self, *_children, tag=None, children=[], **attributes):
+    def __init__(self, *_children, tag=None, children=tuple(), **attributes):
         self.tag = tag or self.tag
         self._attributes = {k: v for k, v in attributes.items() if v is not None}
-        self._children = list(_children) + children
+        if isinstance(children, Sequence):
+            self._children = [*_children, *children]
+        else:
+            self._children = [*_children, children]
 
     @property
     def attributes(self) -> str:
@@ -25,7 +38,14 @@ class Xml:
     @property
     def children(self) -> str:
         """Return the string representation of the children."""
-        return "\n".join([child._xml for child in self._children])
+        child_strings = []
+        for child in self._children:
+            if hasattr(child, "_xml"):
+                child_strings.append(child._xml)
+            elif isinstance(child, str):
+                child_strings.append(child)
+
+        return "\n".join(child_strings)
 
     @property
     def _xml(self) -> str:
@@ -90,5 +110,7 @@ class XmlTemplate(Xml):
         for key, value in self.__dict__.items():
             if not key.startswith("_"):
                 all_properties[key] = value
+
+        print(all_properties)
 
         return self.template.format(**all_properties)

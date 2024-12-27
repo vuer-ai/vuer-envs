@@ -1,4 +1,4 @@
-from vuer_envs import minimize
+from vuer_envs.utility import minimize
 from vuer_envs.schemas import Mjcf
 from vuer_envs.schemas.robot_xmls import Panda
 
