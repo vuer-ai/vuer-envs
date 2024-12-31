@@ -1,3 +1,6 @@
 robocasa_scenes
+robocasa_scenes_staging
 robots
 rooms
+scene*
+*.xml
