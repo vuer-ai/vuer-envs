@@ -2,6 +2,11 @@ from lxml import etree
 
 
 def remove_unused_mesh(file_path, to=None):
+    import os
+
+    print("current work dir:", os.getcwd())
+    print("file:", os.path.abspath(file_path))
+
     try:
         print(f"Reading file: {file_path}")
 
@@ -16,7 +21,7 @@ def remove_unused_mesh(file_path, to=None):
         for mesh in root.findall(".//mesh"):
             mesh_name = mesh.attrib.get("name", "")
             if mesh_name not in used_mesh_names:  # Check if the mesh is unused
-                print(f"Removing unused mesh element: <mesh name='{mesh_name}'/>")
+                print(f"\rRemoving unused mesh element: <mesh name='{mesh_name}'/>")
                 parent = mesh.getparent()
                 if parent is not None:
                     parent.remove(mesh)
@@ -32,6 +37,7 @@ def remove_unused_mesh(file_path, to=None):
         #             print(f"Removed geom element: <geom mesh='{mesh_name}' group={group}/>")
 
         save_location = to or file_path
+        os.makedirs(os.path.dirname(save_location), exist_ok=True)
 
         # Save changes back to the XML file
         tree.write(save_location, encoding="utf-8", xml_declaration=True, pretty_print=True)
