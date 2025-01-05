@@ -1,6 +1,8 @@
 import os
 import shutil
 
+from tqdm import tqdm
+
 
 def move_assets_to_scene(asset_paths, scene_root):
     """
@@ -14,7 +16,9 @@ def move_assets_to_scene(asset_paths, scene_root):
     if not os.path.exists(scene_root):
         os.makedirs(scene_root)
 
-    for asset_path in asset_paths:
+    it = tqdm(asset_paths, desc="Moving assets", unit="asset")
+
+    for asset_path in it:
         # Get the directory structure relative to the current working directory
         if not os.path.isabs(asset_path):
             asset_path = os.path.abspath(asset_path)
@@ -31,7 +35,7 @@ def move_assets_to_scene(asset_paths, scene_root):
 
         # Copy the file to the new location
         shutil.copy2(asset_path, destination_path)
-        print(f"Moved: {asset_path} -> {destination_path}")
+        it.write(f"{asset_path} -> {destination_path}")
 
 
 if __name__ == "__main__":

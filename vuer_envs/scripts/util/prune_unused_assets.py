@@ -14,6 +14,29 @@ def remove_unused_mesh(file_path, to=None):
         tree = etree.parse(file_path)
         root = tree.getroot()
 
+        # Remove <body> elements with name including 'eef_target' or 'robot'
+        for body in root.findall(".//body"):
+            body_name = body.attrib.get("name", "")
+            if "eef_target" in body_name or "robot" in body_name:  # Check if the name matches the criteria
+                print(f"\rRemoving unused body element: <body name='{body_name}'/>", end="", flush=True)
+                parent = body.getparent()
+                if parent is not None:
+                    parent.remove(body)
+
+        # Remove all <sensor> elements
+        for sensor in root.findall(".//sensor"):
+            print("\rRemoving sensor element: <sensor/>", end="", flush=True)
+            parent = sensor.getparent()
+            if parent is not None:
+                parent.remove(sensor)
+
+        # Remove all <actuator> elements
+        for actuator in root.findall(".//actuator"):
+            print("\rRemoving actuator element: <actuator/>", end="", flush=True)
+            parent = actuator.getparent()
+            if parent is not None:
+                parent.remove(actuator)
+
         # Gather all used <mesh> elements
         used_mesh_names = {mesh.attrib.get("mesh", "") for mesh in root.findall(".//geom")}
 
@@ -21,20 +44,29 @@ def remove_unused_mesh(file_path, to=None):
         for mesh in root.findall(".//mesh"):
             mesh_name = mesh.attrib.get("name", "")
             if mesh_name not in used_mesh_names:  # Check if the mesh is unused
-                print(f"\rRemoving unused mesh element: <mesh name='{mesh_name}'/>")
+                print(f"\rRemoving unused mesh element: <mesh name='{mesh_name}'/>", end="", flush=True)
                 parent = mesh.getparent()
                 if parent is not None:
                     parent.remove(mesh)
 
-        # # Filter <geom> elements with 'group' == 0 or unused 'mesh' attribute
-        # for geom in root.findall(".//geom"):
-        #     mesh_name = geom.attrib.get("mesh", "")
-        #     group = geom.attrib.get("group", 0)
-        #     if group == 0:
-        #         parent = geom.getparent()
-        #         if parent is not None:
-        #             parent.remove(geom)
-        #             print(f"Removed geom element: <geom mesh='{mesh_name}' group={group}/>")
+        used_material_names = {mesh.attrib.get("material", "") for mesh in root.findall(".//geom")}
+
+        for material in root.findall(".//material"):
+            material_name = material.attrib.get("name", "")
+            if material_name not in used_material_names:
+                print(f"\rRemoving unused material element: <material name='{material_name}'/>", end="", flush=True)
+                parent = material.getparent()
+                if parent is not None:
+                    parent.remove(material)
+
+        used_texture_names = {texture.attrib.get("texture", "") for texture in root.findall(".//material")}
+        for texture in root.findall(".//texture"):
+            texture_name = texture.attrib.get("name", "")
+            if texture_name not in used_texture_names:
+                print(f"\rRemoving unused texture element: <texture name='{texture_name}'/>", end="", flush=True)
+                parent = texture.getparent()
+                if parent is not None:
+                    parent.remove(texture)
 
         save_location = to or file_path
         os.makedirs(os.path.dirname(save_location), exist_ok=True)

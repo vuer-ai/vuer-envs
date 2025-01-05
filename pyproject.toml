@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "vuer-envs"
-version = "0.0.35"
+version = "0.0.1"
 description = ""
 readme = "README.md"
 license = { text = "MIT" }
@@ -62,6 +62,7 @@ dev = [
 # Note, add entrypoint name to scripts/completions/install.py to include CLI percentage
 rooms-demo = "vuer_envs.scripts.rooms_demo:spawn_room"
 robots-demo = "vuer_envs.scripts.robots_demo:spawn_panda_scene"
+upload-robocasa = "vuer_envs.scripts.upload_robocasa:main"
 # quincy-debug = "vuer_envs.scripts.quincy_debug:main"
 
 [tool.setuptools.packages.find]
