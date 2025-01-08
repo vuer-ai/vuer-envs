@@ -95,11 +95,6 @@ def main():
 
                     await sleep(0.016)
 
-            # while True:
-            # while True:
-            #     await sleep(10)
-
-
 if __name__ == "__main__":
     Params.demo_prefix = "/geyang/scratch/2025/01-07/223005"
     Params.wd = "/Users/ge/Library/CloudStorage/GoogleDrive-ge.ike.yang@gmail.com/My Drive/lucidxr-assets/development/robots"
