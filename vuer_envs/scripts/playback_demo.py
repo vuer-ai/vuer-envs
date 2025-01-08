@@ -5,9 +5,10 @@ from pathlib import Path
 from typing import List
 
 from ml_logger import ML_Logger
-from params_proto import ParamsProto
+from params_proto import ParamsProto, Flag
 from termcolor import colored
 from vuer.events import ClientEvent
+from vuer.schemas import CoordsMarker, Group, Html, span, CatmullRomLine, Line
 
 from vuer_envs.scripts.util.working_directory_context_manager import WorkDir
 
@@ -37,18 +38,22 @@ class Params(ParamsProto, cli_parse=False):
     src: str = "{asset_prefix}/{scene_file}"
     src_path: str = "{wd}/{scene_file}"
 
+    verbose = Flag(help="Print out the assets that are being loaded.")
+
     def __post_init__(self):
         for k, v in self.__dict__.items():
             if isinstance(v, str):
                 value = v.format(**self.__dict__)
                 setattr(self, k, value)
 
-                print(f"{colored(k, 'cyan')}:\t{colored(value, 'yellow')}")
+                if self.verbose:
+                    print(f"{colored(k, 'cyan')}:\t{colored(value, 'yellow')}")
 
         with WorkDir(Path(self.src_path).parent):
             self.assets = glob("**/*.*", recursive=True)
 
-            print(*self.assets, sep="\n")
+            if self.verbose:
+                print(*self.assets, sep="\n")
 
 
 def main():
@@ -62,12 +67,11 @@ def main():
     loader = ML_Logger(prefix=args.demo_prefix)
     # logger.configure(prefix=args.demo_prefix)
 
-    # mocap_position, mocal_quaternion = loader.read_metrics("mocap_position", "mocap_quaternion")
-    # print(mocap_position.shape, mocal_quaternion.shape)
-
     df = loader.read_metrics()["metrics.pkl"]
 
-    df_list = df.to_dict(orient="records")  # Transform dataframe into a list of dictionaries
+    mocap = df[["ts", "mpos", "mquat"]].dropna()
+    mocap_traj = df["mpos"].dropna()
+    camera_matrix = df[["ts", "camera_matrix"]].dropna()
 
     @vuer.add_handler("ON_MUJOCO_FRAME")
     async def on_mujoco_frame(event: ClientEvent, proxy: VuerSession):
@@ -80,23 +84,47 @@ def main():
 
         @vuer.spawn(start=True)
         async def main(proxy: VuerSession):
-            # todo: add a ContribLoader to load the MuJoCo plugin.
-            proxy.upsert @ MuJoCo(key="default-sim", src=args.src, assets=asset_paths)
+            frame_stack = camera_matrix.to_dict(orient="records")
+            print(f"frame_stake contains {len(frame_stack)} frames.")
+            for i, frame in [*enumerate(frame_stack)][::10]:
+                ts = frame["ts"]
+                mat = frame["camera_matrix"]
+                proxy.upsert @ Group(
+                    CoordsMarker(key=f"coord.ts-{ts}", scale=0.1),
+                    Html(span(f"#{i}", style={"width": 100})),
+                    key=f"ts-{ts}",
+                    matrix=[*mat],
+                )
+                await sleep(0.016)
+
+            # # todo: add a ContribLoader to load the MuJoCo plugin.
+            # proxy.upsert @ MuJoCo(key="default-sim", src=args.src, assets=asset_paths)
+            print([*mocap_traj.values])
+            proxy.upsert @ Line(
+                key="traj",
+                points=[[x, z, -y] for x, y, z in mocap_traj.values],
+            )
 
             while True:
-                for frame in df_list:
+                for frame in mocap.to_dict(orient="records"):
+                    ts = frame["ts"]
+                    mpos = frame["mpos"]
+                    mquat = frame["mquat"]
+                    print("mpos", mpos, end="\r", flush=True)
+
                     proxy.upsert @ MuJoCo(
                         key="default-sim",
                         src=args.src,
                         assets=asset_paths,
-                        mpos=frame["mocap_position"],
-                        mquat=frame["mocap_quaternion"],
+                        mpos=[*mpos],
+                        mquat=[*mquat],
                     )
 
                     await sleep(0.016)
 
+
 if __name__ == "__main__":
-    Params.demo_prefix = "/geyang/scratch/2025/01-07/223005"
+    Params.demo_prefix = "/geyang/scratch/2025/01-08/043537"
     Params.wd = "/Users/ge/Library/CloudStorage/GoogleDrive-ge.ike.yang@gmail.com/My Drive/lucidxr-assets/development/robots"
     Params.scene_name = "universal_robots_ur5e/scene"
 

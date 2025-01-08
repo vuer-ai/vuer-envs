@@ -2,6 +2,7 @@ from asyncio import sleep
 from glob import glob
 from os.path import join
 from pathlib import Path
+from pprint import pprint
 from typing import List
 
 from params_proto import ParamsProto, Flag
@@ -64,16 +65,24 @@ def main():
 
     vuer = Vuer(static_root=args.wd, port=args.vuer_port)
 
+    @vuer.add_handler("CAMERA_MOVE")
+    async def on_mujoco_frame(event: ClientEvent, proxy: VuerSession):
+        camera = event.value['camera']
+
+        logger.log(
+            ts=event.ts,
+            camera_matrix=camera['matrix'],
+            flush=True,
+            silent=True,
+        )
+
     @vuer.add_handler("ON_MUJOCO_FRAME")
     async def on_mujoco_frame(event: ClientEvent, proxy: VuerSession):
         frame = event.value["keyFrame"]
 
-        mocap_position = frame["mpos"]
-        mocap_quaternion = frame["mquat"]
-
         logger.log(
-            mocap_position=mocap_position,
-            mocap_quaternion=mocap_quaternion,
+            ts=event.ts,
+            **frame,
             flush=True,
             silent=True,
         )
