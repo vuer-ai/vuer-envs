@@ -24,16 +24,18 @@ class Params(ParamsProto, cli_parse=False):
     - add ml-logger prefix/dir structure.
     - document in the docs / Notion page.
     """
-
     demo_prefix: str = None
 
     wd: str = "."
-    vuer_port = 8013
+    vuer_port = 8012
 
+    scene_folder: str = ''
     scene_name: str = "scene"
-    scene_file: str = "{scene_name}.mjcf.xml"
-    assets: List[str] = None
+    scene_file: str = join("{scene_folder}", "{scene_name}.mjcf.xml")
+
     asset_prefix: str = "http://localhost:{vuer_port}/static"
+    assets: List[str] = None
+    asset_paths: List[str] = None
 
     src: str = "{asset_prefix}/{scene_file}"
     src_path: str = "{wd}/{scene_file}"
@@ -49,12 +51,15 @@ class Params(ParamsProto, cli_parse=False):
                 if self.verbose:
                     print(f"{colored(k, 'cyan')}:\t{colored(value, 'yellow')}")
 
-        with WorkDir(Path(self.src_path).parent):
+        with WorkDir(join(self.wd, self.scene_folder)):
             self.assets = glob("**/*.*", recursive=True)
+            self.asset_paths = [join(self.asset_prefix, self.scene_folder, asset) for asset in self.assets]
 
-            if self.verbose:
-                print(*self.assets, sep="\n")
-
+        if self.verbose:
+            print("Assets:")
+            print(*self.assets, sep="\n")
+            print("Asset Paths:")
+            print(*self.asset_paths, sep="\n")
 
 def main():
     args = Params()
@@ -65,7 +70,6 @@ def main():
     vuer = Vuer(static_root=args.wd, port=args.vuer_port)
 
     loader = ML_Logger(prefix=args.demo_prefix)
-    # logger.configure(prefix=args.demo_prefix)
 
     df = loader.read_metrics()["metrics.pkl"]
 
@@ -79,13 +83,11 @@ def main():
         pass
 
     with WorkDir(args.wd):
-        asset_paths = [join(args.asset_prefix, Path(args.scene_name).parent, asset) for asset in args.assets]
-        print(asset_paths[0])
 
         @vuer.spawn(start=True)
         async def main(proxy: VuerSession):
             frame_stack = camera_matrix.to_dict(orient="records")
-            print(f"frame_stake contains {len(frame_stack)} frames.")
+            if (args.verbose): print(f"frame_stake contains {len(frame_stack)} frames.")
             for i, frame in [*enumerate(frame_stack)][::10]:
                 ts = frame["ts"]
                 mat = frame["camera_matrix"]
@@ -99,7 +101,7 @@ def main():
 
             # # todo: add a ContribLoader to load the MuJoCo plugin.
             # proxy.upsert @ MuJoCo(key="default-sim", src=args.src, assets=asset_paths)
-            print([*mocap_traj.values])
+            if (args.verbose): print([*mocap_traj.values])
             proxy.upsert @ Line(
                 key="traj",
                 points=[[x, z, -y] for x, y, z in mocap_traj.values],
@@ -110,12 +112,12 @@ def main():
                     ts = frame["ts"]
                     mpos = frame["mpos"]
                     mquat = frame["mquat"]
-                    print("mpos", mpos, end="\r", flush=True)
+                    if (args.verbose): print("mpos", mpos, end="\r", flush=True)
 
                     proxy.upsert @ MuJoCo(
                         key="default-sim",
                         src=args.src,
-                        assets=asset_paths,
+                        assets=args.asset_paths,
                         mpos=[*mpos],
                         mquat=[*mquat],
                     )
@@ -126,7 +128,8 @@ def main():
 if __name__ == "__main__":
     Params.demo_prefix = "/geyang/scratch/2025/01-08/043537"
     Params.wd = "/Users/ge/Library/CloudStorage/GoogleDrive-ge.ike.yang@gmail.com/My Drive/lucidxr-assets/development/robots"
-    Params.scene_name = "universal_robots_ur5e/scene"
+    Params.scene_name = "scene"
+    Params.scene_folder = "universal_robots_ur5e"
 
     args = Params()
 
