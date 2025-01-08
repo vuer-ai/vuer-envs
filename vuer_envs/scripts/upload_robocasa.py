@@ -10,6 +10,8 @@ from vuer_envs.scripts.util.working_directory_context_manager import WorkDir
 
 
 class Args(ParamsProto):
+    """parse mujoco scene, and upload to s3 as a standalone folder."""
+
     wd = "."  # "../../assets"
 
     scene_name = "layout0001-style0001"
@@ -32,7 +34,7 @@ class Args(ParamsProto):
         for k, v in self.__dict__.items():
             value = v.format(**self.__dict__)
             setattr(self, k, value)
-            
+
             print(f"{colored(k, 'cyan')}:\t{colored(value, 'yellow')}")
 
 

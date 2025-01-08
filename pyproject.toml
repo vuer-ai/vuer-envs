@@ -63,6 +63,7 @@ dev = [
 rooms-demo = "vuer_envs.scripts.rooms_demo:spawn_room"
 robots-demo = "vuer_envs.scripts.robots_demo:spawn_panda_scene"
 upload-robocasa = "vuer_envs.scripts.upload_robocasa:main"
+collect-demo = "vuer_envs.scripts.collect_demo:main"
 # quincy-debug = "vuer_envs.scripts.quincy_debug:main"
 
 [tool.setuptools.packages.find]
