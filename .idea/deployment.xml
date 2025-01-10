@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PublishConfigData" remoteFilesAllowedToDisappearOnAutoupload="false">
+    <serverData>
+      <paths name="geyang@luma01:2222 agent">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$" web="/" />
+            <mapping local="$USER_HOME$/vuer-ai/mujoco-examples" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="geyang@luma01:2222 agent (2)">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$" web="/" />
+            <mapping local="$USER_HOME$/vuer-ai/mujoco-examples" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="geyang@luma01:2222 agent (3)">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$" web="/" />
+            <mapping local="$USER_HOME$/vuer-ai/mujoco-examples" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="geyang@luma01:2222 agent (4)">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$" web="/" />
+            <mapping local="$USER_HOME$/vuer-ai/mujoco-examples" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="geyang@luma01:2222 agent (5)">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$" web="/" />
+            <mapping local="$USER_HOME$/vuer-ai/mujoco-examples" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="geyang@luma01:2222 agent (6)">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$" web="/" />
+            <mapping local="$USER_HOME$/vuer-ai/mujoco-examples" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="geyang@luma01:2222 agent (7)">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$" web="/" />
+            <mapping local="$USER_HOME$/vuer-ai/mujoco-examples" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="orin-01 escher@128.31.33.122:22">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$" web="/" />
+            <mapping local="$USER_HOME$/vuer-ai/mujoco-examples" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="orin-01 escher@128.32.34.122:22">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$" web="/" />
+            <mapping local="$USER_HOME$/vuer-ai/mujoco-examples" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="orin-02 escher@128.31.34.96:22">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$" web="/" />
+            <mapping local="$USER_HOME$/vuer-ai/mujoco-examples" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+    </serverData>
+  </component>
+</project>
