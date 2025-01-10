@@ -2,13 +2,12 @@ from asyncio import sleep
 from datetime import datetime
 from glob import glob
 from os.path import join
-from pathlib import Path
-from pprint import pprint
 from typing import List
 
 from params_proto import ParamsProto, Flag
 from termcolor import colored
 from vuer.events import ClientEvent
+from vuer.schemas import Box, span, Html, group
 
 from vuer_envs.scripts.util.working_directory_context_manager import WorkDir
 
@@ -30,7 +29,7 @@ class Params(ParamsProto, cli_parse=False):
     wd: str = "."
     vuer_port = 8012
 
-    scene_folder: str = ''
+    scene_folder: str = ""
     scene_name: str = "scene"
     scene_file: str = join("{scene_folder}", "{scene_name}.mjcf.xml")
 
@@ -76,13 +75,25 @@ def main():
 
     vuer = Vuer(static_root=args.wd, port=args.vuer_port)
 
+    box_state = "#23aaff"
+    box_other = "#ff2323"
+
+    @vuer.add_handler("ON_CLICK")
+    async def on_click(event: ClientEvent, proxy: VuerSession):
+        nonlocal box_state, box_other
+
+        key = event.value["key"]
+        print(f"Clicked: {key}")
+        box_state, box_other = box_other, box_state
+        print("State:", box_state)
+
     @vuer.add_handler("CAMERA_MOVE")
     async def on_mujoco_frame(event: ClientEvent, proxy: VuerSession):
-        camera = event.value['camera']
+        camera = event.value["camera"]
 
         logger.log(
             ts=event.ts,
-            camera_matrix=camera['matrix'],
+            camera_matrix=camera["matrix"],
             flush=True,
             silent=True,
         )
@@ -105,18 +116,32 @@ def main():
             # todo: add a ContribLoader to load the MuJoCo plugin.
             proxy.upsert @ MuJoCo(key="default-sim", src=args.src, assets=args.asset_paths)
             while True:
-                await sleep(10)
+                proxy.upsert @ group(
+                    Html(
+                        span("Click Me!!"),
+                        key="ctnr",
+                        style={"width": 700, "fontSize": 20},
+                    ),
+                    Box(
+                        args=[0.1, 0.1, 0.1],
+                        key="demo-button",
+                        material={"color": box_state},
+                    ),
+                    key="button-group-1",
+                    position=[0, 0.5, 0],
+                )
+
+                await sleep(0.016)
 
     logger.job_completed()
 
 
 if __name__ == "__main__":
-    Params.wd = "/Users/yajvanravan/Library/CloudStorage/GoogleDrive-yravan@mit.edu/.shortcut-targets-by-id/1UQnuWv4ICaE50w_nPTTNeZ1_YtRsswuX/lucidxr-assets/development/robots"
+    # Params.wd = "/Users/yajvanravan/Library/CloudStorage/GoogleDrive-yravan@mit.edu/.shortcut-targets-by-id/1UQnuWv4ICaE50w_nPTTNeZ1_YtRsswuX/lucidxr-assets/development/robots"
+    Params.wd = "/Users/ge/Library/CloudStorage/GoogleDrive-ge.ike.yang@gmail.com/My Drive/lucidxr-assets/development/robots"
     Params.scene_name = "scene"
     Params.scene_folder = "universal_robots_ur5e"
-
 
     args = Params()
 
     main()
-
