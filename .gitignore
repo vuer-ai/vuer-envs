@@ -1,5 +1,5 @@
 .code
-.idea
+outputs
 .DS_Store
 assets
 *.egg-info
