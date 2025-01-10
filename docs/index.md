@@ -65,8 +65,7 @@ For a comprehensive list of data types, please refer to the [API documentation o
    :caption: Examples
    :hidden:
    
-   Mesh <examples/01_trimesh.md>
-   Collecting Demos <examples/02_collect_demo.md>
+   Collecting Demos <examples/01_collecting_demo.md>
    
 .. toctree::
    :maxdepth: 3
