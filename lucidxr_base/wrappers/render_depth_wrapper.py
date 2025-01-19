@@ -52,6 +52,8 @@ class RenderDepthWrapper(MovableCameraWrapper):
         # normalize
         frame = (frame - self.near) / (self.far - self.near)
 
+        frame = (frame * 255).astype(np.uint8)
+
         if len(frame.shape) == 2:
             frame = frame[:, :, None]
 

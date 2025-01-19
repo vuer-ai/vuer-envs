@@ -1,3 +1,4 @@
+import os.path
 import random
 from collections import defaultdict, deque
 from importlib import import_module
@@ -6,6 +7,7 @@ import dm_control
 import numpy as np
 import torch
 from matplotlib import colormaps
+from ml_logger import ML_Logger
 from params_proto import Flag, ParamsProto, Proto
 from tqdm import trange
 
@@ -35,12 +37,13 @@ class Unroll(ParamsProto, prefix="unroll"):
 
     camera_kwargs: dict = Proto(
         {
-            "distance": 1.5,
+            "distance": 3,
             "lookat": [0.0, 0.0, 0.0],
-            "elevation": -45,
-            "azimuth": 90,
+            "elevation": 230,
+            "azimuth": 0,
         }
     )
+    custom_camera = False
 
 
 def main(_deps=None, **deps):
@@ -91,7 +94,8 @@ def main(_deps=None, **deps):
     random.seed(Unroll.seed)
 
     env = lucidxr_base.make(Unroll.env_name, device=Unroll.device, random=Unroll.seed)
-    env.setCameraPose(**Unroll.camera_kwargs)
+    if Unroll.custom_camera:
+        env.setCameraPose(**Unroll.camera_kwargs)
 
     print(env)
 
@@ -102,7 +106,8 @@ def main(_deps=None, **deps):
 
     actor = model_entrypoint()
     if Unroll.checkpoint is not None:
-        state_dict = logger.torch_load(Unroll.checkpoint, map_location=Unroll.device)
+        loader = ML_Logger(os.path.dirname(Unroll.checkpoint))
+        state_dict = loader.torch_load(os.path.basename(Unroll.checkpoint), map_location=Unroll.device)
         actor.load_state_dict(state_dict)
 
     actor.to(Unroll.device)

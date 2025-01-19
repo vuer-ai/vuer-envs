@@ -5,9 +5,9 @@ from params_proto import ParamsProto
 
 class OrganizeCfg(ParamsProto):
 
-    date = "2025/01/16/"
-    datasets_prefix = f"/lucidxr/lucidxr/datasets/lucidxr/poc/demos/ability/{date}"
-    output_prefix = f"/lucidxr/lucidxr/datasets/lucidxr/datasets/{date}"
+    date = "2025/01/17/"
+    datasets_prefix = f"/lucidxr/lucidxr/datasets/lucidxr/poc/demos/pnp/data/2025/01/17/03.34.00/"
+    output_prefix = f"/lucidxr/lucidxr/datasets/lucidxr/datasets/pnp/data/2025/01/17/dataset1/"
 
     def __post_init__(self, _deps=None):
         for k, v in self.__dict__.items():
@@ -26,7 +26,7 @@ def main(**kwargs):
         print(episode_dirs)
         for i, episode_dir in enumerate(episode_dirs):
             print(episode_dir)
-            logger.move(episode_dir, os.path.join(args.output_prefix, f"episode_{i:04d}"))
+            logger.duplicate(source=episode_dir, to=os.path.join(args.output_prefix, f"episode_{i:04d}"))
 
     print("Input Directory:")
     print(logger.get_dash_url(path=args.datasets_prefix))

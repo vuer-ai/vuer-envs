@@ -46,7 +46,7 @@ def main(_deps=None, **deps):
     except KeyError:
         pass
 
-    dataset_dirs = [f"{TrainArgs.datasets}/{prefix}" for prefix in TrainArgs.dataset_prefix]
+    dataset_dirs = [f"{prefix}" for prefix in TrainArgs.dataset_prefix]
 
     train_dataloader, val_dataloader, stats, _ = load_data_combined(
         dataset_dirs=dataset_dirs,
@@ -58,6 +58,8 @@ def main(_deps=None, **deps):
     logger.save_pkl(stats, "dataset_stats.pkl")
 
     best_ckpt_info = train_bc(train_dataloader, val_dataloader)
+    print("Checkpoint Directory:")
+    print(logger.get_dash_url())
     return best_ckpt_info
 
 

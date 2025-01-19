@@ -35,8 +35,6 @@ class ConvertCfg(ParamsProto):
             raise ValueError("Loader not set")
         episode_dirs = self.loader.glob( "*/")
         return len(episode_dirs)
-        
-
 
 
 def main(**kwargs):
@@ -86,25 +84,28 @@ def main(**kwargs):
 
         max_timesteps = len(mocap_traj["ts"])
         try:
-            with h5py.File(f"tmp{episode_idx}.hdf5", "w", rdcc_nbytes=1024 ** 2 * 2) as root:
+            with h5py.File(f"episode_{episode_idx}.hdf5", "w", rdcc_nbytes=1024 ** 2 * 2) as root:
                 root.attrs["sim"] = True
                 obs = root.create_group("observations")
                 image = obs.create_group("images")
                 for name, array in data_dict.items():
                     array = np.stack(array)
                     root.create_dataset(name, data=array)
-            sleep(10)
+            # sleep(60)
             args.loader.upload_file(f"tmp{episode_idx}.hdf5", dataset_path)
-            sleep(10)
-            args.loader.download_file(dataset_path, to=f"tmp{episode_idx}.hdf5")
-            sleep(10)
+            # sleep(60)
+            # #just check that it opens
+            args.loader.download_file(dataset_path,to=f"tmp{episode_idx}.hdf5")
+            # sleep(60)
+            with h5py.File(f"episode_{episode_idx}.hdf5", "r") as root:
+                pass
             # os.remove(f"tmp{episode_idx}.hdf5")
             return True
         except Exception as e:
             print(f"Error saving HDF5 for episode {episode_idx}: {e}")
             return None
 
-    results = thread_map(process_episode, range(0, num_episodes), max_workers=16, desc="Processing Episodes")
+    results = thread_map(process_episode, range(0, num_episodes), max_workers=5, desc="Processing Episodes")
 
     failed_episodes = [i for i, result in enumerate(results, start=start_ep) if not result]
     if failed_episodes:
@@ -119,3 +120,7 @@ def main(**kwargs):
 Take a directory (contains episode folders)
 Each episode contains a trajectory.pkl file & a folder of rendered images
 """
+
+
+
+

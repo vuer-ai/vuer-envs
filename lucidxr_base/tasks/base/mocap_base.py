@@ -37,6 +37,12 @@ class MocapPhysics(mujoco.Physics):
         mquat = self.data.mocap_quat
         return np.hstack([mpos, mquat])
 
+    def set_initial_position(self, mpos, mquat, qpos):
+        pass
+        self.data.mocap_pos[:] = mpos
+        self.data.mocap_quat[:] = mquat
+        self.data.qpos[:] = qpos
+
 
 class MocapTask(base.Task):
     """

@@ -1,9 +1,12 @@
+from time import sleep
+
 import IPython
 import glob
 import h5py
 import numpy as np
 import os
 import torch
+from ml_logger import ML_Logger
 from torch.utils.data import DataLoader
 
 e = IPython.embed
@@ -29,7 +32,7 @@ class CombinedDataset(torch.utils.data.Dataset):
 
 
 class EpisodicDataset(torch.utils.data.Dataset):
-    max_action_size = 600
+    max_action_size = 2000
 
     def __init__(self, episode_ids, dataset_dir, camera_names, norm_stats):
         super(EpisodicDataset).__init__()
@@ -38,6 +41,7 @@ class EpisodicDataset(torch.utils.data.Dataset):
         self.camera_names = camera_names
         self.norm_stats = norm_stats
         self.is_sim = None
+        self.loader = ML_Logger(prefix=dataset_dir)
         self.__getitem__(0)  # initialize self.is_sim
 
     def __len__(self):
@@ -47,9 +51,8 @@ class EpisodicDataset(torch.utils.data.Dataset):
         sample_full_episode = False  # hardcode
 
         episode_id = self.episode_ids[index]
-        # dataset_path = os.path.join(self.dataset_dir, f"episode_{episode_id}.hdf5")
-        dataset_path = f"tmp{episode_id}.hdf5"
-        with h5py.File(dataset_path, "r") as root:
+        with h5py.File(f"/data/scratch/geyang/dataset1/episode_{episode_id}.hdf5", "r") as root:
+        # with self.loader.load_h5(f"episode_{episode_id}.hdf5", "r") as root:
             is_sim = root.attrs["sim"]
             original_action_shape = root["/action"].shape
             episode_len = original_action_shape[0]
@@ -104,9 +107,12 @@ class EpisodicDataset(torch.utils.data.Dataset):
 def get_norm_stats(dataset_dir, episode_ids):
     all_qpos_data = []
     all_action_data = []
+    loader = ML_Logger(prefix=dataset_dir)
     for episode_idx in episode_ids:
-        dataset_path = os.path.join(dataset_dir, f"episode_{episode_idx}.hdf5")
-        with h5py.File(dataset_path, "r") as root:
+        dataset_path = f"episode_{episode_idx}.hdf5"
+        print(f"/home/ubuntu/runs-new{dataset_dir}episode_{episode_idx}.hdf5")
+        with h5py.File(f"/data/scratch/geyang/dataset1/episode_{episode_idx}.hdf5", "r") as root:
+        # with loader.load_h5(dataset_path, "r") as root:
             qpos = root["/observations/prop"][()]
             action = root["/action"][()]
         all_qpos_data.append(torch.from_numpy(qpos))
@@ -145,11 +151,14 @@ def get_norm_stats_combined(dataset_dirs):
     for dataset_dir in dataset_dirs:
 
         loader = ML_Logger(prefix=dataset_dir)
-        all_files = loader.glob("episode_*.hdf5")
+        print(os.getcwd())
+        print()
+        all_files = glob.glob("/data/scratch/geyang/dataset1/episode_*.hdf5")
         print(dataset_dir)
         print(f"Found {len(all_files)} episodes")
         for i,episode in enumerate(all_files):
-            with h5py.File(f"tmp{i}.hdf5", "r") as root:
+            # with loader.load_h5(f"episode_{i}.hdf5", "r") as root:
+            with h5py.File(f"/data/scratch/geyang/dataset1/episode_{i}.hdf5", "r") as root:
                 qpos = root["/observations/prop"][()]
                 action = root["/action"][()]
             all_qpos_data.append(torch.from_numpy(qpos))

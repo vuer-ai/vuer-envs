@@ -1,6 +1,10 @@
+import glob
+import os
 from typing import Literal
 
 from dm_control.rl import control
+from ml_logger import ML_Logger
+from skimage.data import camera
 
 from lucidxr_base import add_env
 from lucidxr_base.tasks.base.mocap_base import MocapTask, MocapPhysics
@@ -13,7 +17,9 @@ PHYSICS_TIMESTEP = 0.005  # in XML
 DECIMATION = 4
 CONTROL_TIMESTEP = PHYSICS_TIMESTEP * DECIMATION
 
-UR5_SCENE_FILE = '/Users/yajvanravan/mit/vuer-ai/vuer-envs/assets/third_party/adam_robots/universal_robots_ur5e/scene.mjcf.xml'
+UR5_SCENE_FILE = './assets/third_party/adam_robots/universal_robots_ur5e/scene.mjcf.xml'
+UR5_PNP_SCENE_FILE = './assets/development/scenes/ur5_pickandplace/scene.mjcf.xml'
+INIT_DIR = '/lucidxr/lucidxr/datasets/lucidxr/scene_init/universal_robots_ur5e/'
 
 
 def entrypoint(
@@ -38,20 +44,32 @@ def entrypoint(
         time_limit=time_limit,
         control_timestep=CONTROL_TIMESTEP,
     )
+
+    # set initial_position
+    loader = ML_Logger(prefix=INIT_DIR)
+    print("LOADER")
+    print(loader)
+    metrics = loader.read_metrics(path="metrics.pkl")
+    df = metrics["metrics.pkl"]
+    mpos = [*df["mpos"].dropna()][0]
+    mquat = [*df["mquat"].dropna()][0]
+    qpos = [*df["qpos"].dropna()][0]
+    physics.set_initial_position(mpos, mquat, qpos)
+
     env = LucidEnv(env, height=480, width=270, camera_id=-1)
     if mode == "depth":
         env = RenderDepthWrapper(
             env,
             width=640,
             height=360,
-            camera_id=-1
+            camera_id=-1 if "camera_id" not in kwargs else kwargs["camera_id"]
         )
     elif mode == "vision":
         env = RenderRGBWrapper(
             env,
             width=480,
             height=270,
-            camera_id=-1
+            camera_id=-1 if "camera_id" not in kwargs else kwargs["camera_id"]
         )
     return env
 
@@ -69,6 +87,24 @@ add_env(
     kwargs=dict(
         xml_path=UR5_SCENE_FILE,
         mode="depth",
+    ),
+)
+add_env(
+    env_id="ur5_basic-pnp-v1",
+    entrypoint=entrypoint,
+    kwargs=dict(
+        xml_path=UR5_PNP_SCENE_FILE,
+        mode="vision",
+        camera_id=1,
+    ),
+)
+add_env(
+    env_id="ur5_basic-pnp-depth-v1",
+    entrypoint=entrypoint,
+    kwargs=dict(
+        xml_path=UR5_PNP_SCENE_FILE,
+        mode="depth",
+        camera_id=1,
     ),
 )
 """
