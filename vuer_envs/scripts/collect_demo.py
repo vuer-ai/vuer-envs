@@ -9,7 +9,7 @@ from typing import List
 from params_proto import ParamsProto, Flag
 from termcolor import colored
 from vuer.events import ClientEvent
-from vuer.schemas import Box, span, Html, group, HandActuator, Line
+from vuer.schemas import Box, span, Html, group, HandActuator
 
 from vuer_envs.scripts.util.working_directory_context_manager import WorkDir
 
@@ -118,13 +118,18 @@ def main():
     mpos_history = deque(maxlen=200)
     color_ticker = 0
 
+    @vuer.add_handler("ON_MUJOCO_LOAD")
+    async def on_mujoco_frame(event: ClientEvent, proxy: VuerSession):
+        frame = event.value["keyFrame"]
+        print("ON_MUJOCO_LOAD event")
+
     @vuer.add_handler("ON_MUJOCO_FRAME")
     async def on_mujoco_frame(event: ClientEvent, proxy: VuerSession):
         nonlocal mpos_history
 
         frame = event.value["keyFrame"]
 
-        x, y, z = frame["mpos"]
+        x, y, z = frame["mocap_pos"]
         mpos_history.append([x, z, -y])
 
         logger.log(
@@ -143,30 +148,30 @@ def main():
             await sleep(10)
             # todo: add a ContribLoader to load the MuJoCo plugin.
             proxy.upsert @ MuJoCo(
-                HandActuator(key="pinch-on-squeeze"),
+                HandActuator(key="pinch-on-squeeze", offset=0.10, scale=-2500, low=1, high=255),
                 key="default-sim",
                 src=args.src,
                 assets=args.asset_paths,
+                pause=True,
                 # turn of light to make it run faster.
-                # useLights=False,
+                useLights=False,
                 xpos=[],
             )
 
             while True:
-                if mpos_history:
-                    print("showing the line")
-                    proxy.upsert @ Line(
-                        points=[*mpos_history],
-                        # note: change to 0.001 to view in VR, 1.0 to view on desktop.
-                        linewidth=1.0,
-                        vertexColors=[pi2_hsv((i + color_ticker) / 100) for i in range(len(mpos_history))],
-                        # color="#ff0000",
-                    )
-                    await sleep(0.100)
-                    last = mpos_history[-1]
-                    mpos_history.clear()
-                    mpos_history.append(last)
-                    color_ticker += mpos_history.__len__()
+                # if mpos_history:
+                #     proxy.upsert @ Line(
+                #         points=[*mpos_history],
+                #         # note: change to 0.001 to view in VR, 1.0 to view on desktop.
+                #         linewidth=0.001,
+                #         vertexColors=[pi2_hsv((i + color_ticker) / 100) for i in range(len(mpos_history))],
+                #         # color="#ff0000",
+                #     )
+                #     await sleep(0.100)
+                #     last = mpos_history[-1]
+                #     mpos_history.clear()
+                #     mpos_history.append(last)
+                #     color_ticker += mpos_history.__len__()
 
                 proxy.upsert @ group(
                     Html(
@@ -190,10 +195,10 @@ def main():
 
 if __name__ == "__main__":
     # Params.wd = "/Users/yajvanravan/Library/CloudStorage/GoogleDrive-yravan@mit.edu/.shortcut-targets-by-id/1UQnuWv4ICaE50w_nPTTNeZ1_YtRsswuX/lucidxr-assets/development/robots"
-    # Params.wd = "/Users/ge/Library/CloudStorage/GoogleDrive-ge.ike.yang@gmail.com/My Drive/lucidxr-assets/development/robots"
-    Params.wd = "/Users/ge/Downloads"
+    Params.wd = "/Users/ge/Library/CloudStorage/GoogleDrive-ge.ike.yang@gmail.com/My Drive/lucidxr-assets/development/scenes"
+    # Params.wd = "/Users/ge/Downloads"
     Params.scene_name = "scene"
-    Params.scene_folder = "universal_robots_ur5e"
+    Params.scene_folder = "ur5e_ge"
     Params.asset_prefix = "https://ge-2.ngrok.app/static"
 
     args = Params()

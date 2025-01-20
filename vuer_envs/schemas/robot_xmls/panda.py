@@ -1,8 +1,8 @@
-from .robot_schema import Link, XmlTemplate
+from .robot_schema import Body, XmlTemplate
 from vuer_envs.schemas import chain
 
 
-class PandaLink7(Link):
+class PandaLink7(Body):
     """Link 7 of the Panda robot."""
 
     asset = """
@@ -53,7 +53,7 @@ class PandaLink7(Link):
                          **rest)
 
 
-class PandaLink6(Link):
+class PandaLink6(Body):
     """Link 6 of the Panda robot."""
 
     asset = """
@@ -123,7 +123,7 @@ class PandaLink6(Link):
         super().__init__(*_children, name=name, children=children, pos="0 0 0", quat="0.707107 0.707107 0 0", **rest)
 
 
-class PandaLink5(Link):
+class PandaLink5(Body):
     """Link 5 of the Panda robot."""
 
     asset = """
@@ -152,7 +152,7 @@ class PandaLink5(Link):
                          **rest)
 
 
-class PandaLink4(Link):
+class PandaLink4(Body):
     """Link 4 of the Panda robot."""
 
     asset = """
@@ -184,7 +184,7 @@ class PandaLink4(Link):
                          **rest)
 
 
-class PandaLink3(Link):
+class PandaLink3(Body):
     """Link 3 of the Panda robot."""
 
     asset = """
@@ -216,7 +216,7 @@ class PandaLink3(Link):
                          **rest)
 
 
-class PandaLink2(Link):
+class PandaLink2(Body):
     """Link 2 of the Panda robot."""
 
     asset = """
@@ -238,7 +238,7 @@ class PandaLink2(Link):
         super().__init__(*_children, name=name, children=children, pos="0 0 0", quat="0.707107 -0.707107 0 0", **rest)
 
 
-class PandaLink1(Link):
+class PandaLink1(Body):
     """Link 1 of the Panda robot."""
 
     asset = """
@@ -260,7 +260,7 @@ class PandaLink1(Link):
         super().__init__(*_children, name=name, children=children, pos="0 0 0.333", **rest)
 
 
-class PandaLink0(Link):
+class PandaLink0(Body):
     """Link 0 of the Panda robot."""
 
     asset = """

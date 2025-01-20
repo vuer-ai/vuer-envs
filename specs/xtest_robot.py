@@ -1,8 +1,8 @@
-from vuer_envs.schemas import Link
+from vuer_envs.schemas import Body
 
 
 def test_link():
-    link = Link(name="link, pos='0 0 0', climit='0 0', damping='0'")
+    link = Body(name="link, pos='0 0 0', climit='0 0', damping='0'")
     link.asset = '<mesh name="panda_link0_vis_0" file="obj_meshes/link0_vis/link0_vis_0.obj"/>'
     link.content = """
         <body name="panda_left_link2" pos="0 0 0" quat="0.707107 -0.707107 0 0">

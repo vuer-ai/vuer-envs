@@ -1,7 +1,7 @@
 from vuer_envs.schemas.base import Xml, XmlTemplate
 
 
-class Link(XmlTemplate):
+class Body(XmlTemplate):
     """
     Robot link element.
 
