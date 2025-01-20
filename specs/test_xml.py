@@ -1,4 +1,4 @@
-from vuer_envs.schemas import Xml, Link, Mjcf
+from vuer_envs.schemas import Xml, Body, Mjcf
 
 
 def test_root_element():
@@ -21,7 +21,7 @@ def test_attribute_string():
 
 
 def test_xml_template():
-    link = Link(
+    link = Body(
         name="LR_hip_roll",
         pos="0 0 0",
         climit="0 0",
@@ -30,6 +30,6 @@ def test_xml_template():
     xml = Mjcf(name="base", children=[link])
 
     assert (
-        xml._minimized
-        == '<mujoco name="base"><worldbody><link name="LR_hip_roll" pos="0 0 0" climit="0 0" damping="0"/></worldbody></mujoco>'
+        xml._minimized == '<mujoco name="base"><worldbody><body name="LR_hip_roll" '
+        'pos="0 0 0" climit="0 0" damping="0"/></worldbody></mujoco>'
     )
