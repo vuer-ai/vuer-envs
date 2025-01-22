@@ -1,5 +1,6 @@
 from vuer_envs.schemas.room_xmls.room_1 import Room
-from vuer_envs.utility import minimize, File
+from vuer_envs.utils.file import File
+from vuer_envs.utils.minimizer import minimize
 
 
 def test_room_1():

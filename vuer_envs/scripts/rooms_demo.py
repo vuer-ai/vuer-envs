@@ -1,6 +1,6 @@
 from vuer_envs.schemas import Xml
 from vuer_envs.schemas.room_xmls.room_1 import Room
-from vuer_envs.schemas.mujoco_schema import MjcfNode
+from vuer_envs.schemas.schema import MjcfNode
 
 
 def spawn_room():

@@ -8,6 +8,9 @@
       <excludeFolder url="file://$MODULE_DIR$/assets/rooms" />
       <excludeFolder url="file://$MODULE_DIR$/docs/_build" />
       <excludeFolder url="file://$MODULE_DIR$/venv" />
+      <excludeFolder url="file://$MODULE_DIR$/build" />
+      <excludeFolder url="file://$MODULE_DIR$/dist" />
+      <excludeFolder url="file://$MODULE_DIR$/outputs" />
     </content>
     <content url="file://$USER_HOME$/vuer-ai/mujoco-examples" />
     <orderEntry type="jdk" jdkName="Python 3.8 (torch)" jdkType="Python SDK" />

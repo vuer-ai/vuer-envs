@@ -1,9 +1,9 @@
-from vuer_envs import MjNode, minimize
+from vuer_envs import Body, minimize
 from vuer_envs.schemas import Raw
 
 
 def test_mjcf_node():
-    mjcf = MjNode(
+    mjcf = Body(
         tag="body",
         name="test_name",
         preamble="""

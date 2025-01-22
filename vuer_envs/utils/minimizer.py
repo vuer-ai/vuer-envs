@@ -1,29 +1,6 @@
 from lxml import etree
 
 
-class MetaFile(type):
-    def __matmul__(cls, filepath: str):
-        """
-        Opens the given file in read mode and returns its content.
-
-        Args:
-            filepath (str): Path to the file to be opened.
-
-        Returns:
-            str: Contents of the file as a string.
-        """
-        try:
-            with open(filepath, "r") as f:
-                return f.read()
-        except Exception as e:
-            print(f"Error opening file: {e}")
-            return ""
-
-
-class File(metaclass=MetaFile):
-    pass
-
-
 # Function to walk through leaves
 def walk_leaves(element, fn):
     fn(element)
@@ -65,29 +42,19 @@ class Minimize:
             print(f"Error minimizing XML with lxml: {e}")
             return ""
 
-    @staticmethod
-    def _strip_whitespace_recursively(element):
-        """
-        Recursively strips whitespace from XML elements' text and tail,
-        including their nested children.
-
-        Args:
-            element: The current XML element to process.
-        """
-        if element.text:
-            element.text = element.text.strip()
-        if element.tail:
-            element.tail = element.tail.strip()
-
-        # Process all child elements
-        for child in element:
-            Minimize._strip_whitespace_recursively(child)
-
     def __ror__(self, s: str) -> str:
         return self(s)
 
 
+class MinimizeMany(Minimize):
+    def __call__(self, xml_string: str):
+        xml_string = f"<minimize_many>{xml_string}</minimize_many>"
+        return super().__call__(xml_string)[15:-16]
+
+
 minimize = Minimize()
+
+minimize_many = MinimizeMany()
 
 if __name__ == "__main__":
     # Example usage

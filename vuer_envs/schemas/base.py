@@ -1,7 +1,7 @@
 import inspect
-from typing import List, Sequence
+from typing import Tuple
 
-from vuer_envs.utility import minimize
+from vuer_envs.utils.minimizer import minimize
 
 
 class XmlString(type):
@@ -11,24 +11,37 @@ class XmlString(type):
     def __ror__(cls, other):
         return cls(other)
 
+
 class Raw(metaclass=XmlString):
     def __init__(self, string):
         self._xml = string
 
+
 class Xml(metaclass=XmlString):
     """This is the base class for all XML elements."""
 
-    tag = "mujoco"
+    tag = "xml"
     _attributes: dict
-    _children: List["Xml"]
+    _children: Tuple["Xml"] = None
 
-    def __init__(self, *_children, tag=None, children=tuple(), **attributes):
+    def __init__(self, *_children, tag=None, children: Tuple = None, **attributes):
+        if _children and children:
+            raise RuntimeError("You can't use both children and _children at the same time")
+
         self.tag = tag or self.tag
-        self._attributes = {k: v for k, v in attributes.items() if v is not None}
-        if isinstance(children, Sequence):
-            self._children = [*_children, *children]
-        else:
-            self._children = [*_children, children]
+
+        # preserve the class attributes from child classes.
+        if hasattr(self, "_attributes"):
+            attributes = {**self._attributes, **attributes}
+
+        self._attributes = attributes
+
+        if isinstance(children, tuple):
+            self._children = children
+        elif children:
+            self._children = (children,)
+        elif _children:
+            self._children = _children
 
     @property
     def attributes(self) -> str:
@@ -39,7 +52,7 @@ class Xml(metaclass=XmlString):
     def children(self) -> str:
         """Return the string representation of the children."""
         child_strings = []
-        for child in self._children:
+        for child in self._children or []:
             if hasattr(child, "_xml"):
                 child_strings.append(child._xml)
             elif isinstance(child, str):
@@ -97,18 +110,73 @@ class XmlTemplate(Xml):
 
     """
 
-    template = ""
+    preamble_: str = ""
+    postamble_: str = ""
+    template: str = ""
+    children_: str = ""
 
-    @property
-    def _xml(self) -> str:
+    def __init__(self, *args, preamble: str = None, **kwargs):
+        super().__init__(*args, **kwargs)
+        if preamble:
+            self.preamble_ = preamble
+
+    def _format_dict(self, omit: set = {}) -> dict:
         all_properties = {}
 
+        for name, value in vars(self.__class__).items():
+            all_properties[name] = value
+
         for name, value in inspect.getmembers(type(self), lambda x: isinstance(x, property)):
-            if not name.startswith("_"):
+            if name not in omit and not name.startswith("_"):
                 all_properties[name] = getattr(self, name)
 
         for key, value in self.__dict__.items():
-            if not key.startswith("_"):
+            if key not in omit and not key.startswith("_"):
                 all_properties[key] = value
 
-        return self.template.format(**all_properties)
+        all_properties.update(self._attributes)
+
+        return all_properties
+
+    def join(self, *s: str):
+        filtered = [_ for _ in s if _.strip()]
+        return "\n".join(filtered)
+
+    @property
+    def preamble(self):
+        """Return the preamble of the link."""
+        values = self._format_dict({"preamble", "children", "postamble", "template"})
+        string = self.preamble_.format(**values)
+
+        child_preambles = [p.preamble for p in self._children or [] if hasattr(p, "preamble")]
+
+        if child_preambles:
+            preamble = self.join(string, *child_preambles)
+            return preamble
+        else:
+            return string
+
+    @property
+    def children(self) -> str:
+        # print("children")
+        values = self._format_dict({"children", "preamble", "postamble", "template"})
+        string = self.children_.format(**values)
+        return string + super().children
+
+    @property
+    def postamble(self):
+        """Return the preamble of the link."""
+        values = self._format_dict({"preamble", "children", "postamble", "template"})
+        string = self.postamble_.format(**values)
+
+        child_postambles = [p.postamble for p in self._children or [] if hasattr(p, "postamble")]
+        if child_postambles:
+            postamble = self.join(string, *child_postambles)
+            return postamble
+        else:
+            return string
+
+    @property
+    def _xml(self) -> str:
+        values = self._format_dict()
+        return self.template.format(**values)

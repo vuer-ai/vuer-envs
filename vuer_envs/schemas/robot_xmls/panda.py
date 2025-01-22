@@ -1,326 +1,341 @@
-from .robot_schema import Body, XmlTemplate
-from vuer_envs.schemas import chain
+from vuer_envs.schemas.functional import chain
+from vuer_envs.schemas.schema import Body
 
 
 class PandaLink7(Body):
     """Link 7 of the Panda robot."""
 
-    asset = """
-        <asset>
-            <mesh name="panda_link7" file="panda/meshes/link7.stl"/>
-            <material name="panda_Part__Mirroring001_004_002" specular="0.5" shininess="0.45" rgba="0.250980 0.250980 0.250980 1.000000"/>
-            <material name="panda_Part__Mirroring002_004_001" specular="0.5" shininess="0.45" rgba="0.250980 0.250980 0.250980 1.000000"/>
-            <material name="panda_Part__Mirroring003_004_001" specular="0.5" shininess="0.45" rgba="0.250980 0.250980 0.250980 1.000000"/>
-            <material name="panda_Part__Mirroring004_004_002" specular="0.5" shininess="0.45" rgba="1.000000 1.000000 1.000000 1.000000"/>
-            <material name="panda_Part__Mirroring005_004_001" specular="0.5" shininess="0.45" rgba="0.250980 0.250980 0.250980 1.000000"/>
-            <material name="panda_Part__Mirroring006_004_001" specular="0.5" shininess="0.45" rgba="0.250980 0.250980 0.250980 1.000000"/>
-            <material name="panda_Part__Mirroring007_004_001" specular="0.5" shininess="0.45" rgba="0.250980 0.250980 0.250980 1.000000"/>
-            <material name="panda_Part__Mirroring_004_001" specular="0.5" shininess="0.45" rgba="0.898039 0.917647 0.929412 1.000000"/>
-            <mesh name="panda_link7_vis_0" file="panda/obj_meshes/link7_vis/link7_vis_0.obj"/>
-            <mesh name="panda_link7_vis_1" file="panda/obj_meshes/link7_vis/link7_vis_1.obj"/>
-            <mesh name="panda_link7_vis_2" file="panda/obj_meshes/link7_vis/link7_vis_2.obj"/>
-            <mesh name="panda_link7_vis_3" file="panda/obj_meshes/link7_vis/link7_vis_3.obj"/>
-            <mesh name="panda_link7_vis_4" file="panda/obj_meshes/link7_vis/link7_vis_4.obj"/>
-            <mesh name="panda_link7_vis_5" file="panda/obj_meshes/link7_vis/link7_vis_5.obj"/>
-            <mesh name="panda_link7_vis_6" file="panda/obj_meshes/link7_vis/link7_vis_6.obj"/>
-            <mesh name="panda_link7_vis_7" file="panda/obj_meshes/link7_vis/link7_vis_7.obj"/>
-        </asset>
-        """
+    _attributes = {"name": "link7"}
 
-    content = """
-        <inertial pos="0 0 0.08" mass="0.5" diaginertia="0.05 0.05 0.05"/>
-        <joint name="{name}_joint7" pos="0 0 0" axis="0 0 1" limited="true" range="-2.8973 2.8973" damping="0.01"/>
-        <geom mesh="panda_link7_vis_0" material="panda_Part__Mirroring004_004_002" type="mesh" contype="0" conaffinity="0" group="1"/>
-        <geom mesh="panda_link7_vis_1" material="panda_Part__Mirroring001_004_002" type="mesh" contype="0" conaffinity="0" group="1"/>
-        <geom mesh="panda_link7_vis_2" material="panda_Part__Mirroring007_004_001" type="mesh" contype="0" conaffinity="0" group="1"/>
-        <geom mesh="panda_link7_vis_3" material="panda_Part__Mirroring006_004_001" type="mesh" contype="0" conaffinity="0" group="1"/>
-        <geom mesh="panda_link7_vis_4" material="panda_Part__Mirroring005_004_001" type="mesh" contype="0" conaffinity="0" group="1"/>
-        <geom mesh="panda_link7_vis_5" material="panda_Part__Mirroring003_004_001" type="mesh" contype="0" conaffinity="0" group="1"/>
-        <geom mesh="panda_link7_vis_6" material="panda_Part__Mirroring002_004_001" type="mesh" contype="0" conaffinity="0" group="1"/>
-        <geom mesh="panda_link7_vis_7" material="panda_Part__Mirroring_004_001" type="mesh" contype="0" conaffinity="0" group="1"/>
-        <!-- rotate 135deg to align physically to the tool-->
-        <geom type="mesh" group="0" mesh="panda_link7" name="{name}_link7_collision"/>
-        <body name="{name}_right_hand" pos="0 0 0.1065" quat="0.924 0 0 -0.383">
-            <inertial pos="0 0 0" mass="0.5" diaginertia="0.05 0.05 0.05"/>
-            <!-- This camera points out from the eef. -->
-            <camera mode="fixed" name="{name}_eye_in_hand" pos="0.05 0 0" quat="0 0.707108 0.707108 0" fovy="75"/>
-            <!-- to add gripper -->
-        </body>
-        """
+    preamble_ = """
+    <asset>
+    <mesh name="link7_c" file="link7.stl"/>
+    <mesh file="link7_0.obj"/>
+    <mesh file="link7_1.obj"/>
+    <mesh file="link7_2.obj"/>
+    <mesh file="link7_3.obj"/>
+    <mesh file="link7_4.obj"/>
+    <mesh file="link7_5.obj"/>
+    <mesh file="link7_6.obj"/>
+    <mesh file="link7_7.obj"/>
+    </asset>
+    """
 
-    def __init__(self, *_children, name, children=[], **rest):
-        super().__init__(*_children, name=name, children=children, pos="0.088 0 0", quat="0.707107 0.707107 0 0",
-                         **rest)
+    children_ = """
+    <inertial mass="7.35522e-01" pos="1.0517e-2 -4.252e-3 6.1597e-2"
+      fullinertia="1.2516e-2 1.0027e-2 4.815e-3 -4.28e-4 -1.196e-3 -7.41e-4"/>
+    <joint name="{name}-joint"/>
+    <geom mesh="link7_0" material="white" class="visual"/>
+    <geom mesh="link7_1" material="black" class="visual"/>
+    <geom mesh="link7_2" material="black" class="visual"/>
+    <geom mesh="link7_3" material="black" class="visual"/>
+    <geom mesh="link7_4" material="black" class="visual"/>
+    <geom mesh="link7_5" material="black" class="visual"/>
+    <geom mesh="link7_6" material="black" class="visual"/>
+    <geom mesh="link7_7" material="white" class="visual"/>
+    <geom mesh="link7_c" class="collision"/>
+    """
+
+    postamble_ = """
+    <actuator>
+    <general class="panda" name="{name}-actuator" joint="{name}-joint" gainprm="2000" biasprm="0 -2000 -200" forcerange="-12 12"/>
+    </actuator>
+    """
+
+    def __init__(self, *_children, **rest):
+        super().__init__(*_children, **rest, pos="0.088 0 0", quat="0.707107 0.707107 0 0")
 
 
 class PandaLink6(Body):
     """Link 6 of the Panda robot."""
 
-    asset = """
-        <asset>
-            <mesh name="panda_link6" file="panda/meshes/link6.stl"/>
-            <material name="panda_Face064_002_001_002_001" specular="0.5" shininess="0.45" rgba="1.000000 0.000000 0.000000 1.000000"/>
-            <material name="panda_Face065_002_001_002_001" specular="0.5" shininess="0.45" rgba="0.000000 1.000000 0.000000 1.000000"/>
-            <material name="panda_Face374_002_001_002_001" specular="0.5" shininess="0.45" rgba="1.000000 1.000000 1.000000 1.000000"/>
-            <material name="panda_Face539_002_001_002_001" specular="0.5" shininess="0.45" rgba="0.250980 0.250980 0.250980 1.000000"/>
-            <material name="panda_Part__Feature001_009_001_002_001" specular="0.5" shininess="0.45" rgba="0.250980 0.250980 0.250980 1.000000"/>
-            <material name="panda_Part__Feature002_006_001_002_001" specular="0.5" shininess="0.45" rgba="0.250980 0.250980 0.250980 1.000000"/>
-            <material name="panda_Shell002_002_001_002_001" specular="0.5" shininess="0.45" rgba="1.000000 1.000000 1.000000 1.000000"/>
-            <material name="panda_Shell003_002_001_002_001" specular="0.5" shininess="0.45" rgba="1.000000 1.000000 1.000000 1.000000"/>
-            <material name="panda_Shell004_001_001_002_001" specular="0.5" shininess="0.45" rgba="1.000000 1.000000 1.000000 1.000000"/>
-            <material name="panda_Shell005_001_001_002_001" specular="0.5" shininess="0.45" rgba="1.000000 1.000000 1.000000 1.000000"/>
-            <material name="panda_Shell006_003_002_001" specular="0.5" shininess="0.45" rgba="0.901961 0.921569 0.929412 1.000000"/>
-            <material name="panda_Shell007_002_002_001" specular="0.5" shininess="0.45" rgba="0.250000 0.250000 0.250000 1.000000"/>
-            <material name="panda_Shell011_002_002_001" specular="0.5" shininess="0.45" rgba="1.000000 1.000000 1.000000 1.000000"/>
-            <material name="panda_Shell012_002_002_001" specular="0.5" shininess="0.45" rgba="1.000000 1.000000 1.000000 1.000000"/>
-            <material name="panda_Shell_003_001_002_001" specular="0.5" shininess="0.45" rgba="0.250980 0.250980 0.250980 1.000000"/>
-            <material name="panda_Union001_001_001_002_001" specular="0.5" shininess="0.45" rgba="0.039216 0.541176 0.780392 1.000000"/>
-            <material name="panda_Union_001_001_002_001" specular="0.5" shininess="0.45" rgba="0.039216 0.541176 0.780392 1.000000"/>
-            <mesh name="panda_link6_vis_0" file="panda/obj_meshes/link6_vis/link6_vis_0.obj"/>
-            <mesh name="panda_link6_vis_1" file="panda/obj_meshes/link6_vis/link6_vis_1.obj"/>
-            <mesh name="panda_link6_vis_2" file="panda/obj_meshes/link6_vis/link6_vis_2.obj"/>
-            <mesh name="panda_link6_vis_3" file="panda/obj_meshes/link6_vis/link6_vis_3.obj"/>
-            <mesh name="panda_link6_vis_4" file="panda/obj_meshes/link6_vis/link6_vis_4.obj"/>
-            <mesh name="panda_link6_vis_5" file="panda/obj_meshes/link6_vis/link6_vis_5.obj"/>
-            <mesh name="panda_link6_vis_6" file="panda/obj_meshes/link6_vis/link6_vis_6.obj"/>
-            <mesh name="panda_link6_vis_7" file="panda/obj_meshes/link6_vis/link6_vis_7.obj"/>
-            <mesh name="panda_link6_vis_8" file="panda/obj_meshes/link6_vis/link6_vis_8.obj"/>
-            <mesh name="panda_link6_vis_9" file="panda/obj_meshes/link6_vis/link6_vis_9.obj"/>
-            <mesh name="panda_link6_vis_10" file="panda/obj_meshes/link6_vis/link6_vis_10.obj"/>
-            <mesh name="panda_link6_vis_11" file="panda/obj_meshes/link6_vis/link6_vis_11.obj"/>
-            <mesh name="panda_link6_vis_12" file="panda/obj_meshes/link6_vis/link6_vis_12.obj"/>
-            <mesh name="panda_link6_vis_13" file="panda/obj_meshes/link6_vis/link6_vis_13.obj"/>
-            <mesh name="panda_link6_vis_14" file="panda/obj_meshes/link6_vis/link6_vis_14.obj"/>
-            <mesh name="panda_link6_vis_15" file="panda/obj_meshes/link6_vis/link6_vis_15.obj"/>
-            <mesh name="panda_link6_vis_16" file="panda/obj_meshes/link6_vis/link6_vis_16.obj"/>
-        </asset>
-        """
+    _attributes = {
+        "name": "link6",
+        "pos": "0 0 0",
+        "quat": "0.707107 0.707107 0 0",
+    }
 
-    content = """
-        <inertial pos="0.06 0 0" mass="1.5" diaginertia="0.1 0.1 0.1"/>
-        <joint name="{name}_joint6" pos="0 0 0" axis="0 0 1" limited="true" range="-0.0175 3.7525" damping="0.01"/>
-        <geom mesh="panda_link6_vis_0" material="panda_Shell006_003_002_001" type="mesh" contype="0" conaffinity="0" group="1"/>
-        <geom mesh="panda_link6_vis_1" material="panda_Shell011_002_002_001" type="mesh" contype="0" conaffinity="0" group="1"/>
-        <geom mesh="panda_link6_vis_2" material="panda_Shell007_002_002_001" type="mesh" contype="0" conaffinity="0" group="1"/>
-        <geom mesh="panda_link6_vis_3" material="panda_Shell005_001_001_002_001" type="mesh" contype="0" conaffinity="0" group="1"/>
-        <geom mesh="panda_link6_vis_4" material="panda_Shell004_001_001_002_001" type="mesh" contype="0" conaffinity="0" group="1"/>
-        <geom mesh="panda_link6_vis_5" material="panda_Shell003_002_001_002_001" type="mesh" contype="0" conaffinity="0" group="1"/>
-        <geom mesh="panda_link6_vis_6" material="panda_Shell002_002_001_002_001" type="mesh" contype="0" conaffinity="0" group="1"/>
-        <geom mesh="panda_link6_vis_7" material="panda_Union001_001_001_002_001" type="mesh" contype="0" conaffinity="0" group="1"/>
-        <geom mesh="panda_link6_vis_8" material="panda_Union_001_001_002_001" type="mesh" contype="0" conaffinity="0" group="1"/>
-        <geom mesh="panda_link6_vis_9" material="panda_Face539_002_001_002_001" type="mesh" contype="0" conaffinity="0" group="1"/>
-        <geom mesh="panda_link6_vis_10" material="panda_Shell_003_001_002_001" type="mesh" contype="0" conaffinity="0" group="1"/>
-        <geom mesh="panda_link6_vis_11" material="panda_Face374_002_001_002_001" type="mesh" contype="0" conaffinity="0" group="1"/>
-        <geom mesh="panda_link6_vis_12" material="panda_Face065_002_001_002_001" type="mesh" contype="0" conaffinity="0" group="1"/>
-        <geom mesh="panda_link6_vis_13" material="panda_Face064_002_001_002_001" type="mesh" contype="0" conaffinity="0" group="1"/>
-        <geom mesh="panda_link6_vis_14" material="panda_Part__Feature002_006_001_002_001" type="mesh" contype="0" conaffinity="0" group="1"/>
-        <geom mesh="panda_link6_vis_15" material="panda_Part__Feature001_009_001_002_001" type="mesh" contype="0" conaffinity="0" group="1"/>
-        <geom mesh="panda_link6_vis_16" material="panda_Shell012_002_002_001" type="mesh" contype="0" conaffinity="0" group="1"/>
-        <geom type="mesh" group="0" mesh="panda_link6" name="{name}_link6_collision"/>
-        """
+    preamble_ = """
+    <asset>
+    <mesh name="link6_c" file="link6.stl"/>
+    <mesh file="link6_0.obj"/>
+    <mesh file="link6_1.obj"/>
+    <mesh file="link6_2.obj"/>
+    <mesh file="link6_3.obj"/>
+    <mesh file="link6_4.obj"/>
+    <mesh file="link6_5.obj"/>
+    <mesh file="link6_6.obj"/>
+    <mesh file="link6_7.obj"/>
+    <mesh file="link6_8.obj"/>
+    <mesh file="link6_9.obj"/>
+    <mesh file="link6_10.obj"/>
+    <mesh file="link6_11.obj"/>
+    <mesh file="link6_12.obj"/>
+    <mesh file="link6_13.obj"/>
+    <mesh file="link6_14.obj"/>
+    <mesh file="link6_15.obj"/>
+    <mesh file="link6_16.obj"/>
+    </asset>
+    """
 
-    def __init__(self, *_children, name, children=[], **rest):
-        super().__init__(*_children, name=name, children=children, pos="0 0 0", quat="0.707107 0.707107 0 0", **rest)
+    children_ = """
+    <inertial mass="1.666555" pos="6.0149e-2 -1.4117e-2 -1.0517e-2" fullinertia="1.964e-3 4.354e-3 5.433e-3 1.09e-4 -1.158e-3 3.41e-4"/>
+    <joint name="{name}-joint" range="-0.0175 3.7525"/>
+    <geom mesh="link6_0" material="off_white" class="visual"/>
+    <geom mesh="link6_1" material="white" class="visual"/>
+    <geom mesh="link6_2" material="black" class="visual"/>
+    <geom mesh="link6_3" material="white" class="visual"/>
+    <geom mesh="link6_4" material="white" class="visual"/>
+    <geom mesh="link6_5" material="white" class="visual"/>
+    <geom mesh="link6_6" material="white" class="visual"/>
+    <geom mesh="link6_7" material="light_blue" class="visual"/>
+    <geom mesh="link6_8" material="light_blue" class="visual"/>
+    <geom mesh="link6_9" material="black" class="visual"/>
+    <geom mesh="link6_10" material="black" class="visual"/>
+    <geom mesh="link6_11" material="white" class="visual"/>
+    <geom mesh="link6_12" material="green" class="visual"/>
+    <geom mesh="link6_13" material="white" class="visual"/>
+    <geom mesh="link6_14" material="black" class="visual"/>
+    <geom mesh="link6_15" material="black" class="visual"/>
+    <geom mesh="link6_16" material="white" class="visual"/>
+    <geom mesh="link6_c" class="collision"/>
+    """
+
+    postamble_ = """
+    <actuator>
+    <general class="panda" name="{name}-actuator" joint="{name}-joint" gainprm="2000" biasprm="0 -2000 -200" forcerange="-12 12"
+      ctrlrange="-0.0175 3.7525"/>
+    </actuator>
+    """
 
 
 class PandaLink5(Body):
     """Link 5 of the Panda robot."""
 
-    asset = """
-        <asset>
-            <mesh name="panda_link5" file="panda/meshes/link5.stl"/>
-            <material name="panda_Part__Feature_002_004_003" specular="0.5" shininess="0.45" rgba="1.000000 1.000000 1.000000 1.000000"/>
-            <material name="panda_Shell001_001_001_003" specular="0.5" shininess="0.45" rgba="0.250000 0.250000 0.250000 1.000000"/>
-            <material name="panda_Shell_001_001_003" specular="0.5" shininess="0.45" rgba="1.000000 1.000000 1.000000 1.000000"/>
-            <mesh name="panda_link5_vis_0" file="panda/obj_meshes/link5_vis/link5_vis_0.obj"/>
-            <mesh name="panda_link5_vis_1" file="panda/obj_meshes/link5_vis/link5_vis_1.obj"/>
-            <mesh name="panda_link5_vis_2" file="panda/obj_meshes/link5_vis/link5_vis_2.obj"/>
-        </asset>
-        """
+    _attributes = {"name": "link5"}
 
-    content = """
-        <inertial pos="0 0 -0.15" mass="2" diaginertia="0.2 0.2 0.2"/>
-        <joint name="{name}_joint5" pos="0 0 0" axis="0 0 1" limited="true" range="-2.8973 2.8973" damping="0.1"/>
-        <geom mesh="panda_link5_vis_0" material="panda_Shell001_001_001_003" type="mesh" contype="0" conaffinity="0" group="1"/>
-        <geom mesh="panda_link5_vis_1" material="panda_Shell_001_001_003" type="mesh" contype="0" conaffinity="0" group="1"/>
-        <geom mesh="panda_link5_vis_2" material="panda_Part__Feature_002_004_003" type="mesh" contype="0" conaffinity="0" group="1"/>
-        <geom type="mesh" group="0" mesh="panda_link5" name="{name}_link5_collision"/>
-        """
+    preamble_ = """
+    <asset>
+    <mesh name="link5_c0" file="link5_collision_0.obj"/>
+    <mesh name="link5_c1" file="link5_collision_1.obj"/>
+    <mesh name="link5_c2" file="link5_collision_2.obj"/>
+    <mesh file="link5_0.obj"/>
+    <mesh file="link5_1.obj"/>
+    <mesh file="link5_2.obj"/>
+    </asset>
+    """
 
-    def __init__(self, *_children, name, children=[], **rest):
-        super().__init__(*_children, name=name, children=children, pos="-0.0825 0.384 0", quat="0.707107 -0.707107 0 0",
-                         **rest)
+    children_ = """
+    <inertial mass="1.225946" pos="-1.1953e-2 4.1065e-2 -3.8437e-2" fullinertia="3.5549e-2 2.9474e-2 8.627e-3 -2.117e-3 -4.037e-3 2.29e-4"/>
+    <joint name="{name}-joint"/>
+    <geom mesh="link5_0" material="black" class="visual"/>
+    <geom mesh="link5_1" material="white" class="visual"/>
+    <geom mesh="link5_2" material="white" class="visual"/>
+    <geom mesh="link5_c0" class="collision"/>
+    <geom mesh="link5_c1" class="collision"/>
+    <geom mesh="link5_c2" class="collision"/>
+    """
+
+    postamble_ = """
+    <actuator>
+    <general class="panda" name="{name}-actuator" joint="{name}-joint" gainprm="2000" biasprm="0 -2000 -200" forcerange="-12 12"/>
+    </actuator>
+    """
+
+    def __init__(self, *_children, **rest):
+        super().__init__(*_children, **rest, pos="-0.0825 0.384 0", quat="0.707107 -0.707107 0 0")
 
 
 class PandaLink4(Body):
     """Link 4 of the Panda robot."""
 
-    asset = """
-        <asset>
-            <mesh name="panda_link4" file="panda/meshes/link4.stl"/>
-            <material name="panda_Part__Feature001_001_003_001" specular="0.5" shininess="0.45" rgba="1.000000 1.000000 1.000000 1.000000"/>
-            <material name="panda_Part__Feature002_001_003_001" specular="0.5" shininess="0.45" rgba="0.250980 0.250980 0.250980 1.000000"/>
-            <material name="panda_Part__Feature003_001_003_001" specular="0.5" shininess="0.45" rgba="1.000000 1.000000 1.000000 1.000000"/>
-            <material name="panda_Part__Feature_002_003_001" specular="0.5" shininess="0.45" rgba="1.000000 1.000000 1.000000 1.000000"/>
-            <mesh name="panda_link4_vis_0" file="panda/obj_meshes/link4_vis/link4_vis_0.obj"/>
-            <mesh name="panda_link4_vis_1" file="panda/obj_meshes/link4_vis/link4_vis_1.obj"/>
-            <mesh name="panda_link4_vis_2" file="panda/obj_meshes/link4_vis/link4_vis_2.obj"/>
-            <mesh name="panda_link4_vis_3" file="panda/obj_meshes/link4_vis/link4_vis_3.obj"/>
-        </asset>
-        """
+    _attributes = {"name": "link4"}
 
-    content = """
-        <inertial pos="-0.04 0.05 0" mass="2" diaginertia="0.2 0.2 0.2"/>
-        <joint name="{name}_joint4" pos="0 0 0" axis="0 0 1" limited="true" range="-3.0718 -0.0698" damping="0.1"/>
-        <geom mesh="panda_link4_vis_0" material="panda_Part__Feature001_001_003_001" type="mesh" contype="0" conaffinity="0" group="1"/>
-        <geom mesh="panda_link4_vis_1" material="panda_Part__Feature003_001_003_001" type="mesh" contype="0" conaffinity="0" group="1"/>
-        <geom mesh="panda_link4_vis_2" material="panda_Part__Feature002_001_003_001" type="mesh" contype="0" conaffinity="0" group="1"/>
-        <geom mesh="panda_link4_vis_3" material="panda_Part__Feature_002_003_001" type="mesh" contype="0" conaffinity="0" group="1"/>
-        <geom type="mesh" group="0" mesh="panda_link4" name="{name}_link4_collision"/>
-        """
+    preamble_ = """
+    <asset>
+    <mesh name="link4_c" file="link4.stl"/>
+    <mesh file="link4_0.obj"/>
+    <mesh file="link4_1.obj"/>
+    <mesh file="link4_2.obj"/>
+    <mesh file="link4_3.obj"/>
+    </asset>
+    """
 
-    def __init__(self, *_children, name, children=[], **rest):
-        super().__init__(*_children, name=name, children=children, pos="0.0825 0 0", quat="0.707107 0.707107 0 0",
-                         **rest)
+    children_ = """
+    <inertial mass="3.587895" pos="-5.317e-2 1.04419e-1 2.7454e-2"
+      fullinertia="2.5853e-2 1.9552e-2 2.8323e-2 7.796e-3 -1.332e-3 8.641e-3"/>
+    <joint name="{name}-joint" range="-3.0718 -0.0698"/>
+    <geom mesh="link4_0" material="white" class="visual"/>
+    <geom mesh="link4_1" material="white" class="visual"/>
+    <geom mesh="link4_2" material="black" class="visual"/>
+    <geom mesh="link4_3" material="white" class="visual"/>
+    <geom mesh="link4_c" class="collision"/>
+    """
+
+    postamble_ = """
+    <actuator>
+    <general class="panda" name="{name}-actuator" joint="{name}-joint" gainprm="3500" biasprm="0 -3500 -350"
+      ctrlrange="-3.0718 -0.0698"/>
+    </actuator>
+    """
+
+    def __init__(self, *_children, **rest):
+        super().__init__(*_children, **rest, pos="0.0825 0 0", quat="0.707107 0.707107 0 0")
 
 
 class PandaLink3(Body):
     """Link 3 of the Panda robot."""
 
-    asset = """
-        <asset>
-            <mesh name="panda_link3" file="panda/meshes/link3.stl"/>
-            <material name="panda_Part__Feature001_010_001_002" specular="0.5" shininess="0.45" rgba="1.000000 1.000000 1.000000 1.000000"/>
-            <material name="panda_Part__Feature002_007_001_002" specular="0.5" shininess="0.45" rgba="1.000000 1.000000 1.000000 1.000000"/>
-            <material name="panda_Part__Feature003_004_001_002" specular="0.5" shininess="0.45" rgba="1.000000 1.000000 1.000000 1.000000"/>
-            <material name="panda_Part__Feature_001_001_001_002" specular="0.5" shininess="0.45" rgba="0.250980 0.250980 0.250980 1.000000"/>
-            <mesh name="panda_link3_vis_0" file="panda/obj_meshes/link3_vis/link3_vis_0.obj"/>
-            <mesh name="panda_link3_vis_1" file="panda/obj_meshes/link3_vis/link3_vis_1.obj"/>
-            <mesh name="panda_link3_vis_2" file="panda/obj_meshes/link3_vis/link3_vis_2.obj"/>
-            <mesh name="panda_link3_vis_3" file="panda/obj_meshes/link3_vis/link3_vis_3.obj"/>
-        </asset>
-        """
+    _attributes = {"name": "link3"}
 
-    content = """
-        <inertial pos="0.04 0 -0.05" mass="2" diaginertia="0.2 0.2 0.2"/>
-        <joint name="{name}_joint3" pos="0 0 0" axis="0 0 1" limited="true" range="-2.8973 2.8973" damping="0.1"/>
-        <geom mesh="panda_link3_vis_0" material="panda_Part__Feature003_004_001_002" type="mesh" contype="0" conaffinity="0" group="1"/>
-        <geom mesh="panda_link3_vis_1" material="panda_Part__Feature002_007_001_002" type="mesh" contype="0" conaffinity="0" group="1"/>
-        <geom mesh="panda_link3_vis_2" material="panda_Part__Feature001_010_001_002" type="mesh" contype="0" conaffinity="0" group="1"/>
-        <geom mesh="panda_link3_vis_3" material="panda_Part__Feature_001_001_001_002" type="mesh" contype="0" conaffinity="0" group="1"/>
-        <geom type="mesh" group="0" mesh="panda_link3" name="{name}_link3_collision"/>
-        """
+    preamble_ = """
+    <asset>
+    <mesh name="link3_c" file="link3.stl"/>
+    <mesh file="link3_0.obj"/>
+    <mesh file="link3_1.obj"/>
+    <mesh file="link3_2.obj"/>
+    <mesh file="link3_3.obj"/>
+    </asset>
+    """
 
-    def __init__(self, *_children, name, children=[], **rest):
-        super().__init__(*_children, name=name, children=children, pos="0 -0.316 0", quat="0.707107 0.707107 0 0",
-                         **rest)
+    children_ = """
+    <joint name="{name}-joint"/>
+    <inertial mass="3.228604" pos="2.7518e-2 3.9252e-2 -6.6502e-2" fullinertia="3.7242e-2 3.6155e-2 1.083e-2 -4.761e-3 -1.1396e-2 -1.2805e-2"/>
+    <geom mesh="link3_0" material="white" class="visual"/>
+    <geom mesh="link3_1" material="white" class="visual"/>
+    <geom mesh="link3_2" material="white" class="visual"/>
+    <geom mesh="link3_3" material="black" class="visual"/>
+    <geom mesh="link3_c" class="collision"/>
+    """
+
+    postamble_ = """
+    <actuator>
+    <general class="panda" name="{name}-actuator" joint="{name}-joint" gainprm="3500" biasprm="0 -3500 -350"/>
+    </actuator>
+    """
+
+    def __init__(self, *_children, **rest):
+        super().__init__(*_children, **rest, pos="0 -0.316 0", quat="0.707107 0.707107 0 0")
 
 
 class PandaLink2(Body):
     """Link 2 of the Panda robot."""
 
-    asset = """
-        <asset>
-            <mesh name="panda_link2" file="panda/meshes/link2.stl"/>
-            <material name="panda_Part__Feature024" specular="0.5" shininess="0.45" rgba="1 1 1 1"/>
-            <mesh name="panda_link2_vis" file="panda/obj_meshes/link2_vis/link2_vis.obj"/>
-        </asset>
-        """
+    _attributes = {"name": "link2"}
 
-    content = """
-        <inertial pos="0 0 -0.1" mass="3" diaginertia="0.3 0.3 0.3"/>
-        <joint name="{name}_joint2" pos="0 0 0" axis="0 0 1" limited="true" range="-1.7628 1.7628" damping="0.1"/>
-        <geom mesh="panda_link2_vis" material="panda_Part__Feature024" type="mesh" contype="0" conaffinity="0" group="1"/>
-        <geom type="mesh" group="0" mesh="panda_link2" name="{name}_link2_collision"/>
-        """
+    preamble_ = """
+    <asset>
+    <mesh name="link2_c" file="link2.stl"/>
+    <mesh file="link2.obj"/>
+    </asset>
+    """
 
-    def __init__(self, *_children, name, children=[], **rest):
-        super().__init__(*_children, name=name, children=children, pos="0 0 0", quat="0.707107 -0.707107 0 0", **rest)
+    children_ = """
+    <inertial mass="0.646926" pos="-0.003141 -0.02872 0.003495"
+    fullinertia="0.0079620 2.8110e-2 2.5995e-2 -3.925e-3 1.0254e-2 7.04e-4"/>
+    <joint name="{name}-joint" range="-1.7628 1.7628"/>
+    <geom material="white" mesh="link2" class="visual"/>
+    <geom mesh="link2_c" class="collision"/>
+    """
+
+    postamble_ = """
+    <actuator>
+    <general class="panda" name="{name}-actuator" joint="{name}-joint" gainprm="4500" biasprm="0 -4500 -450" ctrlrange="-1.7628 1.7628"/>
+    </actuator>
+    """
+
+    def __init__(self, *_children, **rest):
+        super().__init__(*_children, **rest, pos="0 0 0", quat="0.707107 -0.707107 0 0")
 
 
 class PandaLink1(Body):
     """Link 1 of the Panda robot."""
 
-    asset = """
-        <asset>
-            <mesh name="panda_link1" file="panda/meshes/link1.stl"/>
-            <material name="panda_Part__Feature_001" specular="0.5" shininess="0.45" rgba="1 1 1 1"/>
-            <mesh name="panda_link1_vis" file="panda/obj_meshes/link1_vis/link1_vis.obj"/>
-        </asset>
-        """
+    _attributes = {"name": "link1"}
 
-    content = """
-        <inertial pos="0 0 -0.07" mass="3" diaginertia="0.3 0.3 0.3"/>
-        <joint name="{name}_joint1" pos="0 0 0" axis="0 0 1" limited="true" range="-2.8973 2.8973" damping="0.1"/>
-        <geom mesh="panda_link1_vis" material="panda_Part__Feature_001" type="mesh" contype="0" conaffinity="0" group="1"/>
-        <geom type="mesh" group="0" mesh="panda_link1" name="{name}_link1_collision"/>
-        """
+    preamble_ = """
+    <asset>
+    <mesh name="link1_c" file="link1.stl"/>
+    <mesh file="link1.obj"/>
+    </asset>
+    """
 
-    def __init__(self, *_children, name, children=[], **rest):
-        super().__init__(*_children, name=name, children=children, pos="0 0 0.333", **rest)
+    children_ = """
+    <inertial mass="4.970684" pos="0.003875 0.002081 -0.04762" fullinertia="0.70337 0.70661 0.0091170 -0.00013900 0.0067720 0.019169"/>
+    <joint name="{name}-joint"/>
+    <geom material="white" mesh="link1" class="visual"/>
+    <geom mesh="link1_c" class="collision"/>
+    """
+
+    postamble_ = """
+    <actuator>
+        <general class="panda" name="{name}-actuator" joint="{name}-joint" gainprm="4500" biasprm="0 -4500 -450"/>
+    </actuator>
+    """
+
+    def __init__(self, *_children, **rest):
+        super().__init__(*_children, **rest, pos="0 0 0.333")
 
 
 class PandaLink0(Body):
     """Link 0 of the Panda robot."""
 
-    asset = """
-        <asset>
-            <mesh name="panda_link0" file="panda/meshes/link0.stl"/>
-            <material name="panda_Face636_001" specular="0.5" shininess="0.45" rgba="0.901961 0.921569 0.929412 1.000000"/>
-            <material name="panda_Part__Feature017_001" specular="0.5" shininess="0.45" rgba="1 1 1 1"/>
-            <material name="panda_Part__Feature018_001" specular="0.5" shininess="0.45" rgba="1 1 1 1"/>
-            <material name="panda_Part__Feature019_001" specular="0.5" shininess="0.45" rgba="1 1 1 1"/>
-            <material name="panda_Part__Feature022_001" specular="0.5" shininess="0.45" rgba="0.901961 0.921569 0.929412 1"/>
-            <material name="panda_Part__Feature023_001" specular="0.5" shininess="0.45" rgba="0.250980 0.250980 0.250980 1"/>
-            <material name="panda_Shell001_001" specular="0.5" shininess="0.45" rgba="0.250980 0.250980 0.250980 1"/>
-            <material name="panda_Shell002_001" specular="0.5" shininess="0.45" rgba="0.901961 0.921569 0.929412 1"/>
-            <material name="panda_Shell003_001" specular="0.5" shininess="0.45" rgba="0.901961 0.921569 0.929412 1"/>
-            <material name="panda_Shell009_001" specular="0.5" shininess="0.45" rgba="0.250980 0.250980 0.250980 1"/>
-            <material name="panda_Shell010_001" specular="0.5" shininess="0.45" rgba="0.901961 0.921569 0.929412 1"/>
-            <material name="panda_Shell_001" specular="0.5" shininess="0.45" rgba="0.250980 0.250980 0.250980 1"/>
-            <mesh name="panda_link0_vis_0" file="panda/obj_meshes/link0_vis/link0_vis_0.obj"/>
-            <mesh name="panda_link0_vis_1" file="panda/obj_meshes/link0_vis/link0_vis_1.obj"/>
-            <mesh name="panda_link0_vis_2" file="panda/obj_meshes/link0_vis/link0_vis_2.obj"/>
-            <mesh name="panda_link0_vis_3" file="panda/obj_meshes/link0_vis/link0_vis_3.obj"/>
-            <mesh name="panda_link0_vis_4" file="panda/obj_meshes/link0_vis/link0_vis_4.obj"/>
-            <mesh name="panda_link0_vis_5" file="panda/obj_meshes/link0_vis/link0_vis_5.obj"/>
-            <mesh name="panda_link0_vis_6" file="panda/obj_meshes/link0_vis/link0_vis_6.obj"/>
-            <mesh name="panda_link0_vis_7" file="panda/obj_meshes/link0_vis/link0_vis_7.obj"/>
-            <mesh name="panda_link0_vis_8" file="panda/obj_meshes/link0_vis/link0_vis_8.obj"/>
-            <mesh name="panda_link0_vis_9" file="panda/obj_meshes/link0_vis/link0_vis_9.obj"/>
-            <mesh name="panda_link0_vis_10" file="panda/obj_meshes/link0_vis/link0_vis_10.obj"/>
-            <mesh name="panda_link0_vis_11" file="panda/obj_meshes/link0_vis/link0_vis_11.obj"/>
-        </asset>
-        """
+    _attributes = {"name": "link0"}
+    prefix = "panda"
 
-    content = """
-        <site name="{name}_right_center" pos="0 0 0" size="0.01" rgba="1 0.3 0.3 1" group="2"/>
-        <inertial pos="0 0 0" mass="4" diaginertia="0.4 0.4 0.4"/>
-        <geom mesh="panda_link0_vis_0" material="panda_Shell010_001" type="mesh" contype="0" conaffinity="0" group="1"/>
-        <geom mesh="panda_link0_vis_1" material="panda_Shell009_001" type="mesh" contype="0" conaffinity="0" group="1"/>
-        <geom mesh="panda_link0_vis_2" material="panda_Shell003_001" type="mesh" contype="0" conaffinity="0" group="1"/>
-        <geom mesh="panda_link0_vis_3" material="panda_Shell_001" type="mesh" contype="0" conaffinity="0" group="1"/>
-        <geom mesh="panda_link0_vis_4" material="panda_Shell002_001" type="mesh" contype="0" conaffinity="0" group="1"/>
-        <geom mesh="panda_link0_vis_5" material="panda_Shell001_001" type="mesh" contype="0" conaffinity="0" group="1"/>
-        <geom mesh="panda_link0_vis_6" material="panda_Face636_001" type="mesh" contype="0" conaffinity="0" group="1"/>
-        <geom mesh="panda_link0_vis_7" material="panda_Part__Feature018_001" type="mesh" contype="0" conaffinity="0" group="1"/>
-        <geom mesh="panda_link0_vis_8" material="panda_Part__Feature019_001" type="mesh" contype="0" conaffinity="0" group="1"/>
-        <geom mesh="panda_link0_vis_9" material="panda_Part__Feature023_001" type="mesh" contype="0" conaffinity="0" group="1"/>
-        <geom mesh="panda_link0_vis_10" material="panda_Part__Feature022_001" type="mesh" contype="0" conaffinity="0" group="1"/>
-        <geom mesh="panda_link0_vis_11" material="panda_Part__Feature017_001" type="mesh" contype="0" conaffinity="0" group="1"/>
-        <geom type="mesh" group="0" mesh="panda_link0" name="{name}_link0_collision"/>
-        """
+    preamble_ = """
+    <asset>
+    <material class="{prefix}" name="white" rgba="1 1 1 1"/>
+    <material class="{prefix}" name="off_white" rgba="0.901961 0.921569 0.929412 1"/>
+    <material class="{prefix}" name="black" rgba="0.25 0.25 0.25 1"/>
+    <material class="{prefix}" name="green" rgba="0 1 0 1"/>
+    <material class="{prefix}" name="light_blue" rgba="0.039216 0.541176 0.780392 1"/>
+    
+    <!-- collision mesh -->
+    <mesh name="link0_c" file="link0.stl"/>
+    
+    <!-- visual mesh -->
+    <mesh file="link0_0.obj"/>
+    <mesh file="link0_1.obj"/>
+    <mesh file="link0_2.obj"/>
+    <mesh file="link0_3.obj"/>
+    <mesh file="link0_4.obj"/>
+    <mesh file="link0_5.obj"/>
+    <mesh file="link0_7.obj"/>
+    <mesh file="link0_8.obj"/>
+    <mesh file="link0_9.obj"/>
+    <mesh file="link0_10.obj"/>
+    <mesh file="link0_11.obj"/>
+    </asset>
+    """
 
-    def __init__(self, *_children, name, children=[], **rest):
-        super().__init__(*_children, name=name, children=children, pos="0 0 0", **rest)
+    children_ = """
+    <inertial mass="0.629769" pos="-0.041018 -0.00014 0.049974"
+    fullinertia="0.00315 0.00388 0.004285 8.2904e-7 0.00015 8.2299e-6"/>
+    <geom mesh="link0_0" material="off_white" class="visual"/>
+    <geom mesh="link0_1" material="black" class="visual"/>
+    <geom mesh="link0_2" material="off_white" class="visual"/>
+    <geom mesh="link0_3" material="black" class="visual"/>
+    <geom mesh="link0_4" material="off_white" class="visual"/>
+    <geom mesh="link0_5" material="black" class="visual"/>
+    <geom mesh="link0_7" material="white" class="visual"/>
+    <geom mesh="link0_8" material="white" class="visual"/>
+    <geom mesh="link0_9" material="black" class="visual"/>
+    <geom mesh="link0_10" material="off_white" class="visual"/>
+    <geom mesh="link0_11" material="white" class="visual"/>
+    <geom mesh="link0_c" class="collision"/>
+    """
+
+    def __init__(self, *_children, **rest):
+        super().__init__(*_children, **rest, pos="0 0 0")
 
 
-class Panda(XmlTemplate):
+class Panda(Body):
     """
     This is the Panda robot.
-    
+
     By default, it will use 7 links defined here.
-    
+
     efChildren is optional and can be used to add end effector to the robot.
     name is optional, if provided it will be used as the name of the robot and should be unique.
     If not provided, "panada<robot_id> will be used instead, where robot_id is unique.
@@ -328,38 +343,42 @@ class Panda(XmlTemplate):
 
     key = 0
 
+    preamble_ = """
+    <compiler angle="radian" meshdir="assets" autolimits="true"/>
+    
+    <default>
+        <default class="panda">
+          <material specular="0.5" shininess="0.25"/>
+          <joint armature="0.1" damping="1" axis="0 0 1" range="-2.8973 2.8973"/>
+          <general dyntype="none" biastype="affine" ctrlrange="-2.8973 2.8973" forcerange="-87 87"/>
+
+          <default class="visual">
+            <geom type="mesh" contype="0" conaffinity="0" group="2"/>
+          </default>
+          <default class="collision">
+            <geom type="mesh" group="3"/>
+          </default>
+        </default>
+    </default>
+    """
+
     template = """
-        <body {attributes}>
-            <!-- robot view -->
-            <camera mode="fixed" name="{name}_robotview" pos="1.0 0 0.4" quat="0.653 0.271 0.271 0.653"/>
-            <inertial diaginertia="0 0 0" mass="0" pos="0 0 0"/>
-            {children}
-        </body>
-        """
+    <!-- robot view -->
+    <camera mode="fixed" name="{name}_robotview" pos="1.0 0 0.4" quat="0.653 0.271 0.271 0.653"/>
+    <body {attributes}>
+        {children}
+    </body>
+    """
 
-    @property
-    def preamble(self):
-        name = self.name
+    def __init__(self, *_children, name, end_effector: Body = None, pos="0 0 0", quat="1 0 0 0", **rest):
+        # Ge: we do the super call here to reduce boilerplate code.
+        super().__init__(*_children, name=name, pos=pos, quat=quat, **rest)
 
-        return f"""
-        <actuator>
-            <!-- Physical limits of the actuator. -->
-            <motor ctrllimited="true" ctrlrange="-80.0 80.0" joint="{name}_link1_joint1" name="{name}_torq_j1"/>
-            <motor ctrllimited="true" ctrlrange="-80.0 80.0" joint="{name}_link2_joint2" name="{name}_torq_j2"/>
-            <motor ctrllimited="true" ctrlrange="-80.0 80.0" joint="{name}_link3_joint3" name="{name}_torq_j3"/>
-            <motor ctrllimited="true" ctrlrange="-80.0 80.0" joint="{name}_link4_joint4" name="{name}_torq_j4"/>
-            <motor ctrllimited="true" ctrlrange="-80.0 80.0" joint="{name}_link5_joint5" name="{name}_torq_j5"/>
-            <motor ctrllimited="true" ctrlrange="-12.0 12.0" joint="{name}_link6_joint6" name="{name}_torq_j6"/>
-            <motor ctrllimited="true" ctrlrange="-12.0 12.0" joint="{name}_link7_joint7" name="{name}_torq_j7"/>
-        </actuator>
-        {''.join([p.preamble for p in self._children])}
-        """
-
-    def __init__(self, *_children, name, efChildren=None, pos="0 0 0", quat="1 0 0 0", **rest):
         if name:
             self.name = name
         else:
             self.name = f"panda{self.key}"
+
         self.key = Panda.key
         Panda.key += 1
 
@@ -371,7 +390,9 @@ class Panda(XmlTemplate):
             PandaLink4(name=name + "_link4"),
             PandaLink5(name=name + "_link5"),
             PandaLink6(name=name + "_link6"),
-            PandaLink7(name=name + "_link7", children=efChildren),
+            PandaLink7(
+                name=name + "_link7",
+                children=end_effector,
+            ),
         )
-
-        super().__init__(link, *_children, name=self.name, pos=pos, quat=quat, **rest)
+        self._children = (link, *(self._children or []))

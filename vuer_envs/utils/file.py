@@ -1,0 +1,44 @@
+class MetaFile(type):
+    def __matmul__(cls, filepath: str):
+        """
+        Opens the given file in read mode and returns its content.
+
+        Args:
+            filepath (str): Path to the file to be opened.
+
+        Returns:
+            str: Contents of the file as a string.
+        """
+        try:
+            with open(filepath, "r") as f:
+                return f.read()
+        except Exception as e:
+            print(f"Error opening file: {e}")
+            return ""
+
+
+class File(metaclass=MetaFile):
+    pass
+
+
+class Save:
+    def __init__(self, path: str):
+        self.path = path
+
+    def __call__(self, xml_string: str):
+        """
+        Saves the given XML string to the given file.
+
+        Args:
+            xml_string (str): The XML string to be saved.
+            filepath (str): Path to the file to be saved.
+        """
+        try:
+            with open(self.path, "w+") as f:
+                f.write(xml_string)
+
+        except Exception as e:
+            print(f"Error saving file: {e}")
+
+    def __ror__(self, *args):
+        self(*args)

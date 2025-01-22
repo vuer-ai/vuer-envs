@@ -1,11 +1,11 @@
 from vuer_envs.schemas.base import Raw
-from vuer_envs.schemas.mujoco_schema import Mjcf, MjNode
+from vuer_envs.schemas.schema import Mjcf, Body
 
 
 class Room(Mjcf):
 
     def __init__(self, *_children, tag=None, children=[], **attributes):
-        wall_main = MjNode(
+        wall_main = Body(
             tag="body",
             name="wall_room_main",
             pos="2.75 0.02 1.5",
@@ -25,7 +25,7 @@ class Room(Mjcf):
             """,
         )
 
-        wall_main_backing = MjNode(
+        wall_main_backing = Body(
             tag="body",
             name="wall_backing_room_main",
             pos="2.75 0.14 1.38",
@@ -44,7 +44,7 @@ class Room(Mjcf):
             """,
         )
 
-        wall_left = MjNode(
+        wall_left = Body(
             tag="body",
             name="wall_left_room_main",
             pos="-0.02 -1.5 1.5",
@@ -63,7 +63,7 @@ class Room(Mjcf):
             """,
         )
 
-        wall_left_backing = MjNode(
+        wall_left_backing = Body(
             tag="body",
             name="wall_left_backing_room_main",
             pos="-0.14 -1.5 1.38",
@@ -82,7 +82,7 @@ class Room(Mjcf):
             """,
         )
 
-        wall_right = MjNode(
+        wall_right = Body(
             tag="body",
             name="wall_right_room_main",
             pos="5.52 -1.5 1.5",
@@ -101,7 +101,7 @@ class Room(Mjcf):
             """,
         )
 
-        wall_right_backing = MjNode(
+        wall_right_backing = Body(
             tag="body",
             name="wall_right_backing_room_main",
             pos="5.64 -1.5 1.38",
@@ -119,7 +119,7 @@ class Room(Mjcf):
             """,
         )
 
-        floor_main = MjNode(
+        floor_main = Body(
             tag="body",
             name="floor_room_main",
             pos="2.75 -1.5 -0.02",
@@ -138,7 +138,7 @@ class Room(Mjcf):
             """,
         )
 
-        floor_main_backing = MjNode(
+        floor_main_backing = Body(
             tag="body",
             name="floor_backing_room_main",
             pos="2.75 -1.5 -0.14",

@@ -1,8 +1,10 @@
 from vuer_envs.schemas.base import Xml
 
-def chain(first: Xml, *rest: Xml):
-    last = first
-    for child in rest:
-        last._children.append(child)
-        last = child
-    return first
+
+def chain(*elements: Xml):
+    for child, next in zip(elements[:-1], elements[1:]):
+        if child._children:
+            child._children = (*child._children, next)
+        else:
+            child._children = (next,)
+    return elements[0]
