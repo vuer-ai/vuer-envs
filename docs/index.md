@@ -67,6 +67,7 @@ the [API documentation on Data Types](https://docs.vuer.ai/en/latest/api/types.h
    :hidden:
    
    Simple Scene <examples/01_panda_army.md>
+   Xarm7 <examples/02_xarm7.md>
    Collecting Demos <examples/01_collecting_demo.md>
    
 .. toctree::
