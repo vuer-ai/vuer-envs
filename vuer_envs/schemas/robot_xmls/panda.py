@@ -1,5 +1,5 @@
 from vuer_envs.schemas.functional import chain
-from vuer_envs.schemas.schema import Body
+from ..schema import Body
 
 
 class PandaLink7(Body):

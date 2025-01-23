@@ -1,4 +1,4 @@
-from vuer_envs.schemas.schema import Body
+from ..schema import Body
 
 
 class Xarm7(Body):

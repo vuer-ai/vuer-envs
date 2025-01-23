@@ -1,4 +1,4 @@
-from vuer_envs.schemas.schema import Body
+from ..schema import Body
 
 
 class UfactoryGripper(Body):
@@ -119,6 +119,6 @@ class UfactoryGripper(Body):
     </equality>
 
     <actuator>
-      <general class="{childclass}" name="{name}-fingers_actuator" tendon="split"/>
+      <general class="{childclass}" name="{name}-fingers_actuator" tendon="{name}-split"/>
     </actuator>
     """

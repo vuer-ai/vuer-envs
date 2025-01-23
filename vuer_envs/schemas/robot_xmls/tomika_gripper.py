@@ -1,4 +1,4 @@
-from vuer_envs import Body
+from ..schema import Body
 
 
 class TomikaGripper(Body):
