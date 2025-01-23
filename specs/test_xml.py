@@ -23,12 +23,17 @@ def test_attribute_string():
 
 def test_xml_template():
     link = Body(
-        name="LR_hip_roll",
-        pos="0 0 0",
-        climit="0 0",
-        damping="0",
+        attributes=dict(
+            name="LR_hip_roll",
+            pos="0 0 0",
+            climit="0 0",
+            damping="0",
+        ),
     )
-    xml = Mjcf(name="base", children=(link,))
+    xml = Mjcf(
+        attributes={"name": "base"},
+        children=(link,),
+    )
 
     assert (
         xml._minimized == '<mujoco name="base"><worldbody><body name="LR_hip_roll" '

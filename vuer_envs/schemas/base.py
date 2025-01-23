@@ -110,15 +110,24 @@ class XmlTemplate(Xml):
 
     """
 
-    preamble_: str = ""
-    postamble_: str = ""
+    _preamble: str = ""
+    _postamble: str = ""
+    _children_raw: str = ""
     template: str = ""
-    children_: str = ""
+    _children: tuple = ()
 
-    def __init__(self, *args, preamble: str = None, **kwargs):
+    def __init__(
+        self,
+        *args,
+        preamble: str = None,
+        postamble: str = None,
+        **kwargs,
+    ):
         super().__init__(*args, **kwargs)
         if preamble:
-            self.preamble_ = preamble
+            self._preamble = preamble
+        if postamble:
+            self._postamble = postamble
 
     def _format_dict(self, omit: set = {}) -> dict:
         all_properties = {}
@@ -146,7 +155,7 @@ class XmlTemplate(Xml):
     def preamble(self):
         """Return the preamble of the link."""
         values = self._format_dict({"preamble", "children", "postamble", "template"})
-        string = self.preamble_.format(**values)
+        string = self._preamble.format(**values)
 
         child_preambles = [p.preamble for p in self._children or [] if hasattr(p, "preamble")]
 
@@ -160,14 +169,14 @@ class XmlTemplate(Xml):
     def children(self) -> str:
         # print("children")
         values = self._format_dict({"children", "preamble", "postamble", "template"})
-        string = self.children_.format(**values)
+        string = self._children_raw.format(**values)
         return string + super().children
 
     @property
     def postamble(self):
         """Return the preamble of the link."""
         values = self._format_dict({"preamble", "children", "postamble", "template"})
-        string = self.postamble_.format(**values)
+        string = self._postamble.format(**values)
 
         child_postambles = [p.postamble for p in self._children or [] if hasattr(p, "postamble")]
         if child_postambles:

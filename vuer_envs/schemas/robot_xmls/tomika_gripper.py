@@ -7,7 +7,7 @@ class TomikaGripper(Body):
         "pos": "0 0 0.107",
         "quat": "0.9238795 0 0 -0.3826834",
     }
-    preamble_ = """
+    _preamble = """
     <default>
         <default class="panda">
           <material specular="0.5" shininess="0.25"/>
@@ -61,7 +61,7 @@ class TomikaGripper(Body):
         <mesh file="finger_1.obj"/>
     </asset>
     """
-    children_ = """
+    _children_raw = """
     <inertial mass="0.73" pos="-0.01 0 0.03" diaginertia="0.001 0.0025 0.0017"/>
     <geom mesh="hand_0" material="off_white" class="visual"/>
     <geom mesh="hand_1" material="black" class="visual"/>
@@ -95,7 +95,7 @@ class TomikaGripper(Body):
     </body>
     """
 
-    postamble_ = """
+    _postamble = """
     <tendon>
         <fixed name="{name}-split">
             <joint joint="{name}-finger_joint1" coef="0.5"/>

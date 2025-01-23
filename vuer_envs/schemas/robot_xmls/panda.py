@@ -7,7 +7,7 @@ class PandaLink7(Body):
 
     _attributes = {"name": "link7"}
 
-    preamble_ = """
+    _preamble = """
     <asset>
     <mesh name="link7_c" file="link7.stl"/>
     <mesh file="link7_0.obj"/>
@@ -21,7 +21,7 @@ class PandaLink7(Body):
     </asset>
     """
 
-    children_ = """
+    _children_raw = """
     <inertial mass="7.35522e-01" pos="1.0517e-2 -4.252e-3 6.1597e-2"
       fullinertia="1.2516e-2 1.0027e-2 4.815e-3 -4.28e-4 -1.196e-3 -7.41e-4"/>
     <joint name="{name}-joint"/>
@@ -36,7 +36,7 @@ class PandaLink7(Body):
     <geom mesh="link7_c" class="collision"/>
     """
 
-    postamble_ = """
+    _postamble = """
     <actuator>
     <general class="panda" name="{name}-actuator" joint="{name}-joint" gainprm="2000" biasprm="0 -2000 -200" forcerange="-12 12"/>
     </actuator>
@@ -55,7 +55,7 @@ class PandaLink6(Body):
         "quat": "0.707107 0.707107 0 0",
     }
 
-    preamble_ = """
+    _preamble = """
     <asset>
     <mesh name="link6_c" file="link6.stl"/>
     <mesh file="link6_0.obj"/>
@@ -78,7 +78,7 @@ class PandaLink6(Body):
     </asset>
     """
 
-    children_ = """
+    _children_raw = """
     <inertial mass="1.666555" pos="6.0149e-2 -1.4117e-2 -1.0517e-2" fullinertia="1.964e-3 4.354e-3 5.433e-3 1.09e-4 -1.158e-3 3.41e-4"/>
     <joint name="{name}-joint" range="-0.0175 3.7525"/>
     <geom mesh="link6_0" material="off_white" class="visual"/>
@@ -101,7 +101,7 @@ class PandaLink6(Body):
     <geom mesh="link6_c" class="collision"/>
     """
 
-    postamble_ = """
+    _postamble = """
     <actuator>
     <general class="panda" name="{name}-actuator" joint="{name}-joint" gainprm="2000" biasprm="0 -2000 -200" forcerange="-12 12"
       ctrlrange="-0.0175 3.7525"/>
@@ -114,7 +114,7 @@ class PandaLink5(Body):
 
     _attributes = {"name": "link5"}
 
-    preamble_ = """
+    _preamble = """
     <asset>
     <mesh name="link5_c0" file="link5_collision_0.obj"/>
     <mesh name="link5_c1" file="link5_collision_1.obj"/>
@@ -125,7 +125,7 @@ class PandaLink5(Body):
     </asset>
     """
 
-    children_ = """
+    _children_raw = """
     <inertial mass="1.225946" pos="-1.1953e-2 4.1065e-2 -3.8437e-2" fullinertia="3.5549e-2 2.9474e-2 8.627e-3 -2.117e-3 -4.037e-3 2.29e-4"/>
     <joint name="{name}-joint"/>
     <geom mesh="link5_0" material="black" class="visual"/>
@@ -136,7 +136,7 @@ class PandaLink5(Body):
     <geom mesh="link5_c2" class="collision"/>
     """
 
-    postamble_ = """
+    _postamble = """
     <actuator>
     <general class="panda" name="{name}-actuator" joint="{name}-joint" gainprm="2000" biasprm="0 -2000 -200" forcerange="-12 12"/>
     </actuator>
@@ -151,7 +151,7 @@ class PandaLink4(Body):
 
     _attributes = {"name": "link4"}
 
-    preamble_ = """
+    _preamble = """
     <asset>
     <mesh name="link4_c" file="link4.stl"/>
     <mesh file="link4_0.obj"/>
@@ -161,7 +161,7 @@ class PandaLink4(Body):
     </asset>
     """
 
-    children_ = """
+    _children_raw = """
     <inertial mass="3.587895" pos="-5.317e-2 1.04419e-1 2.7454e-2"
       fullinertia="2.5853e-2 1.9552e-2 2.8323e-2 7.796e-3 -1.332e-3 8.641e-3"/>
     <joint name="{name}-joint" range="-3.0718 -0.0698"/>
@@ -172,7 +172,7 @@ class PandaLink4(Body):
     <geom mesh="link4_c" class="collision"/>
     """
 
-    postamble_ = """
+    _postamble = """
     <actuator>
     <general class="panda" name="{name}-actuator" joint="{name}-joint" gainprm="3500" biasprm="0 -3500 -350"
       ctrlrange="-3.0718 -0.0698"/>
@@ -188,7 +188,7 @@ class PandaLink3(Body):
 
     _attributes = {"name": "link3"}
 
-    preamble_ = """
+    _preamble = """
     <asset>
     <mesh name="link3_c" file="link3.stl"/>
     <mesh file="link3_0.obj"/>
@@ -198,7 +198,7 @@ class PandaLink3(Body):
     </asset>
     """
 
-    children_ = """
+    _children_raw = """
     <joint name="{name}-joint"/>
     <inertial mass="3.228604" pos="2.7518e-2 3.9252e-2 -6.6502e-2" fullinertia="3.7242e-2 3.6155e-2 1.083e-2 -4.761e-3 -1.1396e-2 -1.2805e-2"/>
     <geom mesh="link3_0" material="white" class="visual"/>
@@ -208,7 +208,7 @@ class PandaLink3(Body):
     <geom mesh="link3_c" class="collision"/>
     """
 
-    postamble_ = """
+    _postamble = """
     <actuator>
     <general class="panda" name="{name}-actuator" joint="{name}-joint" gainprm="3500" biasprm="0 -3500 -350"/>
     </actuator>
@@ -223,14 +223,14 @@ class PandaLink2(Body):
 
     _attributes = {"name": "link2"}
 
-    preamble_ = """
+    _preamble = """
     <asset>
     <mesh name="link2_c" file="link2.stl"/>
     <mesh file="link2.obj"/>
     </asset>
     """
 
-    children_ = """
+    _children_raw = """
     <inertial mass="0.646926" pos="-0.003141 -0.02872 0.003495"
     fullinertia="0.0079620 2.8110e-2 2.5995e-2 -3.925e-3 1.0254e-2 7.04e-4"/>
     <joint name="{name}-joint" range="-1.7628 1.7628"/>
@@ -238,7 +238,7 @@ class PandaLink2(Body):
     <geom mesh="link2_c" class="collision"/>
     """
 
-    postamble_ = """
+    _postamble = """
     <actuator>
     <general class="panda" name="{name}-actuator" joint="{name}-joint" gainprm="4500" biasprm="0 -4500 -450" ctrlrange="-1.7628 1.7628"/>
     </actuator>
@@ -253,21 +253,21 @@ class PandaLink1(Body):
 
     _attributes = {"name": "link1"}
 
-    preamble_ = """
+    _preamble = """
     <asset>
     <mesh name="link1_c" file="link1.stl"/>
     <mesh file="link1.obj"/>
     </asset>
     """
 
-    children_ = """
+    _children_raw = """
     <inertial mass="4.970684" pos="0.003875 0.002081 -0.04762" fullinertia="0.70337 0.70661 0.0091170 -0.00013900 0.0067720 0.019169"/>
     <joint name="{name}-joint"/>
     <geom material="white" mesh="link1" class="visual"/>
     <geom mesh="link1_c" class="collision"/>
     """
 
-    postamble_ = """
+    _postamble = """
     <actuator>
         <general class="panda" name="{name}-actuator" joint="{name}-joint" gainprm="4500" biasprm="0 -4500 -450"/>
     </actuator>
@@ -283,7 +283,7 @@ class PandaLink0(Body):
     _attributes = {"name": "link0"}
     prefix = "panda"
 
-    preamble_ = """
+    _preamble = """
     <asset>
     <material class="{prefix}" name="white" rgba="1 1 1 1"/>
     <material class="{prefix}" name="off_white" rgba="0.901961 0.921569 0.929412 1"/>
@@ -309,7 +309,7 @@ class PandaLink0(Body):
     </asset>
     """
 
-    children_ = """
+    _children_raw = """
     <inertial mass="0.629769" pos="-0.041018 -0.00014 0.049974"
     fullinertia="0.00315 0.00388 0.004285 8.2904e-7 0.00015 8.2299e-6"/>
     <geom mesh="link0_0" material="off_white" class="visual"/>
@@ -342,9 +342,10 @@ class Panda(Body):
     """
 
     key = 0
+    assets = "assets"
 
-    preamble_ = """
-    <compiler angle="radian" meshdir="assets" autolimits="true"/>
+    _preamble = """
+    <compiler angle="radian" meshdir="{assets}" texturedir="{assets}" autolimits="true"/>
     
     <default>
         <default class="panda">
@@ -370,9 +371,11 @@ class Panda(Body):
     </body>
     """
 
-    def __init__(self, *_children, name, end_effector: Body = None, pos="0 0 0", quat="1 0 0 0", **rest):
+    def __init__(self, *_children, name, end_effector: Body = None, assets=None, pos="0 0 0", quat="1 0 0 0", **rest):
         # Ge: we do the super call here to reduce boilerplate code.
         super().__init__(*_children, name=name, pos=pos, quat=quat, **rest)
+
+        self.assets = assets
 
         if name:
             self.name = name

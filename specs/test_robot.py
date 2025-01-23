@@ -35,16 +35,20 @@ def test_nested_preamble():
 
 def xtest_two_robots():
     robot = Panda(
-        name="LR_hip_roll",
-        pos="0 0 0",
-        climit="0 0",
-        damping="0",
+        attributes=dict(
+            name="LR_hip_roll",
+            pos="0 0 0",
+            climit="0 0",
+            damping="0",
+        )
     )
     robot_2 = Panda(
-        name="LR_hip_roll_2",
-        pos="0 0 0",
-        climit="0 0",
-        damping="0",
+        atrributes=dict(
+            name="LR_hip_roll_2",
+            pos="0 0 0",
+            climit="0 0",
+            damping="0",
+        )
     )
 
     xml = Mjcf(robot, robot_2, name="base")
@@ -58,9 +62,16 @@ def xtest_two_robots():
 
 
 def test_body():
-    link = Body(name="link, pos='0 0 0', climit='0 0', damping='0'")
-    link.preamble_ = '<mesh name="panda_link0_vis_0" file="obj_meshes/link0_vis/link0_vis_0.obj"/>'
-    link.children_ = """
+    link = Body(
+        attributes=dict(
+            name="link",
+            pos="0 0 0",
+            climit="0 0",
+            damping="0",
+        ),
+    )
+    link._preamble = '<mesh name="panda_link0_vis_0" file="obj_meshes/link0_vis/link0_vis_0.obj"/>'
+    link._children_raw = """
         <body name="panda_left_link2" pos="0 0 0" quat="0.707107 -0.707107 0 0">
             <inertial pos="0 0 -0.1" mass="3" diaginertia="0.3 0.3 0.3" />
             <joint name="panda_left_link2_joint2" pos="0 0 0" axis="0 0 1" limited="true" range="-1.7628 1.7628" damping="0.1" />
@@ -70,7 +81,7 @@ def test_body():
 
     expected = (
         """
-        <body name="link, pos='0 0 0', climit='0 0', damping='0'">
+        <body name="link" pos="0 0 0" climit="0 0" damping="0">
         <body name="panda_left_link2" pos="0 0 0" quat="0.707107 -0.707107 0 0">
         <inertial pos="0 0 -0.1" mass="3" diaginertia="0.3 0.3 0.3"/>
         <joint name="panda_left_link2_joint2" pos="0 0 0" axis="0 0 1" limited="true" range="-1.7628 1.7628" damping="0.1"/>
@@ -81,7 +92,7 @@ def test_body():
         | whiten
     )
 
-    assert link._minimized == expected
+    assert link._minimized == expected | minimize
 
 
 if __name__ == "__main__":

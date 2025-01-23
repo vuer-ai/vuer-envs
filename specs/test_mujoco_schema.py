@@ -5,7 +5,7 @@ from vuer_envs.schemas import Raw
 def test_mjcf_node():
     mjcf = Body(
         tag="body",
-        name="test_name",
+        attributes={"name": "test_name"},
         preamble="""
         <asset> 
         <texture type='2d' name='test_texture' file='rooms/assets/textures/flat/light_gray.png'/> 

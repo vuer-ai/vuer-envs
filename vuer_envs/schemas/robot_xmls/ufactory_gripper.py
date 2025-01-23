@@ -10,23 +10,24 @@ class UfactoryGripper(Body):
         "name": "xarm7-gripper",
         "childclass": "xarm7_gripper",
         "pos": "0 0 0",
+        "assets": "ufactory_gripper",
     }
 
-    preamble_ = """
-    <compiler angle="radian" meshdir="assets" autolimits="true"/>
+    _preamble = """
+    <compiler angle="radian" autolimits="true"/>
     <option integrator="implicitfast"/>
 
     <asset>
       <material name="white" rgba="1 1 1 1"/>
       <material name="black" rgba="0.149 0.149 0.149 1"/>
 
-      <mesh file="base_link.stl"/>
-      <mesh file="left_outer_knuckle.stl"/>
-      <mesh file="left_finger.stl"/>
-      <mesh file="left_inner_knuckle.stl"/>
-      <mesh file="right_outer_knuckle.stl"/>
-      <mesh file="right_finger.stl"/>
-      <mesh file="right_inner_knuckle.stl"/>
+      <mesh file="{assets}/base_link.stl"/>
+      <mesh file="{assets}/left_outer_knuckle.stl"/>
+      <mesh file="{assets}/left_finger.stl"/>
+      <mesh file="{assets}/left_inner_knuckle.stl"/>
+      <mesh file="{assets}/right_outer_knuckle.stl"/>
+      <mesh file="{assets}/right_finger.stl"/>
+      <mesh file="{assets}/right_inner_knuckle.stl"/>
     </asset>
 
     <default>
@@ -48,7 +49,7 @@ class UfactoryGripper(Body):
     </default>
     """
 
-    children_ = """
+    _children_raw = """
     <inertial pos="-0.00065489 -0.0018497 0.048028" quat="0.997403 -0.0717512 -0.0061836 0.000477479" mass="0.54156"
       diaginertia="0.000471093 0.000332307 0.000254799"/>
     <geom mesh="base_link" material="white"/>
@@ -90,7 +91,7 @@ class UfactoryGripper(Body):
     </body>
     """
 
-    postamble_ = """
+    _postamble = """
     <contact>
       <exclude body1="right_inner_knuckle" body2="right_outer_knuckle"/>
       <exclude body1="right_inner_knuckle" body2="right_finger"/>

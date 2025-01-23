@@ -46,13 +46,14 @@ def convert_glb_to_obj(glb_file, obj_file, scale_factor=1.0):
 
 
 def main(**kwargs):
-    from params_proto import ParamsProto, Proto
+    from params_proto import ParamsProto, Proto, Flag
 
     class Args(ParamsProto, cli=False):
         # Usage example
         source = Proto("path/to/your/file.glb", help="Path to the GLB file")
         to = Proto("path/to/output/file.obj", help="Output path to save the OBJ file")
         scale = Proto(1.0, help="Scale factor to apply to the mesh")
+        center = Flag(help="Center the mesh at the origin")
 
     Args._update(**kwargs)
     convert_glb_to_obj(Args.source, Args.to, scale_factor=Args.scale)
@@ -60,8 +61,8 @@ def main(**kwargs):
 
 if __name__ == "__main__":
     main(
-        source="../../assets/sketchfab/process/simple_wooden_crates_type_a.glb",
-        to="../../assets/sketchfab/outputs/wooden_crate.obj",
-        scale=0.75,
+        source="/Users/ge/mit/vuer-ai/vuer-envs/assets/sketchfab/process/pans/frying_pan.glb",
+        to="../../assets/sketchfab/outputs/pans/frying_pan_1.obj",
+        scale=0.001,
     )
 

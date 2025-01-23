@@ -6,7 +6,7 @@ from vuer_envs.schemas import chain
 class PandaLink7(Body):
     """Link 7 of the Panda robot."""
 
-    preamble_ = """
+    _preamble = """
         <asset>
             <mesh name="panda_link7" file="panda/meshes/link7.stl"/>
             <material name="panda_Part__Mirroring001_004_002" specular="0.5" shininess="0.45" rgba="0.250980 0.250980 0.250980 1.000000"/>
@@ -57,7 +57,7 @@ class PandaLink7(Body):
 class PandaLink6(Body):
     """Link 6 of the Panda robot."""
 
-    preamble_ = """
+    _preamble = """
         <asset>
             <mesh name="panda_link6" file="panda/meshes/link6.stl"/>
             <material name="panda_Face064_002_001_002_001" specular="0.5" shininess="0.45" rgba="1.000000 0.000000 0.000000 1.000000"/>
@@ -127,7 +127,7 @@ class PandaLink6(Body):
 class PandaLink5(Body):
     """Link 5 of the Panda robot."""
 
-    preamble_ = """
+    _preamble = """
         <asset>
             <mesh name="panda_link5" file="panda/meshes/link5.stl"/>
             <material name="panda_Part__Feature_002_004_003" specular="0.5" shininess="0.45" rgba="1.000000 1.000000 1.000000 1.000000"/>
@@ -156,7 +156,7 @@ class PandaLink5(Body):
 class PandaLink4(Body):
     """Link 4 of the Panda robot."""
 
-    preamble_ = """
+    _preamble = """
         <asset>
             <mesh name="panda_link4" file="panda/meshes/link4.stl"/>
             <material name="panda_Part__Feature001_001_003_001" specular="0.5" shininess="0.45" rgba="1.000000 1.000000 1.000000 1.000000"/>
@@ -188,7 +188,7 @@ class PandaLink4(Body):
 class PandaLink3(Body):
     """Link 3 of the Panda robot."""
 
-    preamble_ = """
+    _preamble = """
         <asset>
             <mesh name="panda_link3" file="panda/meshes/link3.stl"/>
             <material name="panda_Part__Feature001_010_001_002" specular="0.5" shininess="0.45" rgba="1.000000 1.000000 1.000000 1.000000"/>
@@ -220,7 +220,7 @@ class PandaLink3(Body):
 class PandaLink2(Body):
     """Link 2 of the Panda robot."""
 
-    preamble_ = """
+    _preamble = """
         <asset>
             <mesh name="panda_link2" file="panda/meshes/link2.stl"/>
             <material name="panda_Part__Feature024" specular="0.5" shininess="0.45" rgba="1 1 1 1"/>
@@ -242,7 +242,7 @@ class PandaLink2(Body):
 class PandaLink1(Body):
     """Link 1 of the Panda robot."""
 
-    preamble_ = """
+    _preamble = """
         <asset>
             <mesh name="panda_link1" file="panda/meshes/link1.stl"/>
             <material name="panda_Part__Feature_001" specular="0.5" shininess="0.45" rgba="1 1 1 1"/>
@@ -264,7 +264,7 @@ class PandaLink1(Body):
 class PandaLink0(Body):
     """Link 0 of the Panda robot."""
 
-    preamble_ = """
+    _preamble = """
         <asset>
             <mesh name="panda_link0" file="panda/meshes/link0.stl"/>
             <material name="panda_Face636_001" specular="0.5" shininess="0.45" rgba="0.901961 0.921569 0.929412 1.000000"/>

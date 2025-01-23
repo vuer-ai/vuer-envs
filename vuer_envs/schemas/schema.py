@@ -1,3 +1,5 @@
+from typing import List
+
 from lxml import etree
 
 from vuer_envs.schemas.base import XmlTemplate
@@ -24,6 +26,26 @@ def mujoco_hash(e: etree.Element) -> str:
 
 
 class MjNode(XmlTemplate):
+    def __init__(
+        self,
+        *_children,
+        attributes=None,
+        preamble: str = None,
+        postamble: str = None,
+        children: List[str] = None,
+        **kwargs,
+    ):
+        super().__init__(
+            *_children,
+            preamble=preamble,
+            children=children,
+            postamble=postamble,
+            **attributes or {},
+        )
+
+        for k, v in kwargs.items():
+            setattr(self, k, v)
+
     def join(self, *s):
         return merge_many(*s, hash_fn=mujoco_hash)
 

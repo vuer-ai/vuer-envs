@@ -18,7 +18,7 @@ class Xarm7(Body):
         "pos": "0 0 0.12",
     }
 
-    preamble_ = """
+    _preamble = """
     <compiler angle="radian" meshdir="assets" autolimits="true"/>
     <option integrator="implicitfast"/>
 
@@ -111,7 +111,7 @@ class Xarm7(Body):
     </body>
     """
 
-    postamble_ = """
+    _postamble = """
     <actuator>
       <general name="act1" joint="joint1" class="size1"/>
       <general name="act2" joint="joint2" class="size1" ctrlrange="-2.059 2.0944"/>
