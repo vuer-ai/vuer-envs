@@ -5,10 +5,12 @@ from vuer_envs.schemas.schema import Body
 class PandaLink7(Body):
     """Link 7 of the Panda robot."""
 
-    name: str
-    prefix: str
-
-    _attributes = {"name": "link7", "pos": "0.088 0 0", "quat": "0.707107 0.707107 0 0"}
+    _attributes = {
+        "name": "link7",
+        "childclass": "panda",
+        "pos": "0.088 0 0",
+        "quat": "0.707107 0.707107 0 0",
+    }
 
     _preamble = """
     <asset>
@@ -41,7 +43,7 @@ class PandaLink7(Body):
 
     _postamble = """
     <actuator>
-    <general class="{prefix}" name="{name}-actuator" joint="{name}-joint" gainprm="2000" biasprm="0 -2000 -200" forcerange="-12 12"/>
+    <general class="{childclass}" name="{name}-actuator" joint="{name}-joint" gainprm="2000" biasprm="0 -2000 -200" forcerange="-12 12"/>
     </actuator>
     """
 
@@ -53,10 +55,10 @@ class PandaLink6(Body):
     """Link 6 of the Panda robot."""
 
     name: str
-    prefix: str
 
     _attributes = {
         "name": "link6",
+        "childclass": "panda",
         "pos": "0 0 0",
         "quat": "0.707107 0.707107 0 0",
     }
@@ -109,7 +111,7 @@ class PandaLink6(Body):
 
     _postamble = """
     <actuator>
-    <general class="{prefix}" name="{name}-actuator" joint="{name}-joint" gainprm="2000" biasprm="0 -2000 -200" forcerange="-12 12"
+    <general class="{childclass}" name="{name}-actuator" joint="{name}-joint" gainprm="2000" biasprm="0 -2000 -200" forcerange="-12 12"
       ctrlrange="-0.0175 3.7525"/>
     </actuator>
     """
@@ -118,10 +120,9 @@ class PandaLink6(Body):
 class PandaLink5(Body):
     """Link 5 of the Panda robot."""
 
-    prefix: str
     assets: str
 
-    _attributes = {"name": "link5", "pos": "-0.0825 0.384 0", "quat": "0.707107 -0.707107 0 0"}
+    _attributes = {"name": "link5", "childclass": "panda", "pos": "-0.0825 0.384 0", "quat": "0.707107 -0.707107 0 0"}
 
     _preamble = """
     <asset>
@@ -147,7 +148,7 @@ class PandaLink5(Body):
 
     _postamble = """
     <actuator>
-    <general class="{prefix}" name="{name}-actuator" joint="{name}-joint" gainprm="2000" biasprm="0 -2000 -200" forcerange="-12 12"/>
+    <general class="{childclass}" name="{name}-actuator" joint="{name}-joint" gainprm="2000" biasprm="0 -2000 -200" forcerange="-12 12"/>
     </actuator>
     """
 
@@ -158,10 +159,9 @@ class PandaLink5(Body):
 class PandaLink4(Body):
     """Link 4 of the Panda robot."""
 
-    prefix: str
     assets: str
 
-    _attributes = {"name": "link4", "pos": "0.0825 0 0", "quat": "0.707107 0.707107 0 0"}
+    _attributes = {"name": "link4", "childclass": "panda", "pos": "0.0825 0 0", "quat": "0.707107 0.707107 0 0"}
 
     _preamble = """
     <asset>
@@ -186,7 +186,7 @@ class PandaLink4(Body):
 
     _postamble = """
     <actuator>
-    <general class="{prefix}" name="{name}-actuator" joint="{name}-joint" gainprm="3500" biasprm="0 -3500 -350"
+    <general class="{childclass}" name="{name}-actuator" joint="{name}-joint" gainprm="3500" biasprm="0 -3500 -350"
       ctrlrange="-3.0718 -0.0698"/>
     </actuator>
     """
@@ -198,10 +198,9 @@ class PandaLink4(Body):
 class PandaLink3(Body):
     """Link 3 of the Panda robot."""
 
-    prefix: str
     assets: str
 
-    _attributes = {"name": "link3", "pos": "0 -0.316 0", "quat": "0.707107 0.707107 0 0"}
+    _attributes = {"name": "link3", "childclass": "panda", "pos": "0 -0.316 0", "quat": "0.707107 0.707107 0 0"}
 
     _preamble = """
     <asset>
@@ -225,7 +224,7 @@ class PandaLink3(Body):
 
     _postamble = """
     <actuator>
-    <general class="{prefix}" name="{name}-actuator" joint="{name}-joint" gainprm="3500" biasprm="0 -3500 -350"/>
+    <general class="{childclass}" name="{name}-actuator" joint="{name}-joint" gainprm="3500" biasprm="0 -3500 -350"/>
     </actuator>
     """
 
@@ -236,10 +235,9 @@ class PandaLink3(Body):
 class PandaLink2(Body):
     """Link 2 of the Panda robot."""
 
-    prefix: str
     assets: str
 
-    _attributes = {"name": "link2", "pos": "0 0 0", "quat": "0.707107 -0.707107 0 0"}
+    _attributes = {"name": "link2", "childclass": "panda", "pos": "0 0 0", "quat": "0.707107 -0.707107 0 0"}
 
     _preamble = """
     <asset>
@@ -258,7 +256,7 @@ class PandaLink2(Body):
 
     _postamble = """
     <actuator>
-    <general class="{prefix}" name="{name}-actuator" joint="{name}-joint" gainprm="4500" biasprm="0 -4500 -450" ctrlrange="-1.7628 1.7628"/>
+    <general class="{childclass}" name="{name}-actuator" joint="{name}-joint" gainprm="4500" biasprm="0 -4500 -450" ctrlrange="-1.7628 1.7628"/>
     </actuator>
     """
 
@@ -269,10 +267,9 @@ class PandaLink2(Body):
 class PandaLink1(Body):
     """Link 1 of the Panda robot."""
 
-    prefix: str
     assets: str
 
-    _attributes = {"name": "link1", "pos": "0 0 0.333"}
+    _attributes = {"name": "link1", "childclass": "panda", "pos": "0 0 0.333"}
 
     _preamble = """
     <asset>
@@ -290,7 +287,7 @@ class PandaLink1(Body):
 
     _postamble = """
     <actuator>
-        <general class="{prefix}" name="{name}-actuator" joint="{name}-joint" gainprm="4500" biasprm="0 -4500 -450"/>
+        <general class="{childclass}" name="{name}-actuator" joint="{name}-joint" gainprm="4500" biasprm="0 -4500 -450"/>
     </actuator>
     """
 
@@ -301,18 +298,17 @@ class PandaLink1(Body):
 class PandaLink0(Body):
     """Link 0 of the Panda robot."""
 
-    prefix: str
     assets: str
 
-    _attributes = {"name": "link0", "pos": "0 0 0"}
+    _attributes = {"name": "link0", "childclass": "panda", "pos": "0 0 0"}
 
     _preamble = """
     <asset>
-    <material class="{prefix}" name="white" rgba="1 1 1 1"/>
-    <material class="{prefix}" name="off_white" rgba="0.901961 0.921569 0.929412 1"/>
-    <material class="{prefix}" name="black" rgba="0.25 0.25 0.25 1"/>
-    <material class="{prefix}" name="green" rgba="0 1 0 1"/>
-    <material class="{prefix}" name="light_blue" rgba="0.039216 0.541176 0.780392 1"/>
+    <material class="{childclass}" name="white" rgba="1 1 1 1"/>
+    <material class="{childclass}" name="off_white" rgba="0.901961 0.921569 0.929412 1"/>
+    <material class="{childclass}" name="black" rgba="0.25 0.25 0.25 1"/>
+    <material class="{childclass}" name="green" rgba="0 1 0 1"/>
+    <material class="{childclass}" name="light_blue" rgba="0.039216 0.541176 0.780392 1"/>
     
     <!-- collision mesh -->
     <mesh name="link0_c" file="{assets}/link0.stl"/>
@@ -369,13 +365,18 @@ class Panda(Body):
     prefix: str = "panda"
     assets: str = "franka_panda"
 
-    _attributes = { "name": prefix, "pos": "0 0 0", "quat": "1 0 0 0"}
+    _attributes = {
+        "name": prefix,
+        "childclass": "panda",
+        "pos": "0 0 0",
+        "quat": "1 0 0 0",
+    }
 
     _preamble = """
     <compiler angle="radian" autolimits="true"/>
     
     <default>
-        <default class="{prefix}">
+        <default class="{childclass}">
           <material specular="0.5" shininess="0.25"/>
           <joint armature="0.1" damping="1" axis="0 0 1" range="-2.8973 2.8973"/>
           <general dyntype="none" biastype="affine" ctrlrange="-2.8973 2.8973" forcerange="-87 87"/>
@@ -403,18 +404,17 @@ class Panda(Body):
         super().__init__(*_children, **rest)
 
         name = self._attributes["name"]
+        childclass = self._attributes["childclass"]
 
         link = chain(
-            PandaLink0(name=name + "_link0", prefix=self.prefix, assets=self.assets),
-            PandaLink1(name=name + "_link1", prefix=self.prefix, assets=self.assets),
-            PandaLink2(name=name + "_link2", prefix=self.prefix, assets=self.assets),
-            PandaLink3(name=name + "_link3", prefix=self.prefix, assets=self.assets),
-            PandaLink4(name=name + "_link4", prefix=self.prefix, assets=self.assets),
-            PandaLink5(name=name + "_link5", prefix=self.prefix, assets=self.assets),
-            PandaLink6(name=name + "_link6", prefix=self.prefix, assets=self.assets),
-            PandaLink7(
-                name=name + "_link7",
-                prefix=self.prefix,
+            PandaLink0(name=name + "_link0", childclass=childclass, assets=self.assets),
+            PandaLink1(name=name + "_link1", childclass=childclass, assets=self.assets),
+            PandaLink2(name=name + "_link2", childclass=childclass, assets=self.assets),
+            PandaLink3(name=name + "_link3", childclass=childclass, assets=self.assets),
+            PandaLink4(name=name + "_link4", childclass=childclass, assets=self.assets),
+            PandaLink5(name=name + "_link5", childclass=childclass, assets=self.assets),
+            PandaLink6(name=name + "_link6", childclass=childclass, assets=self.assets),
+            PandaLink7(name=name + "_link7", childclass=childclass,
                 assets=self.assets,
                 children=end_effector,
             ),
