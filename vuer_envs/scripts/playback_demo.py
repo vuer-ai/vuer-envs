@@ -24,7 +24,7 @@ class Params(ParamsProto, cli_parse=False):
     - add ml-logger prefix/dir structure.
     - document in the docs / Notion page.
     """
-    demo_prefix: str = None
+    demo_prefix: str = "lucidxr/lucidxr/datasets/lucidxr/poc/demos/ability/2025/01/09/19.49.00/"
 
     wd: str = "."
     vuer_port = 8012
@@ -118,16 +118,17 @@ def main():
                         key="default-sim",
                         src=args.src,
                         assets=args.asset_paths,
-                        mpos=[*mpos],
-                        mquat=[*mquat],
+                        qpos = [0,0,0,0,0,0,0,
+                                0,0,0,0,0,0,0,
+                                0,0,1,0,0,0,0,]
                     )
 
                     await sleep(0.016)
 
 
 if __name__ == "__main__":
-    Params.demo_prefix = "/geyang/scratch/2025/01-08/043537"
-    Params.wd = "/Users/ge/Library/CloudStorage/GoogleDrive-ge.ike.yang@gmail.com/My Drive/lucidxr-assets/development/robots"
+    Params.demo_prefix = "/lucidxr/lucidxr/datasets/lucidxr/poc/demos/ability/2025/01/13/20.53.03/"
+    Params.wd = "/Users/yajvanravan/mit/vuer-ai/vuer-envs/assets/development/robots"
     Params.scene_name = "scene"
     Params.scene_folder = "universal_robots_ur5e"
 

@@ -45,6 +45,8 @@ class Unroll(ParamsProto, prefix="unroll"):
     )
     custom_camera = False
 
+    dataset_dir: str = Proto("/lucidxr/lucidxr/datasets/lucidxr/poc/demos/ability/2021/10/25/14.45.48/")
+
 
 def main(_deps=None, **deps):
     from ml_logger import logger
@@ -99,6 +101,7 @@ def main(_deps=None, **deps):
 
     print(env)
 
+
     module_path = Unroll.model_entrypoint
     module_name, entrypoint = module_path.split(":")
     module = import_module(module_name)
@@ -113,16 +116,18 @@ def main(_deps=None, **deps):
     actor.to(Unroll.device)
     actor.eval()
 
+    loader = ML_Logger(Unroll.dataset_dir)
+    norm_stats = loader.load_pkl("dataset_stats.pkl")[0]
+
     cmap = colormaps.get_cmap("Spectral")
 
     render_frames = defaultdict(lambda: [])
     visual_buffer = None  # deque([None] * 5, maxlen=5)
 
     initial_obs = env.reset()
-    print(initial_obs)
-    initial_action = initial_obs['observations']
-    print(initial_action)
+    initial_action = initial_obs['observations'][:1]
     action_buffer = deque([initial_action] * 5, maxlen=5)
+    prev_action = np.zeros_like(initial_action)
 
     latent = None
 
@@ -131,7 +136,8 @@ def main(_deps=None, **deps):
     for _ in trange(Unroll.num_steps):
         try:
             action = action_buffer[-1 - Unroll.action_delay]
-            obs, reward, done, info = env.step(action)
+            obs, reward, done, info = env.step(action + prev_action)
+            prev_action = action
             if done:
                 print("Env reset, ending this trial.")
                 break
@@ -148,20 +154,26 @@ def main(_deps=None, **deps):
             visual_buffer.append(image)
 
         obs = obs["observations"]
-        obs_input = torch.from_numpy(obs).float().to(Unroll.device)
+        obs_input = (obs - norm_stats["qpos_mean"]) / norm_stats["qpos_std"]
+        obs_input = torch.from_numpy(obs_input).float().to(Unroll.device)
 
         image = visual_buffer[-1 - Unroll.vision_delay]
-        image = image.transpose(2, 0, 1).copy()
-        image = torch.from_numpy(image).float().to(Unroll.device)
-        if image.shape[0] == 1:
-            image = image.repeat(3, 1, 1)
+        all_cam_images = []
+        for cam_name in image:
+            all_cam_images.append(image[cam_name])
+        all_cam_images = np.stack(all_cam_images, axis=0)
+        image = torch.from_numpy(all_cam_images).to(Unroll.device)
+
+        if image.shape[1] == 1:
+            image = torch.cat([image, image, image], dim=1)
+
         image = image.unsqueeze(0)
-        image = image.unsqueeze(0)
+        image = image.float() / 255.0
 
         with torch.no_grad():
             action, *extra = actor(
                 image,
-                obs_input,
+                obs_input.flatten()[None, ...],
                 vision_latent=latent,
             )
             action = action[:1]
@@ -170,6 +182,7 @@ def main(_deps=None, **deps):
                 latent = extra[0]
 
             action = action.cpu().numpy()
+            action = action * norm_stats["action_std"] + norm_stats["action_mean"]
             action_buffer.append(action)
 
         if not Unroll.render:
@@ -221,13 +234,15 @@ def main(_deps=None, **deps):
 
 
     for k, frames in render_frames.items():
-        if frames[-1].dtype in ["float32", "float64"]:
-            frames = np.stack(frames)
-            frames /= max(frames.max(), frames.min())
-
-        fps = 50 * len(frames) // step
-        print(f"saving video to {k}.mp4 at fps=", fps)
-        logger.save_video(frames, f"{k}.mp4", fps=fps)
+        for c_id in frames[0]:
+            render_frames = [f[c_id] for f in frames]
+            render_frames = np.stack(render_frames)
+            if render_frames[-1].dtype in ["float32", "float64"]:
+                render_frames /= max(render_frames.max(), render_frames.min())
+            render_frames=render_frames.transpose(0, 2, 3, 1)
+            fps = 50 * len(render_frames) // step
+            print(f"saving video to {k}.mp4 at fps=", fps)
+            logger.save_video(render_frames, f"{k}_{c_id}.mp4", fps=fps)
 
     # TODO no get_metrics as of now
     # if Unroll.log_metrics:

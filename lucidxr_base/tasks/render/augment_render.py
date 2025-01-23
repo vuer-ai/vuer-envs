@@ -3,6 +3,7 @@ from pathlib import Path
 from time import sleep
 
 import numpy as np
+from matplotlib.pyplot import colormaps
 from params_proto import Flag, ParamsProto, Proto
 from ml_logger import ML_Logger
 import torch
@@ -31,29 +32,57 @@ def render_one(dir, args):
     loader = ML_Logger(dir)
     print(loader.get_dash_url())
     df = loader.read_metrics()["metrics.pkl"]
-    mocap = df[["ts", "mpos", "mquat"]].dropna()
+    mocap = df[["ts", "mpos", "mquat", "qpos", "act"]].dropna()
+    observations = []
+    actions = []
 
     env = make(args.env_name, device=args.device, random=0)
 
     if args.custom_camera:
         env.setCameraPose(args.camera_lookat, args.camera_distance, args.camera_azimuth, args.camera_elevation)
 
-    env.reset()
+    obs = env.reset()
+    observations.append(obs["observations"])
+
+    cmap = colormaps.get_cmap("Spectral")
 
     frames = []
+    mpos = np.zeros((3))
+    mquat = np.zeros((4))
     for index, row in mocap.iterrows():
+        action = np.hstack([row.mpos, row.mquat])[None, ...] - np.hstack([mpos, mquat])[None, ...]
         mpos = row.mpos
         mquat = row.mquat
-        action = np.hstack([mpos, mquat])[None, ...]
-        _, _, _, info = env.step(action)
+        qpos = row.qpos
+        act = row.act
+        env.unwrapped.env.physics.set_initial_position(mpos, mquat, qpos, act)
+        obs, _, _, info = env.step(action)
+        actions.append(action)
+        observations.append(obs["observations"])
         frames.append(info[f"render_{args.render_mode}"])
-        image = frames[-1]
-        if image.shape[-1] == 1:
-            image = np.repeat(image, 3, axis=-1)
-        loader.save_image(image, key=f"render_{args.render_mode}/frame_{index:05d}.png")
-        sleep(0.1)
+        for c_id in info[f"render_{args.render_mode}"]:
+            image = frames[-1][c_id]
+            image = image.transpose(1, 2, 0)
+            if image.shape[2] == 1:
+                image = np.squeeze(image)
+                image = cmap(image)
+            loader.save_image(image, key=f"render_{args.render_mode}/frame_{index:05d}_{c_id}.png")
+            sleep(0.1)
 
-    loader.save_video(frames, f"render_{args.render_mode}.mp4")
+    observations = observations[:-1]
+    loader.save_pkl(observations, f"{env.unwrapped.env_id}_observations.pkl")
+    loader.save_pkl(actions, f"{env.unwrapped.env_id}_actions.pkl")
+
+    for c_id in frames[0]:
+        record_frames = []
+        for (i, frame) in enumerate(frames):
+            image = frame[c_id]
+            image = image.transpose(1, 2, 0)
+            if image.shape[2] == 1:
+                image = np.squeeze(image)
+                image = cmap(image)
+            record_frames.append(image)
+        loader.save_video(record_frames, f"render_{args.render_mode}_{c_id}.mp4")
 
 
 def render(args: RenderCfg):

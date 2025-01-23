@@ -1,4 +1,5 @@
 version: 0
+verbose: true
 run:
   mounts: # mount configurations Available keys: NOW, UUID,
     - !mounts.SSHCode &code_mount
@@ -9,11 +10,13 @@ run:
       remote_tar: "{secret.JYNS_SLURM_DIR}/jaynes-demo/{now:%Y-%m-%d}/{now:%H%M%S.%f}-jaynes_demo.tar"
       pypath: true
       excludes: >-
-        --exclude='data' --exclude='samples' --exclude='images' --exclude='videos'
+        --exclude='data' --exclude='assets/third_party' --exclude='assets/development/objaverse' 
+        --exclude='assets/development/orbit-legacy-assets' --exclude='assets/development/robots' --exclude='assets/development/rooms'
+        --exclude='samples' --exclude='images' --exclude='videos'
         --exclude='figures' --exclude='results' --exclude='analysis' --exclude='*.ipynb'
-        --exclude='*__pycache__' --exclude='*.git' --exclude='*.png' --exclude='*.gif'
+        --exclude='*__pycache__' --exclude='*.git' --exclude='*.gif'
         --exclude='*.mp4' --exclude='*.idea' --exclude='*.egg-info' --exclude='*.pkl'
-        --exclude='*.log*'
+        --exclude='*.log*' --exclude='*.hdf5'
       compress: true
   runner: !runners.Slurm &slurm
     envs: >-
@@ -22,14 +25,17 @@ run:
       source "{secret.JYNS_SLURM_DIR}.jaynes_bash"
       conda activate torch311
       sleep 0.1;
+      #export MUJOCO_GL=egl
+      echo $PWD
     startup: >-
       pip install jaynes ml-logger -q;
     pypath: "{mounts[0].host_path}"
     work_dir: "{mounts[0].host_path}"
     # partition: normal # not clear what the partition is like
-    time_limit: "0:0:20"
+    time_limit: "1:0:0"
     n_cpu: 2
-    n_gpu: 0
+    n_gpu: 2
+    mem: 24G
     interactive: true
     # post_script: >-
     #   make --directory $HOME cleanup;

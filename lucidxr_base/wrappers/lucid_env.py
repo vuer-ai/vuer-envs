@@ -4,6 +4,8 @@ from gym.spaces import Box
 from gym_dmc.dmc_env import DMCEnv, convert_dm_control_to_gym_space
 from numpy._typing import NDArray
 
+from lucidxr_base import set_initial_position
+
 
 class LucidEnv(DMCEnv):
     def __init__(
@@ -44,6 +46,7 @@ class LucidEnv(DMCEnv):
         """
         # self.env = Env(**task_kwargs, environment_kwargs=environment_kwargs)
         self.env = env
+        self.env_id = None
 
         self.metadata = {
             "render.modes": ["human", "rgb_array"],
@@ -91,12 +94,15 @@ class LucidEnv(DMCEnv):
 
     def reset(self, **kwargs):
         timestep = self.env.reset(**kwargs)
+        self.env.task.step_counter = 0
         obs = timestep.observation
+        set_initial_position(self, self.env_id)
         for i in range(self.skip_start or 0):
-            obs = self.env.step([0]).observation
+            obs = self.env.step(np.zeros((1,7))).observation
 
         if self.from_pixels:
             obs["pixels"] = self._get_obs_pixels()
+
 
         return obs
 

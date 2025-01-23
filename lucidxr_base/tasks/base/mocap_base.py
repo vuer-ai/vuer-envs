@@ -37,11 +37,14 @@ class MocapPhysics(mujoco.Physics):
         mquat = self.data.mocap_quat
         return np.hstack([mpos, mquat])
 
-    def set_initial_position(self, mpos, mquat, qpos):
+    def set_initial_position(self, mpos, mquat, qpos, act):
         pass
         self.data.mocap_pos[:] = mpos
         self.data.mocap_quat[:] = mquat
         self.data.qpos[:] = qpos
+        self.data.act[:] = act
+
+
 
 
 class MocapTask(base.Task):
@@ -50,6 +53,10 @@ class MocapTask(base.Task):
 
     Change the Action space to End-Effector trajectories by commanding mocap points
     """
+
+    def __init__(self, random=None):
+        super().__init__(random=random)
+        self.step_counter = 0
 
     def before_step(self, action, physics: MocapPhysics):
         """
@@ -60,6 +67,7 @@ class MocapTask(base.Task):
         :return: nothing
         """
         physics.set_mocap(action)
+        self.step_counter += 1
 
     def get_observation(self, physics):
         """

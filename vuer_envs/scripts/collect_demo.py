@@ -69,11 +69,13 @@ def main():
     from vuer.schemas import MuJoCo
     from ml_logger import logger
 
-    logger.configure(args.demo_prefix)
+    logger.configure(prefix=args.demo_prefix)
     logger.job_started()
-    print(logger.get_dash_url())
 
     vuer = Vuer(static_root=args.wd, port=args.vuer_port)
+    sleep(1)
+
+    trajectory = {"obs":[], "action": []}
 
     box_state = "#23aaff"
     box_other = "#ff2323"
@@ -137,8 +139,7 @@ def main():
 
 
 if __name__ == "__main__":
-    # Params.wd = "/Users/yajvanravan/Library/CloudStorage/GoogleDrive-yravan@mit.edu/.shortcut-targets-by-id/1UQnuWv4ICaE50w_nPTTNeZ1_YtRsswuX/lucidxr-assets/development/robots"
-    Params.wd = "/Users/ge/Library/CloudStorage/GoogleDrive-ge.ike.yang@gmail.com/My Drive/lucidxr-assets/development/robots"
+    Params.wd = "/Users/yajvanravan/mit/vuer-ai/vuer-envs/assets/development/robots"
     Params.scene_name = "scene"
     Params.scene_folder = "universal_robots_ur5e"
 

@@ -21,6 +21,7 @@ class ConvertCfg(ParamsProto):
     verbose = False
     camera_names = ["main"]
     vision_key: str = Proto("render_depth")
+    env_id: str = Proto("ur5_basic-pnp-depth-v1")
 
     def __post_init__(self, _deps=None):
         for k, v in self.__dict__.items():
@@ -30,9 +31,10 @@ class ConvertCfg(ParamsProto):
 
 
 def process_episode(episode, **_deps):
-    args = ConvertCfg(**_deps)
+    ConvertCfg._update(**_deps)
+    args = ConvertCfg()
     loader = ML_Logger(prefix=args.dataset_directory)
-    dataset_path = os.path.join(f"{episode}.hdf5")
+    dataset_path = os.path.join(f"{os.path.dirname(episode)}.hdf5")
     data_dict = {
         "/observations/prop": [],
         "/action": [],
@@ -41,29 +43,25 @@ def process_episode(episode, **_deps):
         data_dict[f"/observations/images/{cam_name}"] = []
 
     traj_file = os.path.join(f"{episode}", "metrics.pkl")
+    obs_file = os.path.join(f"{episode}", f"{args.env_id}_observations.pkl")
+    actions_file = os.path.join(f"{episode}", f"{args.env_id}_actions.pkl")
     try:
         df = loader.read_metrics(path=traj_file)[traj_file]
-        mocap_traj = df[["ts", "mpos", "mquat"]].dropna()
+        obs = loader.load_pkl(obs_file)[0]
+        actions = loader.load_pkl(actions_file)[0]
+        mocap_traj = df[["ts", "mpos", "mquat", "qpos", "act"]].dropna()
         for i, index in enumerate(mocap_traj.index):
-            if i == len(mocap_traj["ts"]) - 1:
-                break
-            if index == 3:
-                continue
-            prop_obs = np.hstack([mocap_traj["mpos"][index], mocap_traj["mquat"][index]])
-            action = np.hstack \
-                ([mocap_traj["mpos"][mocap_traj.index[i + 1]], mocap_traj["mquat"][mocap_traj.index[i + 1]]])
+            prop_obs = obs[i]
+            action = actions[i]
             data_dict["/observations/prop"].append(prop_obs)
             data_dict["/action"].append(action)
-            img_path = os.path.join(f"{episode}", args.vision_key, f"frame_{index:05d}.png")
             try:
-                img = Image.open(loader.load_file(img_path))
-                img = np.array(img)
-                if len(img.shape) == 2:
-                    img = np.stack([img, img, img], axis=-1)
                 for cam_name in args.camera_names:
+                    img_path = os.path.join(f"{episode}", args.vision_key, f"frame_{index:05d}_{cam_name}.png")
+                    img = np.array(Image.open(loader.load_file(img_path)))
                     data_dict[f"/observations/images/{cam_name}"].append(img)
             except Exception as e:
-                print(f"Failed to load {img_path}")
+                print(f"Failed to load {img_path}:,", e)
                 return None  # Fail this episode
     except Exception as e:
         print(f"Error processing trajectory {traj_file}: {e}")
@@ -73,9 +71,11 @@ def process_episode(episode, **_deps):
     try:
         with h5py.File(f"tmp{os.path.dirname(episode)}.hdf5", "w", rdcc_nbytes=1024 ** 2 * 2) as root:
             root.attrs["sim"] = True
-            obs = root.create_group("observations")
-            image = obs.create_group("images")
             for name, array in data_dict.items():
+                for a in array:
+                    if a.shape != array[0].shape:
+                        print(f"Shape mismatch for {name}: {a.shape} vs {array[0].shape}")
+                        return None
                 array = np.stack(array)
                 root.create_dataset(name, data=array)
         loader.upload_file(f"tmp{os.path.dirname(episode)}.hdf5", dataset_path)
@@ -85,16 +85,19 @@ def process_episode(episode, **_deps):
         with h5py.File(f"tmp{os.path.dirname(episode)}.hdf5", "r") as root:
             pass
         os.remove(f"tmp{os.path.dirname(episode)}.hdf5")
+        print(f"Finished processing {os.path.dirname(episode)}")
         return True
     except Exception as e:
         print(f"Error saving HDF5 for episode {os.path.dirname(episode)}: {e}")
         return None
+    print(f"Finished processing {os.path.dirname(episode)}")
 
 
 
 
 def main(**_deps):
-    args = ConvertCfg(**_deps)
+    ConvertCfg._update(**_deps)
+    args = ConvertCfg()
 
     loader = ML_Logger(prefix=args.dataset_directory)
     episode_dirs = loader.glob("*/")
