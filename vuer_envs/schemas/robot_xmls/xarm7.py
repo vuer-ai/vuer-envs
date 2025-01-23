@@ -22,7 +22,6 @@ class Xarm7(Body):
     }
 
     _preamble = """
-    <compiler angle="radian" autolimits="true"/>
     <option integrator="implicitfast"/>
 
     <asset>

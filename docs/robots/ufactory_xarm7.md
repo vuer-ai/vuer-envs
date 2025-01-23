@@ -4,9 +4,7 @@
 Here is a simple scene with the xarm7 and the ufactory gripper.
 
 ```python
-from vuer_envs.schemas.robot_xmls.default_scene import DefaultStage
-from vuer_envs.schemas.robot_xmls.xarm7 import Xarm7
-from vuer_envs.schemas.robot_xmls.ufactory_gripper import UfactoryGripper
+from vuer_envs.schemas import DefaultStage, Xarm7, UfactoryGripper
 from vuer_envs.utils.file import Save, Prettify
 ```
 ```python
