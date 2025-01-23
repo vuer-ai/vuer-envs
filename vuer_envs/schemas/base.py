@@ -23,6 +23,7 @@ class Xml(metaclass=XmlString):
     tag = "xml"
     _attributes: dict
     _children: Tuple["Xml"] = None
+    _children_raw: str = ""
 
     def __init__(self, *_children, tag=None, children: Tuple = None, **attributes):
         if _children and children:
@@ -133,7 +134,8 @@ class XmlTemplate(Xml):
         all_properties = {}
 
         for name, value in vars(self.__class__).items():
-            all_properties[name] = value
+            if name not in omit and not name.startswith("_"):
+                all_properties[name] = value
 
         for name, value in inspect.getmembers(type(self), lambda x: isinstance(x, property)):
             if name not in omit and not name.startswith("_"):
@@ -167,7 +169,6 @@ class XmlTemplate(Xml):
 
     @property
     def children(self) -> str:
-        # print("children")
         values = self._format_dict({"children", "preamble", "postamble", "template"})
         string = self._children_raw.format(**values)
         return string + super().children
@@ -184,6 +185,9 @@ class XmlTemplate(Xml):
             return postamble
         else:
             return string
+
+    def __str__(self):
+        return self._xml
 
     @property
     def _xml(self) -> str:

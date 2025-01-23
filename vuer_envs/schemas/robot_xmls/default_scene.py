@@ -1,10 +1,11 @@
-from vuer_envs import Mjcf
+from vuer_envs.schemas.schema import Mjcf
 
 
 class DefaultStage(Mjcf):
     _attributes = {"model": "default stage"}
 
     _preamble = """
+    <compiler angle="radian" autolimits="true"/>
     <statistic center="0.2 0 0.4" extent=".65"/>
 
     <visual>
@@ -27,7 +28,6 @@ class DefaultStage(Mjcf):
       <worldbody>
         <light pos="0 0 1.5" dir="0 0 -1" directional="true"/>
         <geom name="floor" size="0 0 0.05" type="plane" material="groundplane"/>
-        <geom type="cylinder" size=".06 .06" pos="0 0 .06" rgba="1 1 1 1"/>
         {children}
       </worldbody>
       {postamble}
