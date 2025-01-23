@@ -9,6 +9,7 @@ If you want to develop then install it in editable mode.
 .. code-block:: shell
 
    conda create -n vuer-envs python=3.11
+   conda activate vuer-envs
    pip install -e '.[dev]'
 
 Old Notes, Need @quincy to clean up.
