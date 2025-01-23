@@ -53,16 +53,6 @@ the [API documentation on Data Types](https://docs.vuer.ai/en/latest/api/types.h
    
 .. toctree::
    :maxdepth: 3
-   :caption: Tutorials
-   :hidden:
-   
-   tutorials/basics.md
-   tutorials/robotics.md
-   tutorials/camera/README.md
-   tutorials/physics.md
-   
-.. toctree::
-   :maxdepth: 3
    :caption: Examples
    :hidden:
    
