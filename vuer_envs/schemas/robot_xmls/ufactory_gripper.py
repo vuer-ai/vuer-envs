@@ -6,13 +6,15 @@ class UfactoryGripper(Body):
     This is the Gripper for the Ufactory Xarm7 robot.
     """
 
-    _attributes = {
-        "name": "xarm7-gripper",
-        "childclass": "xarm7_gripper",
-        "pos": "0 0 0",
-        "assets": "ufactory_gripper",
-    }
+    prefix: str = "xarm7"
+    assets: str = "ufactory_xarm7"
 
+    _attributes = {
+        "name": "xarm7",
+        "pos": "0 0 0",
+        "quat": "1 0 0 0",
+    }
+    
     _preamble = """
     <compiler angle="radian" autolimits="true"/>
     <option integrator="implicitfast"/>
@@ -31,7 +33,7 @@ class UfactoryGripper(Body):
     </asset>
 
     <default>
-      <default class="{childclass}">
+      <default class="{prefix}">
         <geom type="mesh" material="black"/>
         <joint range="0 0.85" axis="1 0 0" frictionloss="1"/>
         <site size="0.001" rgba="1 0 0 1" group="4"/>
@@ -117,6 +119,6 @@ class UfactoryGripper(Body):
     </equality>
 
     <actuator>
-      <general class="xarm7_gripper" name="fingers_actuator" tendon="split"/>
+      <general class="{prefix}" name="fingers_actuator" tendon="split"/>
     </actuator>
     """

@@ -21,6 +21,25 @@ class File(metaclass=MetaFile):
     pass
 
 
+class Prettify:
+    def __call__(self, xml_string: str):
+        """
+        prettyfies the given XML string.
+        """
+        try:
+            from xml.dom.minidom import parseString
+    
+            xml = parseString(xml_string)
+            pretty_xml = xml.toprettyxml(indent="  ")
+            return "\n".join([line for line in pretty_xml.splitlines() if line.strip()])
+        except Exception as e:
+            print(f"Error prettyfying XML: {e}")
+            return xml_string
+
+    def __ror__(self, *args):
+        return self(*args)
+
+
 class Save:
     def __init__(self, path: str):
         self.path = path
@@ -41,4 +60,4 @@ class Save:
             print(f"Error saving file: {e}")
 
     def __ror__(self, *args):
-        self(*args)
+        return self(*args)

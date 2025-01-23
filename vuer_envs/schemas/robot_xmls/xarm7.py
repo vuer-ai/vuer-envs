@@ -11,34 +11,37 @@ class Xarm7(Body):
     name is optional, if provided it will be used as the name of the robot and should be unique.
     If not provided, "panada<robot_id> will be used instead, where robot_id is unique.
     """
+    
+    prefix: str = "xarm7"
+    assets: str = "ufactory_xarm7"
 
     _attributes = {
         "name": "xarm7",
-        "childClass": "xarm7",
-        "pos": "0 0 0.12",
+        "pos": "0 0 0",
+        "quat": "1 0 0 0",
     }
 
     _preamble = """
-    <compiler angle="radian" meshdir="assets" autolimits="true"/>
+    <compiler angle="radian" autolimits="true"/>
     <option integrator="implicitfast"/>
 
     <asset>
       <material name="white" rgba="1 1 1 1"/>
       <material name="gray" rgba="0.753 0.753 0.753 1"/>
 
-      <mesh file="link_base.stl"/>
-      <mesh file="link1.stl"/>
-      <mesh file="link2.stl"/>
-      <mesh file="link3.stl"/>
-      <mesh file="link4.stl"/>
-      <mesh file="link5.stl"/>
-      <mesh file="link6.stl"/>
-      <mesh file="link7.stl"/>
-      <mesh file="end_tool.stl"/>
+      <mesh file="{assets}/link_base.stl"/>
+      <mesh file="{assets}/link1.stl"/>
+      <mesh file="{assets}/link2.stl"/>
+      <mesh file="{assets}/link3.stl"/>
+      <mesh file="{assets}/link4.stl"/>
+      <mesh file="{assets}/link5.stl"/>
+      <mesh file="{assets}/link6.stl"/>
+      <mesh file="{assets}/link7.stl"/>
+      <mesh file="{assets}/end_tool.stl"/>
     </asset>
     
     <default>
-      <default class="xarm7">
+      <default class="{prefix}">
         <geom type="mesh" material="white"/>
         <joint axis="0 0 1" range="-6.28319 6.28319" frictionloss="1"/>
         <general biastype="affine" ctrlrange="-6.28319 6.28319"/>
@@ -60,7 +63,7 @@ class Xarm7(Body):
     """
 
     template = """
-    <body name="{name}-link_base" pos="0 0 .12" childclass="xarm7">
+    <body name="{name}-link_base" pos="0 0 .12" childclass="{prefix}">
       <inertial pos="-0.021131 -0.0016302 0.056488" quat="0.696843 0.20176 0.10388 0.680376" mass="0.88556"
         diaginertia="0.00382023 0.00335282 0.00167725"/>
       <geom mesh="link_base"/>
@@ -123,9 +126,8 @@ class Xarm7(Body):
     </actuator>
     """
 
-    def __init__(self, *_children, name="xarm7", end_effector: Body = None, pos="0 0 0", quat="1 0 0 0", **rest):
+    def __init__(self, *_children, end_effector: Body = None, **rest):
         # Ge: we do the super call here to reduce boilerplate code.
-        super().__init__(*_children, name=name, pos=pos, quat=quat, **rest)
-        self.name = name
+        super().__init__(*_children, **rest)
 
         self._children = (*(self._children or []), end_effector)

@@ -1,8 +1,10 @@
+from __future__ import annotations
+
 from typing import List
 
 from lxml import etree
 
-from vuer_envs.schemas.base import XmlTemplate
+from vuer_envs.schemas.base import Xml, XmlTemplate
 from vuer_envs.utils.tree_merge import merge_many
 
 
@@ -32,7 +34,7 @@ class MjNode(XmlTemplate):
         attributes=None,
         preamble: str = None,
         postamble: str = None,
-        children: List[str] = None,
+        children: Xml | List[Xml] = None,
         **kwargs,
     ):
         super().__init__(

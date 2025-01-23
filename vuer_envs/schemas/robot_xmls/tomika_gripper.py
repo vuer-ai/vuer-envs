@@ -2,6 +2,10 @@ from vuer_envs import Body
 
 
 class TomikaGripper(Body):
+    
+    prefix = "panda"
+    assets = "franka_panda"
+    
     _attributes = {
         "name": "tomika_gripper",
         "pos": "0 0 0.107",
@@ -9,7 +13,7 @@ class TomikaGripper(Body):
     }
     _preamble = """
     <default>
-        <default class="panda">
+        <default class="{prefix}">
           <material specular="0.5" shininess="0.25"/>
           <joint armature="0.1" damping="1" axis="0 0 1" range="-2.8973 2.8973"/>
           <general dyntype="none" biastype="affine" ctrlrange="-2.8973 2.8973" forcerange="-87 87"/>
@@ -42,23 +46,23 @@ class TomikaGripper(Body):
     </default>
 
     <asset>
-        <material class="panda" name="white" rgba="1 1 1 1"/>
-        <material class="panda" name="off_white" rgba="0.901961 0.921569 0.929412 1"/>
-        <material class="panda" name="black" rgba="0.25 0.25 0.25 1"/>
-        <material class="panda" name="green" rgba="0 1 0 1"/>
-        <material class="panda" name="light_blue" rgba="0.039216 0.541176 0.780392 1"/>
+        <material class="{prefix}" name="white" rgba="1 1 1 1"/>
+        <material class="{prefix}" name="off_white" rgba="0.901961 0.921569 0.929412 1"/>
+        <material class="{prefix}" name="black" rgba="0.25 0.25 0.25 1"/>
+        <material class="{prefix}" name="green" rgba="0 1 0 1"/>
+        <material class="{prefix}" name="light_blue" rgba="0.039216 0.541176 0.780392 1"/>
     
         <!-- Hand collision mesh -->
-        <mesh name="hand_c" file="hand.stl"/>
+        <mesh name="hand_c" file="{assets}/hand.stl"/>
         
         <!-- Hand visual mesh -->
-        <mesh file="hand_0.obj"/>
-        <mesh file="hand_1.obj"/>
-        <mesh file="hand_2.obj"/>
-        <mesh file="hand_3.obj"/>
-        <mesh file="hand_4.obj"/>
-        <mesh file="finger_0.obj"/>
-        <mesh file="finger_1.obj"/>
+        <mesh file="{assets}/hand_0.obj"/>
+        <mesh file="{assets}/hand_1.obj"/>
+        <mesh file="{assets}/hand_2.obj"/>
+        <mesh file="{assets}/hand_3.obj"/>
+        <mesh file="{assets}/hand_4.obj"/>
+        <mesh file="{assets}/finger_0.obj"/>
+        <mesh file="{assets}/finger_1.obj"/>
     </asset>
     """
     _children_raw = """
@@ -108,6 +112,6 @@ class TomikaGripper(Body):
     </equality>
     <actuator>
         <!-- Remap original ctrlrange (0, 0.04) to (0, 255): 0.04 * 100 / 255 = 0.01568627451 -->
-        <general class="panda" name="{name}-actuator8" tendon="{name}-split" forcerange="-100 100" ctrlrange="0 255" gainprm="0.01568627451 0 0" biasprm="0 -100 -10"/>
+        <general class="{prefix}" name="{name}-actuator8" tendon="{name}-split" forcerange="-100 100" ctrlrange="0 255" gainprm="0.01568627451 0 0" biasprm="0 -100 -10"/>
     </actuator>
     """

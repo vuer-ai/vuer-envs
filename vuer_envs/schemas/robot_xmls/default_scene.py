@@ -2,7 +2,7 @@ from vuer_envs import Mjcf
 
 
 class DefaultStage(Mjcf):
-    _attributes = {"model": "xarm7 scene"}
+    _attributes = {"model": "default stage"}
 
     _preamble = """
     <statistic center="0.2 0 0.4" extent=".65"/>

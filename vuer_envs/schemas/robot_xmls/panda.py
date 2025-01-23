@@ -5,19 +5,22 @@ from vuer_envs.schemas.schema import Body
 class PandaLink7(Body):
     """Link 7 of the Panda robot."""
 
-    _attributes = {"name": "link7"}
+    name: str
+    prefix: str
+
+    _attributes = {"name": "link7", "pos": "0.088 0 0", "quat": "0.707107 0.707107 0 0"}
 
     _preamble = """
     <asset>
-    <mesh name="link7_c" file="link7.stl"/>
-    <mesh file="link7_0.obj"/>
-    <mesh file="link7_1.obj"/>
-    <mesh file="link7_2.obj"/>
-    <mesh file="link7_3.obj"/>
-    <mesh file="link7_4.obj"/>
-    <mesh file="link7_5.obj"/>
-    <mesh file="link7_6.obj"/>
-    <mesh file="link7_7.obj"/>
+    <mesh name="link7_c" file="{assets}/link7.stl"/>
+    <mesh file="{assets}/link7_0.obj"/>
+    <mesh file="{assets}/link7_1.obj"/>
+    <mesh file="{assets}/link7_2.obj"/>
+    <mesh file="{assets}/link7_3.obj"/>
+    <mesh file="{assets}/link7_4.obj"/>
+    <mesh file="{assets}/link7_5.obj"/>
+    <mesh file="{assets}/link7_6.obj"/>
+    <mesh file="{assets}/link7_7.obj"/>
     </asset>
     """
 
@@ -38,16 +41,19 @@ class PandaLink7(Body):
 
     _postamble = """
     <actuator>
-    <general class="panda" name="{name}-actuator" joint="{name}-joint" gainprm="2000" biasprm="0 -2000 -200" forcerange="-12 12"/>
+    <general class="{prefix}" name="{name}-actuator" joint="{name}-joint" gainprm="2000" biasprm="0 -2000 -200" forcerange="-12 12"/>
     </actuator>
     """
 
     def __init__(self, *_children, **rest):
-        super().__init__(*_children, **rest, pos="0.088 0 0", quat="0.707107 0.707107 0 0")
+        super().__init__(*_children, **rest)
 
 
 class PandaLink6(Body):
     """Link 6 of the Panda robot."""
+
+    name: str
+    prefix: str
 
     _attributes = {
         "name": "link6",
@@ -57,24 +63,24 @@ class PandaLink6(Body):
 
     _preamble = """
     <asset>
-    <mesh name="link6_c" file="link6.stl"/>
-    <mesh file="link6_0.obj"/>
-    <mesh file="link6_1.obj"/>
-    <mesh file="link6_2.obj"/>
-    <mesh file="link6_3.obj"/>
-    <mesh file="link6_4.obj"/>
-    <mesh file="link6_5.obj"/>
-    <mesh file="link6_6.obj"/>
-    <mesh file="link6_7.obj"/>
-    <mesh file="link6_8.obj"/>
-    <mesh file="link6_9.obj"/>
-    <mesh file="link6_10.obj"/>
-    <mesh file="link6_11.obj"/>
-    <mesh file="link6_12.obj"/>
-    <mesh file="link6_13.obj"/>
-    <mesh file="link6_14.obj"/>
-    <mesh file="link6_15.obj"/>
-    <mesh file="link6_16.obj"/>
+    <mesh name="link6_c" file="{assets}/link6.stl"/>
+    <mesh file="{assets}/link6_0.obj"/>
+    <mesh file="{assets}/link6_1.obj"/>
+    <mesh file="{assets}/link6_2.obj"/>
+    <mesh file="{assets}/link6_3.obj"/>
+    <mesh file="{assets}/link6_4.obj"/>
+    <mesh file="{assets}/link6_5.obj"/>
+    <mesh file="{assets}/link6_6.obj"/>
+    <mesh file="{assets}/link6_7.obj"/>
+    <mesh file="{assets}/link6_8.obj"/>
+    <mesh file="{assets}/link6_9.obj"/>
+    <mesh file="{assets}/link6_10.obj"/>
+    <mesh file="{assets}/link6_11.obj"/>
+    <mesh file="{assets}/link6_12.obj"/>
+    <mesh file="{assets}/link6_13.obj"/>
+    <mesh file="{assets}/link6_14.obj"/>
+    <mesh file="{assets}/link6_15.obj"/>
+    <mesh file="{assets}/link6_16.obj"/>
     </asset>
     """
 
@@ -103,7 +109,7 @@ class PandaLink6(Body):
 
     _postamble = """
     <actuator>
-    <general class="panda" name="{name}-actuator" joint="{name}-joint" gainprm="2000" biasprm="0 -2000 -200" forcerange="-12 12"
+    <general class="{prefix}" name="{name}-actuator" joint="{name}-joint" gainprm="2000" biasprm="0 -2000 -200" forcerange="-12 12"
       ctrlrange="-0.0175 3.7525"/>
     </actuator>
     """
@@ -112,16 +118,19 @@ class PandaLink6(Body):
 class PandaLink5(Body):
     """Link 5 of the Panda robot."""
 
-    _attributes = {"name": "link5"}
+    prefix: str
+    assets: str
+
+    _attributes = {"name": "link5", "pos": "-0.0825 0.384 0", "quat": "0.707107 -0.707107 0 0"}
 
     _preamble = """
     <asset>
-    <mesh name="link5_c0" file="link5_collision_0.obj"/>
-    <mesh name="link5_c1" file="link5_collision_1.obj"/>
-    <mesh name="link5_c2" file="link5_collision_2.obj"/>
-    <mesh file="link5_0.obj"/>
-    <mesh file="link5_1.obj"/>
-    <mesh file="link5_2.obj"/>
+    <mesh name="link5_c0" file="{assets}/link5_collision_0.obj"/>
+    <mesh name="link5_c1" file="{assets}/link5_collision_1.obj"/>
+    <mesh name="link5_c2" file="{assets}/link5_collision_2.obj"/>
+    <mesh file="{assets}/link5_0.obj"/>
+    <mesh file="{assets}/link5_1.obj"/>
+    <mesh file="{assets}/link5_2.obj"/>
     </asset>
     """
 
@@ -138,26 +147,29 @@ class PandaLink5(Body):
 
     _postamble = """
     <actuator>
-    <general class="panda" name="{name}-actuator" joint="{name}-joint" gainprm="2000" biasprm="0 -2000 -200" forcerange="-12 12"/>
+    <general class="{prefix}" name="{name}-actuator" joint="{name}-joint" gainprm="2000" biasprm="0 -2000 -200" forcerange="-12 12"/>
     </actuator>
     """
 
     def __init__(self, *_children, **rest):
-        super().__init__(*_children, **rest, pos="-0.0825 0.384 0", quat="0.707107 -0.707107 0 0")
+        super().__init__(*_children, **rest)
 
 
 class PandaLink4(Body):
     """Link 4 of the Panda robot."""
 
-    _attributes = {"name": "link4"}
+    prefix: str
+    assets: str
+
+    _attributes = {"name": "link4", "pos": "0.0825 0 0", "quat": "0.707107 0.707107 0 0"}
 
     _preamble = """
     <asset>
-    <mesh name="link4_c" file="link4.stl"/>
-    <mesh file="link4_0.obj"/>
-    <mesh file="link4_1.obj"/>
-    <mesh file="link4_2.obj"/>
-    <mesh file="link4_3.obj"/>
+    <mesh name="link4_c" file="{assets}/link4.stl"/>
+    <mesh file="{assets}/link4_0.obj"/>
+    <mesh file="{assets}/link4_1.obj"/>
+    <mesh file="{assets}/link4_2.obj"/>
+    <mesh file="{assets}/link4_3.obj"/>
     </asset>
     """
 
@@ -174,27 +186,30 @@ class PandaLink4(Body):
 
     _postamble = """
     <actuator>
-    <general class="panda" name="{name}-actuator" joint="{name}-joint" gainprm="3500" biasprm="0 -3500 -350"
+    <general class="{prefix}" name="{name}-actuator" joint="{name}-joint" gainprm="3500" biasprm="0 -3500 -350"
       ctrlrange="-3.0718 -0.0698"/>
     </actuator>
     """
 
     def __init__(self, *_children, **rest):
-        super().__init__(*_children, **rest, pos="0.0825 0 0", quat="0.707107 0.707107 0 0")
+        super().__init__(*_children, **rest)
 
 
 class PandaLink3(Body):
     """Link 3 of the Panda robot."""
 
-    _attributes = {"name": "link3"}
+    prefix: str
+    assets: str
+
+    _attributes = {"name": "link3", "pos": "0 -0.316 0", "quat": "0.707107 0.707107 0 0"}
 
     _preamble = """
     <asset>
-    <mesh name="link3_c" file="link3.stl"/>
-    <mesh file="link3_0.obj"/>
-    <mesh file="link3_1.obj"/>
-    <mesh file="link3_2.obj"/>
-    <mesh file="link3_3.obj"/>
+    <mesh name="link3_c" file="{assets}/link3.stl"/>
+    <mesh file="{assets}/link3_0.obj"/>
+    <mesh file="{assets}/link3_1.obj"/>
+    <mesh file="{assets}/link3_2.obj"/>
+    <mesh file="{assets}/link3_3.obj"/>
     </asset>
     """
 
@@ -210,23 +225,26 @@ class PandaLink3(Body):
 
     _postamble = """
     <actuator>
-    <general class="panda" name="{name}-actuator" joint="{name}-joint" gainprm="3500" biasprm="0 -3500 -350"/>
+    <general class="{prefix}" name="{name}-actuator" joint="{name}-joint" gainprm="3500" biasprm="0 -3500 -350"/>
     </actuator>
     """
 
     def __init__(self, *_children, **rest):
-        super().__init__(*_children, **rest, pos="0 -0.316 0", quat="0.707107 0.707107 0 0")
+        super().__init__(*_children, **rest)
 
 
 class PandaLink2(Body):
     """Link 2 of the Panda robot."""
 
-    _attributes = {"name": "link2"}
+    prefix: str
+    assets: str
+
+    _attributes = {"name": "link2", "pos": "0 0 0", "quat": "0.707107 -0.707107 0 0"}
 
     _preamble = """
     <asset>
-    <mesh name="link2_c" file="link2.stl"/>
-    <mesh file="link2.obj"/>
+    <mesh name="link2_c" file="{assets}/link2.stl"/>
+    <mesh file="{assets}/link2.obj"/>
     </asset>
     """
 
@@ -240,23 +258,26 @@ class PandaLink2(Body):
 
     _postamble = """
     <actuator>
-    <general class="panda" name="{name}-actuator" joint="{name}-joint" gainprm="4500" biasprm="0 -4500 -450" ctrlrange="-1.7628 1.7628"/>
+    <general class="{prefix}" name="{name}-actuator" joint="{name}-joint" gainprm="4500" biasprm="0 -4500 -450" ctrlrange="-1.7628 1.7628"/>
     </actuator>
     """
 
     def __init__(self, *_children, **rest):
-        super().__init__(*_children, **rest, pos="0 0 0", quat="0.707107 -0.707107 0 0")
+        super().__init__(*_children, **rest)
 
 
 class PandaLink1(Body):
     """Link 1 of the Panda robot."""
 
-    _attributes = {"name": "link1"}
+    prefix: str
+    assets: str
+
+    _attributes = {"name": "link1", "pos": "0 0 0.333"}
 
     _preamble = """
     <asset>
-    <mesh name="link1_c" file="link1.stl"/>
-    <mesh file="link1.obj"/>
+    <mesh name="link1_c" file="{assets}/link1.stl"/>
+    <mesh file="{assets}/link1.obj"/>
     </asset>
     """
 
@@ -269,19 +290,21 @@ class PandaLink1(Body):
 
     _postamble = """
     <actuator>
-        <general class="panda" name="{name}-actuator" joint="{name}-joint" gainprm="4500" biasprm="0 -4500 -450"/>
+        <general class="{prefix}" name="{name}-actuator" joint="{name}-joint" gainprm="4500" biasprm="0 -4500 -450"/>
     </actuator>
     """
 
     def __init__(self, *_children, **rest):
-        super().__init__(*_children, **rest, pos="0 0 0.333")
+        super().__init__(*_children, **rest)
 
 
 class PandaLink0(Body):
     """Link 0 of the Panda robot."""
 
-    _attributes = {"name": "link0"}
-    prefix = "panda"
+    prefix: str
+    assets: str
+
+    _attributes = {"name": "link0", "pos": "0 0 0"}
 
     _preamble = """
     <asset>
@@ -292,20 +315,20 @@ class PandaLink0(Body):
     <material class="{prefix}" name="light_blue" rgba="0.039216 0.541176 0.780392 1"/>
     
     <!-- collision mesh -->
-    <mesh name="link0_c" file="link0.stl"/>
+    <mesh name="link0_c" file="{assets}/link0.stl"/>
     
     <!-- visual mesh -->
-    <mesh file="link0_0.obj"/>
-    <mesh file="link0_1.obj"/>
-    <mesh file="link0_2.obj"/>
-    <mesh file="link0_3.obj"/>
-    <mesh file="link0_4.obj"/>
-    <mesh file="link0_5.obj"/>
-    <mesh file="link0_7.obj"/>
-    <mesh file="link0_8.obj"/>
-    <mesh file="link0_9.obj"/>
-    <mesh file="link0_10.obj"/>
-    <mesh file="link0_11.obj"/>
+    <mesh file="{assets}/link0_0.obj"/>
+    <mesh file="{assets}/link0_1.obj"/>
+    <mesh file="{assets}/link0_2.obj"/>
+    <mesh file="{assets}/link0_3.obj"/>
+    <mesh file="{assets}/link0_4.obj"/>
+    <mesh file="{assets}/link0_5.obj"/>
+    <mesh file="{assets}/link0_7.obj"/>
+    <mesh file="{assets}/link0_8.obj"/>
+    <mesh file="{assets}/link0_9.obj"/>
+    <mesh file="{assets}/link0_10.obj"/>
+    <mesh file="{assets}/link0_11.obj"/>
     </asset>
     """
 
@@ -327,7 +350,7 @@ class PandaLink0(Body):
     """
 
     def __init__(self, *_children, **rest):
-        super().__init__(*_children, **rest, pos="0 0 0")
+        super().__init__(*_children, **rest)
 
 
 class Panda(Body):
@@ -342,13 +365,17 @@ class Panda(Body):
     """
 
     key = 0
-    assets = "assets"
+
+    prefix: str = "panda"
+    assets: str = "franka_panda"
+
+    _attributes = { "name": prefix, "pos": "0 0 0", "quat": "1 0 0 0"}
 
     _preamble = """
-    <compiler angle="radian" meshdir="{assets}" texturedir="{assets}" autolimits="true"/>
+    <compiler angle="radian" autolimits="true"/>
     
     <default>
-        <default class="panda">
+        <default class="{prefix}">
           <material specular="0.5" shininess="0.25"/>
           <joint armature="0.1" damping="1" axis="0 0 1" range="-2.8973 2.8973"/>
           <general dyntype="none" biastype="affine" ctrlrange="-2.8973 2.8973" forcerange="-87 87"/>
@@ -371,30 +398,24 @@ class Panda(Body):
     </body>
     """
 
-    def __init__(self, *_children, name, end_effector: Body = None, assets=None, pos="0 0 0", quat="1 0 0 0", **rest):
+    def __init__(self, *_children, end_effector: Body = None, **rest):
         # Ge: we do the super call here to reduce boilerplate code.
-        super().__init__(*_children, name=name, pos=pos, quat=quat, **rest)
+        super().__init__(*_children, **rest)
 
-        self.assets = assets
-
-        if name:
-            self.name = name
-        else:
-            self.name = f"panda{self.key}"
-
-        self.key = Panda.key
-        Panda.key += 1
+        name = self._attributes["name"]
 
         link = chain(
-            PandaLink0(name=name + "_link0"),
-            PandaLink1(name=name + "_link1"),
-            PandaLink2(name=name + "_link2"),
-            PandaLink3(name=name + "_link3"),
-            PandaLink4(name=name + "_link4"),
-            PandaLink5(name=name + "_link5"),
-            PandaLink6(name=name + "_link6"),
+            PandaLink0(name=name + "_link0", prefix=self.prefix, assets=self.assets),
+            PandaLink1(name=name + "_link1", prefix=self.prefix, assets=self.assets),
+            PandaLink2(name=name + "_link2", prefix=self.prefix, assets=self.assets),
+            PandaLink3(name=name + "_link3", prefix=self.prefix, assets=self.assets),
+            PandaLink4(name=name + "_link4", prefix=self.prefix, assets=self.assets),
+            PandaLink5(name=name + "_link5", prefix=self.prefix, assets=self.assets),
+            PandaLink6(name=name + "_link6", prefix=self.prefix, assets=self.assets),
             PandaLink7(
                 name=name + "_link7",
+                prefix=self.prefix,
+                assets=self.assets,
                 children=end_effector,
             ),
         )
