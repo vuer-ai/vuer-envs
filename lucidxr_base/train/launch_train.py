@@ -41,7 +41,12 @@ if __name__ == "__main__":
     machine = machines[0]
 
     jaynes.config()
-    jaynes.run(main, dataset_prefix=["lucidxr/lucidxr/datasets/lucidxr/datasets/pnp/data/2025/01/17/dataset1/"], vision_type="render_depth", local_load=False, load_checkpoint=None)
+    jaynes.run(main, dataset_prefix=[
+        "lucidxr/lucidxr/datasets/lucidxr/poc/demos/pnp/data/universal_robots_ur5e/2025/01/18/23.48.11", ],
+               vision_type="render_depth",
+               local_load=False,
+               load_checkpoint=None,
+               camera_names=["table_pov", "overhead"],)
 
     # jaynes.execute()
     jaynes.listen(3000)

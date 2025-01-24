@@ -30,8 +30,6 @@ class RenderDepthWrapper(MovableCameraWrapper):
 
         self.camera = None
 
-        if self.camera_id in self.unwrapped.env.physics.named.model.cam_fovy:
-            self.fovy = self.unwrapped.env.physics.named.model.cam_fovy[self.camera_id]
 
     def step(self, action):
         obs, rew, done, info = self.env.step(action)
@@ -46,16 +44,17 @@ class RenderDepthWrapper(MovableCameraWrapper):
             )
             info["depth_frame"] = frame
 
-        # clip
-        frame = np.clip(frame, self.near, self.far)
+        for c_id in frame:
+            # clip
+            frame[c_id] = np.clip(frame[c_id], self.near, self.far)
 
-        # normalize
-        frame = (frame - self.near) / (self.far - self.near)
+            # normalize
+            frame[c_id] = (frame[c_id] - self.near) / (self.far - self.near)
 
-        frame = (frame * 255).astype(np.uint8)
+            frame[c_id] = (frame[c_id] * 255).astype(np.uint8)
 
-        if len(frame.shape) == 2:
-            frame = frame[:, :, None]
+            if len(frame[c_id].shape) == 2:
+                frame[c_id] = frame[:, :, None]
 
         info["render_depth"] = frame
         return obs, rew, done, info

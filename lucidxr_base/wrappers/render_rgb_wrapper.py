@@ -22,8 +22,6 @@ class RenderRGBWrapper(MovableCameraWrapper):
         self.height = height
         self.camera_id = camera_id
 
-        if self.camera_id in self.unwrapped.env.physics.named.model.cam_fovy:
-            self.fovy = self.unwrapped.env.physics.named.model.cam_fovy[self.camera_id]
 
     def step(self, action):
         obs, rew, done, info = self.env.step(action)

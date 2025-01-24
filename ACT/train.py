@@ -25,6 +25,7 @@ class TrainArgs(ParamsProto):
     local_load = True
     
     checkpoint_interval = 100
+    camera_names = ["main"]
 
     # train params
     batch_size_train = 128
@@ -50,7 +51,7 @@ def main(_deps=None, **deps):
 
     train_dataloader, val_dataloader, stats, _ = load_data_combined(
         dataset_dirs=dataset_dirs,
-        camera_names=["main"],
+        camera_names=TrainArgs.camera_names,
         batch_size_train=TrainArgs.batch_size_train,
         batch_size_val=TrainArgs.batch_size_val,
     )
@@ -168,6 +169,10 @@ def train_bc(train_dataloader, val_dataloader):
     logger.torch_save(best_state_dict, f"checkpoints/policy_best_epoch_{best_epoch}.pt")
     logger.print(f"Training finished:\nSeed {TrainArgs.seed}, val loss {min_val_loss:.6f} at epoch {best_epoch}")
 
+    for d in train_dataloader.dataset.episodic_datasets:
+        d.clean_up()
+    for d in val_dataloader.dataset.episodic_datasets:
+        d.clean_up()
     return best_ckpt_info
 
 

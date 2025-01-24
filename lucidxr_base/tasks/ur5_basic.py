@@ -6,8 +6,9 @@ from dm_control.rl import control
 from ml_logger import ML_Logger
 from skimage.data import camera
 
-from lucidxr_base import add_env
+from lucidxr_base import add_env, INITIAL_POSITION_PREFIXES
 from lucidxr_base.tasks.base.mocap_base import MocapTask, MocapPhysics
+from lucidxr_base.wrappers.history_wrapper import HistoryWrapper
 from lucidxr_base.wrappers.lucid_env import LucidEnv
 from lucidxr_base.wrappers.render_depth_wrapper import RenderDepthWrapper
 from lucidxr_base.wrappers.render_rgb_wrapper import RenderRGBWrapper
@@ -45,18 +46,8 @@ def entrypoint(
         control_timestep=CONTROL_TIMESTEP,
     )
 
-    # set initial_position
-    loader = ML_Logger(prefix=INIT_DIR)
-    print("LOADER")
-    print(loader)
-    metrics = loader.read_metrics(path="metrics.pkl")
-    df = metrics["metrics.pkl"]
-    mpos = [*df["mpos"].dropna()][0]
-    mquat = [*df["mquat"].dropna()][0]
-    qpos = [*df["qpos"].dropna()][0]
-    physics.set_initial_position(mpos, mquat, qpos)
 
-    env = LucidEnv(env, height=480, width=270, camera_id=-1)
+    env = LucidEnv(env, height=480, width=270, camera_id=-1, skip_start=3)
     if mode == "depth":
         env = RenderDepthWrapper(
             env,
@@ -71,6 +62,8 @@ def entrypoint(
             height=270,
             camera_id=-1 if "camera_id" not in kwargs else kwargs["camera_id"]
         )
+    if "history" in kwargs:
+        env = HistoryWrapper(env, history_len=4)
     return env
 
 add_env(
@@ -95,7 +88,7 @@ add_env(
     kwargs=dict(
         xml_path=UR5_PNP_SCENE_FILE,
         mode="vision",
-        camera_id=1,
+        camera_id=["table_pov", "overhead"],
     ),
 )
 add_env(
@@ -104,9 +97,22 @@ add_env(
     kwargs=dict(
         xml_path=UR5_PNP_SCENE_FILE,
         mode="depth",
-        camera_id=1,
+        camera_id=["table_pov", "overhead"],
     ),
 )
+add_env(
+    env_id="ur5_basic-pnp-depth-history-v1",
+    entrypoint=entrypoint,
+    kwargs=dict(
+        xml_path=UR5_PNP_SCENE_FILE,
+        mode="depth",
+        camera_id=["table_pov", "overhead"],
+        history=True,
+    ),
+)
+INITIAL_POSITION_PREFIXES["ur5_basic-pnp-v1"] = INIT_DIR
+INITIAL_POSITION_PREFIXES["ur5_basic-pnp-depth-v1"] = INIT_DIR
+INITIAL_POSITION_PREFIXES["ur5_basic-pnp-depth-history-v1"] = INIT_DIR
 """
 [x] make a simple UR5 environment 
 [x] render the depth image

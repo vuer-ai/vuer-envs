@@ -42,6 +42,8 @@ class EpisodicDataset(torch.utils.data.Dataset):
         self.norm_stats = norm_stats
         self.is_sim = None
         self.loader = ML_Logger(prefix=dataset_dir)
+        # for (i, episode_id) in enumerate(self.episode_ids):
+        #     self.loader.download_file(episode_id, to=f"tmp{episode_id}.hdf5")
         self.__getitem__(0)  # initialize self.is_sim
 
     def __len__(self):
@@ -51,7 +53,8 @@ class EpisodicDataset(torch.utils.data.Dataset):
         sample_full_episode = False  # hardcode
 
         episode_id = self.episode_ids[index]
-        with h5py.File(f"/data/scratch/geyang/dataset1/episode_{episode_id}.hdf5", "r") as root:
+        # with h5py.File(f"tmp{episode_id}.hdf5", "r") as root:
+        with h5py.File(f"/data/scratch/geyang/yajjy_demo/dataset_pnp1/{episode_id}", "r") as root:
         # with self.loader.load_h5(f"episode_{episode_id}.hdf5", "r") as root:
             is_sim = root.attrs["sim"]
             original_action_shape = root["/action"].shape
@@ -77,7 +80,7 @@ class EpisodicDataset(torch.utils.data.Dataset):
         self.is_sim = is_sim
 
         padded_action = np.zeros((self.max_action_size, 7), dtype=np.float32)
-        padded_action[:action_len] = action
+        padded_action[:action_len] = action.squeeze()
         is_pad = np.zeros(self.max_action_size)
         is_pad[action_len:] = 1
 
@@ -100,9 +103,14 @@ class EpisodicDataset(torch.utils.data.Dataset):
         image_data = image_data / 255.0
         action_data = (action_data - self.norm_stats["action_mean"]) / self.norm_stats["action_std"]
         qpos_data = (qpos_data - self.norm_stats["qpos_mean"]) / self.norm_stats["qpos_std"]
+        qpos_data = qpos_data.flatten()
 
         return image_data.float(), qpos_data.float(), action_data.float(), is_pad
 
+    def clean_up(self):
+        # for episode_id in self.episode_ids:
+        #     os.remove(f"tmp{episode_id}.hdf5")
+        self.loader.save_pkl(self.norm_stats, "dataset_stats.pkl")
 
 def get_norm_stats(dataset_dir, episode_ids):
     all_qpos_data = []
@@ -154,15 +162,21 @@ def get_norm_stats_combined(dataset_dirs):
         print(os.getcwd())
         print()
         all_files = glob.glob("/data/scratch/geyang/dataset1/episode_*.hdf5")
+        all_files = loader.glob("*.hdf5")
         print(dataset_dir)
         print(f"Found {len(all_files)} episodes")
         for i,episode in enumerate(all_files):
+            # loader.download_file(episode, to=f"tmp.hdf5")
             # with loader.load_h5(f"episode_{i}.hdf5", "r") as root:
-            with h5py.File(f"/data/scratch/geyang/dataset1/episode_{i}.hdf5", "r") as root:
+            with h5py.File(f"/data/scratch/geyang/yajjy_demo/dataset_pnp1/{episode}", "r") as root:
+            # with h5py.File(f"tmp.hdf5", "r") as root:
                 qpos = root["/observations/prop"][()]
                 action = root["/action"][()]
+            # os.remove("tmp.hdf5")
             all_qpos_data.append(torch.from_numpy(qpos))
             all_action_data.append(torch.from_numpy(action))
+            print(qpos.shape)
+            print(f"processed episode {i}")
     all_qpos_data = torch.cat(all_qpos_data)
     all_action_data = torch.cat(all_action_data)
 
@@ -194,7 +208,7 @@ def load_data(dataset_dir, num_episodes, camera_names, batch_size_train, batch_s
 
     print(f"\nData from: {dataset_dir}\n")
 
-    all_files = logger.glob(os.path.join(dataset_dir, "episode_*.hdf5"))
+    all_files = logger.glob(os.path.join(dataset_dir, "*.hdf5"))
     print(dataset_dir)
     print(f"Found {len(all_files)} episodes")
 
@@ -232,13 +246,13 @@ def load_data_combined(dataset_dirs, camera_names, batch_size_train, batch_size_
 
     for dataset_dir in dataset_dirs:
         loader = ML_Logger(prefix=dataset_dir)
-        all_files = loader.glob("episode_*.hdf5")
+        all_files = loader.glob("*.hdf5")
         print(dataset_dir)
         print(f"Found {len(all_files)} episodes")
 
-        all_episodes = [int(f.split("/")[-1].split("_")[1].split(".")[0]) for f in all_files]
+        all_episodes = all_files
 
-        train_ratio = 0.8
+        train_ratio = 0.5
         shuffled_indices = np.random.permutation(list(all_episodes))
         train_indices = shuffled_indices[: int(train_ratio * len(shuffled_indices))]
         val_indices = shuffled_indices[int(train_ratio * len(shuffled_indices)) :]
@@ -252,6 +266,7 @@ def load_data_combined(dataset_dirs, camera_names, batch_size_train, batch_size_
 
     combined_train_dataset = CombinedDataset(*trainsets)
     combined_val_dataset = CombinedDataset(*valsets)
+
 
     train_dataloader = DataLoader(
         combined_train_dataset, batch_size=batch_size_train, shuffle=True, pin_memory=True, num_workers=1, prefetch_factor=1

@@ -4,7 +4,6 @@ from importlib import import_module
 
 from gym_dmc.gym.core import Wrapper
 
-from lucidxr_base.wrappers.lucid_env import LucidEnv
 from lucidxr_base.wrappers.movable_camera_wrapper import MovableCameraWrapper
 
 
@@ -64,10 +63,27 @@ def make(env_id: str, **kwargs) -> MovableCameraWrapper:
     _kwargs.update(kwargs)
 
     env = entry_point(**_kwargs)
+    set_env_id(env, env_id)
 
     return env
 
-from ml_logger import logger
+def set_env_id(env, env_id):
+    env.unwrapped.env_id = env_id
+    return env
+
+INITIAL_POSITION_PREFIXES= {}
+def set_initial_position(env, env_id):
+    # set initial_position
+    loader = ML_Logger(prefix=INITIAL_POSITION_PREFIXES[env_id])
+    metrics = loader.read_metrics(path="metrics.pkl")
+    df = metrics["metrics.pkl"]
+    mpos = [*df["mpos"].dropna()][0]
+    mquat = [*df["mquat"].dropna()][0]
+    qpos = [*df["qpos"].dropna()][0]
+    act = [*df["act"].dropna()][0]
+    env.unwrapped.env.physics.set_initial_position(mpos, mquat, qpos, act)
+
+from ml_logger import logger, ML_Logger
 from ml_logger.job import RUN, instr
 
 RUN.prefix = "/lucidxr/lucidxr/{file_stem}/{job_name}"

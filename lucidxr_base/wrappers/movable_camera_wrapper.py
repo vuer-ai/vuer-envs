@@ -1,10 +1,11 @@
 import numpy as np
 from dm_control.mujoco import MovableCamera
 
-from gym_dmc.gym.core import Wrapper
+
+from lucidxr_base.wrappers.multiview_image_wrapper import MultiViewImageWrapper
 
 
-class MovableCameraWrapper(Wrapper):
+class MovableCameraWrapper(MultiViewImageWrapper):
     """
     Renders normalized linear depth. This wrapper does NOT apply inversion as in RenderDepthWrapper.
     Output is normalized wrt the specified near and far.
