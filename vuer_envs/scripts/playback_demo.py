@@ -71,7 +71,10 @@ def main():
 
     loader = ML_Logger(prefix=args.demo_prefix)
 
-    df = loader.read_metrics()["metrics.pkl"]
+    print(loader)
+    metrics = loader.read_metrics(path="**/metrics.pkl")
+    print(metrics.keys())
+    df = metrics["metrics.pkl"]
 
     mocap = df[["ts", "mpos", "mquat"]].dropna()
     mocap_traj = df["mpos"].dropna()
@@ -102,6 +105,7 @@ def main():
             # # todo: add a ContribLoader to load the MuJoCo plugin.
             # proxy.upsert @ MuJoCo(key="default-sim", src=args.src, assets=asset_paths)
             if (args.verbose): print([*mocap_traj.values])
+
             proxy.upsert @ Line(
                 key="traj",
                 points=[[x, z, -y] for x, y, z in mocap_traj.values],
@@ -126,8 +130,8 @@ def main():
 
 
 if __name__ == "__main__":
-    Params.demo_prefix = "/geyang/scratch/2025/01-08/043537"
-    Params.wd = "/Users/ge/Library/CloudStorage/GoogleDrive-ge.ike.yang@gmail.com/My Drive/lucidxr-assets/development/robots"
+    Params.demo_prefix = "/lucidxr/lucidxr/datasets/lucidxr/poc/demos/pnp/data/2025/01/17/03.34.00"
+    Params.wd = "/Users/abrashid/mit/lucid_xr/assets/"
     Params.scene_name = "scene"
     Params.scene_folder = "universal_robots_ur5e"
 

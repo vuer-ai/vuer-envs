@@ -7,6 +7,10 @@ from os.path import join
 from typing import List
 import random
 
+import numpy as np
+import serial
+import time
+
 from params_proto import ParamsProto, Flag
 from termcolor import colored
 from vuer.events import ClientEvent
@@ -66,6 +70,27 @@ class Params(ParamsProto, cli_parse=False):
             print(*self.asset_paths, sep="\n")
 
 
+
+class ArduinoMotorController():
+    def __init__(self, serial_port='/dev/ttyACM0') -> None:
+        self.serial_port = serial_port
+        self.ser = serial.Serial(self.serial_port, 9600, timeout=2)
+        self.adaptive_thresholds = [0, 0, 0, 0, 0, 0]
+
+    def control_motors_with_pwm(self, signal_values, thresholds, signal_maxes):
+        pwm_values = []
+        for value, threshold, s_max in zip(signal_values, thresholds, signal_maxes):
+            pwm_value = max(0, min(255, int((value - threshold) * 255 / (s_max - threshold))))
+            pwm_values.append(pwm_value)
+            self.ser.write(f"{pwm_value} ".encode())
+        print("PWM values sent: ", pwm_values)
+
+    def stop_motors(self):
+        for _ in range(20):
+            self.ser.write("0 ".encode())
+        print('Motors stopped')
+
+
 def main():
     args = Params()
 
@@ -80,76 +105,47 @@ def main():
 
     frame = {}
 
-
-    @vuer.add_handler("ON_CLICK")
-    async def on_click(event: ClientEvent, proxy: VuerSession):
-        nonlocal box_state, box_other
-        key = event.value["key"]
-        print(f"Clicked: {key}")
-        box_state, box_other = box_other, box_state
-
-        logger.configure(args.demo_prefix)
-        logger.remove("outputs.log")
-        logger.job_started()
-        print(logger.get_dash_url())
-
-        logger.remove("metrics.pkl")
-
-        # Save State Info
-        logger.log(
-            ts=event.ts,
-            **frame,
-            flush=True,
-            silent=True,
-        )
-
-        logger.job_completed()
+    controller = ArduinoMotorController('/dev/cu.usbmodem11301')
 
     @vuer.add_handler("ON_MUJOCO_FRAME")
     async def on_mujoco_frame(event: ClientEvent, proxy: VuerSession):
         nonlocal frame
 
         frame = event.value["keyFrame"]
+        # print("Frame:", frame.keys())
 
     with WorkDir(args.wd):
 
         @vuer.spawn(start=True)
         async def main(proxy: VuerSession):
+            nonlocal frame
             await sleep(5)
 
-            proxy.set @ Scene(
-                bgChildren=[
-                    # Fog(color=0x2c3f57, near=1, far=7),
-                    Hands(scale=1.05),
-                    AmbientLight(),
-                ],
-            )
-            await sleep(0.0005)
+            # proxy.set @ Scene(
+            #     bgChildren=[
+            #         # Fog(color=0x2c3f57, near=1, far=7),
+            #         Hands(scale=1.05),
+            #         AmbientLight(),
+            #     ],
+            # )
+            # await sleep(0.0005)
 
             # todo: add a ContribLoader to load the MuJoCo plugin.
             proxy.upsert @ MuJoCo(
-                # HandActuator(key="pinch-on-squeeze", high=0.01, low=255, ctrlId=-1),
                 HandActuator(key="pinch-on-squeeze", high=0.01, low=255, ctrlId=-1),
                 key="default-sim",
                 src=args.src,
                 assets=args.asset_paths,
+                keyFrame=["sensordata"],
             )
+
+
+
             while True:
-                proxy.upsert @ group(
-                    Html(
-                        span("Click Me!!"),
-                        key="ctnr",
-                        style={"width": 700, "fontSize": 20},
-                    ),
-                    Box(
-                        args=[0.1, 0.1, 0.1],
-                        key="demo-button",
-                        material={"color": box_state},
-                    ),
-                    key="button-group-1",
-                    position=[0, 1.5, 0],
-                )
-                await sleep(0.016)
+                if "sensordata" in frame:
+                    finger1, finger2 = frame["sensordata"]
+                    controller.control_motors_with_pwm([finger1, finger2, 0.01, 0.01, 0.01], [0, 0, 0, 0, 0], [30, 30, 30, 30, 30])
+                await sleep(0.05)
 
 
 if __name__ == "__main__":

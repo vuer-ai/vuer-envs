@@ -191,10 +191,12 @@ def main():
 if __name__ == "__main__":
     # Params.wd = "/Users/yajvanravan/Library/CloudStorage/GoogleDrive-yravan@mit.edu/.shortcut-targets-by-id/1UQnuWv4ICaE50w_nPTTNeZ1_YtRsswuX/lucidxr-assets/development/robots"
     # Params.wd = "/Users/ge/Library/CloudStorage/GoogleDrive-ge.ike.yang@gmail.com/My Drive/lucidxr-assets/development/robots"
-    Params.wd = "/Users/ge/Downloads"
+    # Params.wd = "/Users/ge/Downloads"
+    Params.wd = "/Users/abrashid/mit/lucid_xr/assets/"
+
     Params.scene_name = "scene"
     Params.scene_folder = "universal_robots_ur5e"
-    Params.asset_prefix = "https://ge-2.ngrok.app/static"
+    # Params.asset_prefix = "https://ge-2.ngrok.app/static"
 
     args = Params()
 
